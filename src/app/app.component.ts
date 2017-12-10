@@ -26,6 +26,7 @@ import { User } from '../models/User';
 import { SigninPage } from './../pages/signin/signin';
 import { HomePage } from './../pages/home/home';
 import { TestPage } from '../pages/test/test';
+import { WordMngPage } from '../pages/word-mng/word-mng';
 
 @Component({
   templateUrl: 'app.html'
@@ -80,13 +81,16 @@ export class MyApp {
 
   subscribeAuth() {
     firebase.auth().onAuthStateChanged(fireUser => {
+      this.user = CommonUtil.fireUser2user(fireUser);
+
+      if(fireUser != null) {
+        firebase.firestore().collection("users").doc(this.user.uid).set(this.user.user2Object());
+      }
       this.initializeMenu(fireUser);
     });
   }
 
   initializeMenu(fireUser: firebase.User) {
-
-    this.user = CommonUtil.fireUser2user(fireUser);
     this.setPages();
 
     if(this.user != null) {
@@ -99,7 +103,8 @@ export class MyApp {
   setPages() {
     const homePage: PageInterface = { title: '대시보드', name: 'HomePage',  component: HomePage, icon: 'home' };
     const tabsPage: PageInterface = { title: 'Tabs', name: 'TabsPage', component: TestPage, icon: 'home'};
-    const signOutPage: PageInterface = { title: 'SignOut', name: 'signOutPage', component: SigninPage, icon: 'home'};
+    const signOutPage: PageInterface = { title: 'SignOut', name: 'SignOutPage', component: SigninPage, icon: 'home'};
+    const wordMngPage: PageInterface = { title: 'WordMng', name: 'WordMngPage', component: WordMngPage, icon: 'home'};
     // const ewPage: PageInterface = { title: '영단어', name: 'EwPage',  component: CatListPage, param: {activeName: "EwPage", key: "ew"}, icon: 'book' };
     // const lwPage: PageInterface = { title: '외래어', name: 'LwPage',  component: CatListPage, param: {activeName: "LwPage", key: "lw"}, icon: 'book' };
     // const ciPage: PageInterface = { title: '한자성어', name: 'CiPage',  component: CatListPage, param: {activeName: "CiPage", key: "ci"}, icon: 'book' };
@@ -118,6 +123,7 @@ export class MyApp {
       // this.studyPages.push(ccPage);
 
       this.accountPages = [];
+      this.accountPages.push(wordMngPage);
       this.accountPages.push(signOutPage);
     }
 
@@ -173,7 +179,7 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
 
-    if(page.name == "signOutPage") {
+    if(page.name == "SignOutPage") {
       firebase.auth().signOut();
     } else {
       this.nav.setRoot(page.component, page.param);

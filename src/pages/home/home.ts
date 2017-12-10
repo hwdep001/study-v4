@@ -28,4 +28,13 @@ export class HomePage {
     });
   }
 
+  clickDropBtn() {
+    firebase.firestore().collection("users").doc(this.user.uid).get().then(ds => {
+      if(ds.exists) {
+        const test = ds.data();
+        console.log(test);
+      }
+    });
+  }
+
 }

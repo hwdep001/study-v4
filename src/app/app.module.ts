@@ -24,6 +24,7 @@ import { SigninPage } from './../pages/signin/signin';
 import { HomePage } from '../pages/home/home';
 import { TestPage } from './../pages/test/test';
   import { Tab1Page } from '../pages/test/tab1/tab1';
+import { WordMngPage } from '../pages/word-mng/word-mng';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { TestPage } from './../pages/test/test';
     SigninPage,
     HomePage,
     TestPage,
-      Tab1Page
+      Tab1Page,
+    WordMngPage
   ],
   imports: [
     BrowserModule,
@@ -47,7 +49,8 @@ import { TestPage } from './../pages/test/test';
     SigninPage,
     HomePage,
     TestPage,
-      Tab1Page
+      Tab1Page,
+    WordMngPage
   ],
   providers: [
     StatusBar,
