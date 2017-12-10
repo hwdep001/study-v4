@@ -1,4 +1,3 @@
-
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -10,21 +9,22 @@ import { MenuController } from 'ionic-angular/components/app/menu-controller';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 
 // firebase
-import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
+import { AngularFireAuth } from 'angularfire2/auth';  // delete X
 
 // providers
+import { CommonUtil } from './../utils/commonUtil';
+import { UserService } from '../providers/user-service';
+import { TestService } from '../providers/test-service';
 
 // models
 import { MenuTitleInterface } from '../models/menu/MenuTitleInterface';
 import { PageInterface } from './../models/menu/PageInterface';
 import { User } from '../models/User';
 
-
 // pages
 import { SigninPage } from './../pages/signin/signin';
 import { HomePage } from './../pages/home/home';
-import { UserService } from '../providers/user-service';
 import { TestPage } from '../pages/test/test';
 
 @Component({
@@ -59,10 +59,12 @@ export class MyApp {
     private menuCtrl: MenuController,
     private alertCtrl: AlertController,
 
-    private user_: UserService
+    private afAuth: AngularFireAuth,
+    private user_: UserService,
+    private test_: TestService
   ) {
     this.initializeApp();
-    this.initializeMenu();
+    this.subscribeAuth();
   }
 
   initializeApp() {
@@ -72,37 +74,39 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.platform.registerBackButtonAction(() => this.exitApp());
       this.splashScreen.hide();
+      this.savePlatform();
     });
   }
 
-  initializeMenu() {
-    this.user = new User();
-    this.user.uid = "asdasdasdasdsad";
-    this.user.name = "hw dep";
-    this.user.email = "hwdep001@gmail.com";
-    this.user.photoURL = "https://lh3.googleusercontent.com/-ZR6V6a6j2xA/AAAAAAAAAAI/AAAAAAAAAAA/ANQ0kf7uYuhJcipdWgVf-ZtAgNuZxG4Eng/s96-c/photo.jpg";
-    this.user.isSignIn = false;
-    this.user.isAuth = false;
+  subscribeAuth() {
+    firebase.auth().onAuthStateChanged(fireUser => {
+      this.initializeMenu(fireUser);
+    });
+  }
 
+  initializeMenu(fireUser: firebase.User) {
+
+    this.user = CommonUtil.fireUser2user(fireUser);
     this.setPages();
 
-    if(this.user.isSignIn && this.user.isAuth) {
-      this.rootPage = HomePage
-    } else if(!this.user.isSignIn || !this.user.isAuth) {
-      this.rootPage = SigninPage
+    if(this.user != null) {
+      this.rootPage = HomePage;
+    } else {
+      this.rootPage = SigninPage;
     }
   }
 
   setPages() {
     const homePage: PageInterface = { title: '대시보드', name: 'HomePage',  component: HomePage, icon: 'home' };
     const tabsPage: PageInterface = { title: 'Tabs', name: 'TabsPage', component: TestPage, icon: 'home'};
+    const signOutPage: PageInterface = { title: 'SignOut', name: 'signOutPage', component: SigninPage, icon: 'home'};
     // const ewPage: PageInterface = { title: '영단어', name: 'EwPage',  component: CatListPage, param: {activeName: "EwPage", key: "ew"}, icon: 'book' };
     // const lwPage: PageInterface = { title: '외래어', name: 'LwPage',  component: CatListPage, param: {activeName: "LwPage", key: "lw"}, icon: 'book' };
     // const ciPage: PageInterface = { title: '한자성어', name: 'CiPage',  component: CatListPage, param: {activeName: "CiPage", key: "ci"}, icon: 'book' };
     // const ccPage: PageInterface = { title: '한자', name: 'CcPage',  component: CatListPage, param: {activeName: "CcPage", key: "cc"}, icon: 'book' };
     // const userInfoPage: PageInterface = { title: '내 정보', name: 'UserInfoPage', component: UserInfoPage, icon: 'information-circle'};
 
-    if(this.user.isAvailable()){
+    if(this.user != null){
       this.navigatePages = [];
       this.navigatePages.push(homePage);
       this.navigatePages.push(tabsPage);
@@ -114,6 +118,7 @@ export class MyApp {
       // this.studyPages.push(ccPage);
 
       this.accountPages = [];
+      this.accountPages.push(signOutPage);
     }
 
     this.menuTitle.header = "Menu";
@@ -121,6 +126,24 @@ export class MyApp {
     this.menuTitle.study = "Study";
     this.menuTitle.admin = "Navigate";
     this.menuTitle.account = "Account";
+  }
+
+  savePlatform() {
+    
+    let thisPlatform = null;
+
+    if(this.platform.is('browser')) {
+      thisPlatform = "browser";
+    } else if (this.platform.is('core')) {
+      thisPlatform = "core";
+    } else if (this.platform.is('android')) {
+      thisPlatform = "android";
+    } else if (this.platform.is('ios')) {
+      thisPlatform = "ios";
+    }
+
+    this.test_.platform = thisPlatform;
+    console.log("MyApp - Current platform: " + thisPlatform);
   }
 
   private exitApp() {
@@ -146,9 +169,16 @@ export class MyApp {
     this.lastBack = Date.now();
   }
 
-  openPage(page) {
+  openPage(page: PageInterface) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
+
+    if(page.name == "signOutPage") {
+      firebase.auth().signOut();
+    } else {
+      this.nav.setRoot(page.component, page.param);
+    }
+
     this.nav.setRoot(page.component, page.param);
   }
 

@@ -1,4 +1,3 @@
-import { UserService } from './../providers/user-service';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -9,18 +8,22 @@ import { MyApp } from './app.component';
 
 // firebase
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 // environments
 import { environment } from './../environments/environment';
 
+// providers
+import { UserService } from './../providers/user-service';
+import { TestService } from '../providers/test-service';
+
 // pages
 import { SigninPage } from './../pages/signin/signin';
 import { HomePage } from '../pages/home/home';
 import { TestPage } from './../pages/test/test';
   import { Tab1Page } from '../pages/test/tab1/tab1';
-
 
 @NgModule({
   declarations: [
@@ -34,6 +37,7 @@ import { TestPage } from './../pages/test/test';
     BrowserModule,
     IonicModule.forRoot(MyApp, {tabsPlacement: 'top'}),
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
     AngularFirestoreModule,
     AngularFireAuthModule
   ],
@@ -50,7 +54,8 @@ import { TestPage } from './../pages/test/test';
     SplashScreen,
     SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UserService
+    UserService,
+    TestService
   ]
 })
 export class AppModule {}

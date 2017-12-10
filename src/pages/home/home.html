@@ -8,11 +8,17 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+  <h3>Home</h3>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <button ion-button block (click)="clickSignOutBtn()" >SIGN OUT</button>
+  <button ion-button block (click)="clickDropBtn()" >DROP</button>
+  
+    <ion-item *ngIf="user != null">
+      <div>uid : {{user.uid}}</div>
+      <div>email : {{user.email}}</div>
+      <div>displayName : {{user.displayName}}</div>
+      <div>photoURL : {{user.photoURL}}</div>
+      <div>isSignIn : {{user.isSignIn}}</div>
+      <div>isAuth : {{user.isAuth}}</div>
+    </ion-item>
 </ion-content>

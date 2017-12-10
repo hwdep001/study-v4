@@ -1,5 +1,5 @@
 <ion-split-pane when="md">
-  <ion-menu [content]="content" *ngIf="user.isAvailable()">
+  <ion-menu [content]="content" *ngIf="user != null">
     <ion-header>
       <ion-toolbar>
         <ion-title>{{menuTitle.header}}</ion-title>

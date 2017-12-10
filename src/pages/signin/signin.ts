@@ -1,18 +1,26 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
+
+import * as firebase from 'firebase/app';
+
+import { HomePage } from './../home/home';
 
 @Component({
   selector: 'page-signin',
   templateUrl: 'signin.html'
 })
 export class SigninPage {
-  selectedItem: any;
-  icons: string[];
-  items: Array<{title: string, note: string, icon: string}>;
 
   constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams
+    public navCtrl: NavController
   ) {
+  }
+
+  signInWithGoogle() {
+    firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+  }
+
+  signOut() {
+    firebase.auth().signOut();
   }
 }
