@@ -17,7 +17,8 @@ import { environment } from './../environments/environment';
 
 // providers
 import { DBHelper } from '../providers/db-helper';
-import { UserService } from './../providers/user-service';
+import { ContactDBSubject } from './../providers/db/contactDBSubject';
+
 import { TestService } from '../providers/test-service';
 
 // pages
@@ -62,7 +63,7 @@ import { SettingPage } from '../pages/setting/setting';
     SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DBHelper,
-    UserService,
+    ContactDBSubject,
     TestService
   ]
 })

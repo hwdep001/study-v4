@@ -14,7 +14,7 @@ import { AngularFireAuth } from 'angularfire2/auth';  // delete X
 
 // providers
 import { CommonUtil } from './../utils/commonUtil';
-import { UserService } from '../providers/user-service';
+import { DBHelper } from '../providers/db-helper';
 import { TestService } from '../providers/test-service';
 
 // models
@@ -62,7 +62,7 @@ export class MyApp {
     private alertCtrl: AlertController,
 
     private afAuth: AngularFireAuth,
-    private user_: UserService,
+    private dbHelper: DBHelper,
     private test_: TestService
   ) {
     this.usersRef = firebase.firestore().collection("users");

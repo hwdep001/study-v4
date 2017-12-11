@@ -8,8 +8,6 @@ export class User {
 
   createDate: string;
   lastDate: string;
-
-  isSignIn: boolean;
   isAuth: boolean;
 
   user2ObjectForSet() {
@@ -21,7 +19,6 @@ export class User {
       photoURL: this.photoURL,
       createDate: date,
       lastDate: date,
-      isSignIn: false,
       isAuth: false
     }
   }

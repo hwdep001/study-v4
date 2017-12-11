@@ -1,3 +1,4 @@
+import { DBHelper } from './../../providers/db-helper';
 import { CommonUtil } from './../../utils/commonUtil';
 import { User } from './../../models/User';
 import { Component } from '@angular/core';
@@ -18,6 +19,7 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
+    private dbHelper: DBHelper
   ) {
     this.user = CommonUtil.fireUser2user(firebase.auth().currentUser);
     firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).get().then(doc => {
@@ -36,8 +38,9 @@ export class HomePage {
   clickDropBtn() {
     firebase.firestore().collection("users").doc(this.user.uid).get().then(ds => {
       if(ds.exists) {
-        const test = ds.data();
-        console.log(test);
+        if(ds.data().isAuth) {
+          this.dbHelper.dropTables();
+        }
       }
     });
   }
