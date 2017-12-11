@@ -39,7 +39,7 @@ export class WordMngPage {
 
   getSubject() {
     if(this.dbHelper.isCordova) {
-      this.dbHelper.selectAllSubs().then(res => {
+      this.dbHelper.selectAllForSub().then(res => {
         console.log(res);
       });
     ///////////////////////////////////////////////////////////
@@ -52,19 +52,57 @@ export class WordMngPage {
     }
   }
 
-  updateWord() {
-    // this.subsRef.orderBy("num").get().then(querySnapshot => {
-    //   querySnapshot.forEach(doc => {
-        
-    //   });
-    // });
-  }
-
   initWordLevel() {
 
   }
 
   deleteWord() {
-    this.dbHelper.dropTables();
+    this.dbHelper.deleteTables();
+  }
+
+  updateWord() {
+    this.checkSub();
+  }
+
+  checkSub() {
+    
+    this.subsRef.orderBy("num").get().then(querySnapshop => {
+
+      let pros = new Array<Promise<any>>();
+
+      querySnapshop.forEach(subDs => {
+        let result: Promise<any>;
+        let sub_: Subject;
+        let sub = subDs.data();
+        sub.id = subDs.id;
+
+        pros.push(this.dbHelper.selectByIdForSub(sub.id).then(res => {
+          if(res.rows.length > 0) {
+            sub_ = res.rows.item(0);
+          }
+
+          if(sub_ == null) {
+            result = this.dbHelper.insertSub(sub);
+          } else {
+            result = this.dbHelper.updateSub(sub);
+          }
+
+          return result.then(any => {
+            return this.checkCat(sub.id);
+          });
+        }));
+      });
+
+      Promise.all(pros).then(any => {
+        console.log("!!!!!!!! checkSub - [FINISH]");
+      });
+    });
+  }
+
+  checkCat(subId: string): Promise<any> {
+    console.log("@@@@@@@@@@ checkCat - " + subId);
+    return new Promise( (resolve, reject) => {
+      resolve();
+    });
   }
 }

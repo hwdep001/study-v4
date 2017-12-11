@@ -66,6 +66,16 @@ export class DBHelper {
     this.wordDB.dropTable(this.sqlOb);
   }
 
+  deleteTables() {
+    if(!this.isCordova) {return;}
+    this.countDB.delete(this.sqlOb);
+    this.levelDB.delete(this.sqlOb);
+    this.subDB.delete(this.sqlOb);
+    this.lecDB.delete(this.sqlOb);
+    this.catDB.delete(this.sqlOb);
+    this.wordDB.delete(this.sqlOb);
+  }
+
   //////////////////////////////////////////////
   // SUBJECT
   //////////////////////////////////////////////
@@ -74,8 +84,16 @@ export class DBHelper {
     return this.subDB.insert(this.sqlOb, sub);
   }
 
-  selectAllSubs(): Promise<any> {
-    return this.subDB.selectAll(this.sqlOb)
+  updateSub(sub: Subject) {
+    return this.subDB.update(this.sqlOb, sub);
+  }
+
+  selectAllForSub(): Promise<any> {
+    return this.subDB.selectAll(this.sqlOb);
+  }
+
+  selectByIdForSub(id: string): Promise<any> {
+    return this.subDB.selectById(this.sqlOb, id);
   }
 
 }

@@ -30,6 +30,14 @@ export class ContactDBCategory {
         .catch(e => console.log(e));
     }
 
+    delete(sqlOb: SQLiteObject) {
+        return sqlOb.executeSql(this.query.DELETE, [])
+        .then(res => {
+            console.log(this.TAG + " DELETED");
+        })
+        .catch(e => console.log(e));
+    }
+
     // insert(sqlOb: SQLiteObject, cat: Category) {
     //     sqlOb.executeSql(this.query.INSERT, [sub.id, sub.name, sub.num])
     //     .then(res => {
@@ -46,17 +54,18 @@ export class ContactDBCategory {
 
     private initQuery() {
         this.query = {
-            CREATE_TABLE:   "CREATE TABLE IF NOT EXISTS category ("
-                                + " id VARCHAR(32),"
-                                + " name VARCHAR(32),"
-                                + " num INT2, "
-                                + " version INT8, "
-                                + " subjectId VARCHAR(32), "
-                                + " PRIMARY KEY (id), "
-                                + " FOREIGN KEY (subjectId) "
-                                + " REFERENCES subject (id) ON DELETE CASCADE"
-                                + " )",
-            DROP_TABLE:     "DROP TABLE IF EXISTS category",
+            CREATE_TABLE:       "CREATE TABLE IF NOT EXISTS category ("
+                                    + " id VARCHAR(32),"
+                                    + " name VARCHAR(32),"
+                                    + " num INT2, "
+                                    + " version INT8, "
+                                    + " subjectId VARCHAR(32), "
+                                    + " PRIMARY KEY (id), "
+                                    + " FOREIGN KEY (subjectId) "
+                                    + " REFERENCES subject (id) ON DELETE CASCADE"
+                                    + " )",
+            DROP_TABLE:         "DROP TABLE IF EXISTS category",
+            DELETE:             "DELETE FROM category ",
             // INSERT:         "INSERT INTO category "
             //                     + " (id, name, num) "
             //                     + " VALUES(?, ?, ?) ",
@@ -71,6 +80,7 @@ export class ContactDBCategory {
 interface query {
     CREATE_TABLE?: string,
     DROP_TABLE?: string,
+    DELETE?: string,
     // INSERT?: string,
     // SELECT_ALL?: string,
 }

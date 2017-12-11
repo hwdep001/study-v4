@@ -28,6 +28,14 @@ export class ContactDBWord {
         .catch(e => console.log(e));
     }
 
+    delete(sqlOb: SQLiteObject) {
+        return sqlOb.executeSql(this.query.DELETE, [])
+        .then(res => {
+            console.log(this.TAG + " DELETED");
+        })
+        .catch(e => console.log(e));
+    }
+
     // insert(sqlOb: SQLiteObject, word: Word) {
     //     sqlOb.executeSql(this.query.INSERT, [sub.id, sub.name, sub.num])
     //     .then(res => {
@@ -44,22 +52,23 @@ export class ContactDBWord {
 
     private initQuery() {
         this.query = {
-            CREATE_TABLE:   "CREATE TABLE IF NOT EXISTS word ("
-                                + "id VARCHAR(32),"
-                                + "head1 VARCHAR(64),"
-                                + "head2 VARCHAR(64),"
-                                + "body1 TEXT,"
-                                + "body2 TEXT,"
-                                + "num INT,"
-                                + "lectureId VARCHAR(32), "
-                                + "levelId INT2 DEFAULT 0, "
-                                + " PRIMARY KEY (id), "
-                                + " FOREIGN KEY (lectureId) "
-                                + " REFERENCES lecture (id) ON DELETE CASCADE, "
-                                + " FOREIGN KEY (levelId) "
-                                + " REFERENCES level (levelId) ON DELETE SET DEFAULT "
-                                + ")",
-            DROP_TABLE:     "DROP TABLE IF EXISTS word",
+            CREATE_TABLE:       "CREATE TABLE IF NOT EXISTS word ("
+                                    + "id VARCHAR(32),"
+                                    + "head1 VARCHAR(64),"
+                                    + "head2 VARCHAR(64),"
+                                    + "body1 TEXT,"
+                                    + "body2 TEXT,"
+                                    + "num INT,"
+                                    + "lectureId VARCHAR(32), "
+                                    + "levelId INT2 DEFAULT 0, "
+                                    + " PRIMARY KEY (id), "
+                                    + " FOREIGN KEY (lectureId) "
+                                    + " REFERENCES lecture (id) ON DELETE CASCADE, "
+                                    + " FOREIGN KEY (levelId) "
+                                    + " REFERENCES level (levelId) ON DELETE SET DEFAULT "
+                                    + ")",
+            DROP_TABLE:         "DROP TABLE IF EXISTS word",
+            DELETE:             "DELETE FROM word ",
             // INSERT:         "INSERT INTO word "
             //                     + " (id, name, num) "
             //                     + " VALUES(?, ?, ?) ",
@@ -74,6 +83,7 @@ export class ContactDBWord {
 interface query {
     CREATE_TABLE?: string,
     DROP_TABLE?: string,
+    DELETE?: string,
     // INSERT?: string,
     // SELECT_ALL?: string,
 }

@@ -28,6 +28,14 @@ export class ContactDBLevel {
         .catch(e => console.log(e));
     }
 
+    delete(sqlOb: SQLiteObject) {
+        return sqlOb.executeSql(this.query.DELETE, [])
+        .then(res => {
+            console.log(this.TAG + " DELETED");
+        })
+        .catch(e => console.log(e));
+    }
+
     // insert(sqlOb: SQLiteObject, cat: level) {
     //     sqlOb.executeSql(this.query.INSERT, [sub.id, sub.name, sub.num])
     //     .then(res => {
@@ -44,12 +52,13 @@ export class ContactDBLevel {
 
     private initQuery() {
         this.query = {
-            CREATE_TABLE:   "CREATE TABLE IF NOT EXISTS level ("
-                                + " id INT2,"
-                                + " name VARCHAR(16),"
-                                + " PRIMARY KEY (id)"
-                                + " )",
-            DROP_TABLE:     "DROP TABLE IF EXISTS level",
+            CREATE_TABLE:       "CREATE TABLE IF NOT EXISTS level ("
+                                    + " id INT2,"
+                                    + " name VARCHAR(16),"
+                                    + " PRIMARY KEY (id)"
+                                    + " )",
+            DROP_TABLE:         "DROP TABLE IF EXISTS level",
+            DELETE:             "DELETE FROM level ",
             // INSERT:         "INSERT INTO category "
             //                     + " (id, name, num) "
             //                     + " VALUES(?, ?, ?) ",
@@ -64,6 +73,7 @@ export class ContactDBLevel {
 interface query {
     CREATE_TABLE?: string,
     DROP_TABLE?: string,
+    DELETE?: string,
     // INSERT?: string,
     // SELECT_ALL?: string,
 }

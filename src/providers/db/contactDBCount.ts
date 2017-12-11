@@ -27,6 +27,14 @@ export class ContactDBCount {
         })
         .catch(e => console.log(e));
     }
+    
+    delete(sqlOb: SQLiteObject) {
+        return sqlOb.executeSql(this.query.DELETE, [])
+        .then(res => {
+            console.log(this.TAG + " DELETED");
+        })
+        .catch(e => console.log(e));
+    }
 
     // insert(sqlOb: SQLiteObject, cat: Category) {
     //     sqlOb.executeSql(this.query.INSERT, [sub.id, sub.name, sub.num])
@@ -44,11 +52,12 @@ export class ContactDBCount {
 
     private initQuery() {
         this.query = {
-            CREATE_TABLE:   "CREATE TABLE IF NOT EXISTS count ("
-                                + " id INT,"
-                                + " PRIMARY KEY (id)"
-                                + " )",
-            DROP_TABLE:     "DROP TABLE IF EXISTS count",
+            CREATE_TABLE:       "CREATE TABLE IF NOT EXISTS count ("
+                                    + " id INT,"
+                                    + " PRIMARY KEY (id)"
+                                    + " )",
+            DROP_TABLE:         "DROP TABLE IF EXISTS count",
+            DELETE:             "DELETE FROM count ",
             // INSERT:         "INSERT INTO category "
             //                     + " (id, name, num) "
             //                     + " VALUES(?, ?, ?) ",
@@ -63,6 +72,7 @@ export class ContactDBCount {
 interface query {
     CREATE_TABLE?: string,
     DROP_TABLE?: string,
+    DELETE?: string,
     // INSERT?: string,
     // SELECT_ALL?: string,
 }

@@ -29,6 +29,14 @@ export class ContactDBLecture {
         .catch(e => console.log(e));
     }
 
+    delete(sqlOb: SQLiteObject) {
+        return sqlOb.executeSql(this.query.DELETE, [])
+        .then(res => {
+            console.log(this.TAG + " DELETED");
+        })
+        .catch(e => console.log(e));
+    }
+
     // insert(sqlOb: SQLiteObject, lec: Lecture) {
     //     sqlOb.executeSql(this.query.INSERT, [sub.id, sub.name, sub.num])
     //     .then(res => {
@@ -45,17 +53,18 @@ export class ContactDBLecture {
 
     private initQuery() {
         this.query = {
-            CREATE_TABLE:   "CREATE TABLE IF NOT EXISTS lecture ("
-                                + " id VARCHAR(32),"
-                                + " name VARCHAR(32),"
-                                + " num INT2, "
-                                + " version INT8, "
-                                + " categoryId VARCHAR(32), "
-                                + " PRIMARY KEY (id), "
-                                + " FOREIGN KEY (categoryId) "
-                                + " REFERENCES category (id) ON DELETE CASCADE"
-                                + " )",
-            DROP_TABLE:     "DROP TABLE IF EXISTS lecture",
+            CREATE_TABLE:    "CREATE TABLE IF NOT EXISTS lecture ("
+                                    + " id VARCHAR(32),"
+                                    + " name VARCHAR(32),"
+                                    + " num INT2, "
+                                    + " version INT8, "
+                                    + " categoryId VARCHAR(32), "
+                                    + " PRIMARY KEY (id), "
+                                    + " FOREIGN KEY (categoryId) "
+                                    + " REFERENCES category (id) ON DELETE CASCADE"
+                                    + " )",
+            DROP_TABLE:         "DROP TABLE IF EXISTS lecture",
+            DELETE:             "DELETE FROM lecture ",
             // INSERT:         "INSERT INTO lecture "
             //                     + " (id, name, num) "
             //                     + " VALUES(?, ?, ?) ",
@@ -70,6 +79,7 @@ export class ContactDBLecture {
 interface query {
     CREATE_TABLE?: string,
     DROP_TABLE?: string,
+    DELETE?: string,
     // INSERT?: string,
     // SELECT_ALL?: string,
 }
