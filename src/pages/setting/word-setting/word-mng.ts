@@ -9,6 +9,7 @@ import { TestService } from './../../../providers/test-service';
 
 import { Subject } from './../../../models/Subject';
 import { Category } from './../../../models/Category';
+import { Lecture } from './../../../models/Lecture';
 
 @Component({
   selector: 'page-wordMng',
@@ -159,7 +160,7 @@ export class WordMngPage {
 
           if(lecCheckFlag) {
             pros.push(result.then(any => {
-              // return this.checkLec(catDs, cat);
+              return this.checkLec(catDs, cat);
             }));
           }
         });
@@ -190,7 +191,88 @@ export class WordMngPage {
   }
 
   checkLec(catDs: firebase.firestore.DocumentSnapshot, cat: Category): Promise<any> {
-    console.log("[test]-checkLec CAT: " + cat.name);
-    return new Promise<any>(re => re());
+    
+    return catDs.ref.collection("lecs").orderBy("num").get().then(querySnapshot => {
+
+      let pros3 = new Array<Promise<any>>();
+      let map = new Map<string, Lecture>();
+
+      pros3.push(this.dbHelper.selectByCatIdForLec(cat.id).then(res => {
+
+        let pros = new Array<Promise<any>>();
+
+        for(let i=0; i<res.rows.length; i++) {
+          const lec = res.rows.item(i);
+          map.set(lec.id, lec);
+        }
+
+        querySnapshot.forEach(lecDs => {
+          let result: Promise<any>;
+          let wordCheckFlag = false;
+          let lec = lecDs.data();
+          lec.id = lecDs.id;
+          lec.categoryId = cat.id;
+          let lec_: Lecture = map.get(lec.id);
+
+          // insert
+          if(lec_ == null) {
+            wordCheckFlag = true;
+            result = this.dbHelper.insertWithOutVersionLec(lec);
+          } else {
+            map.delete(lec.id);
+          }
+
+          // update
+          if(lec_ != null) {
+            if(lec.version != lec_.version) {
+              wordCheckFlag = true;
+            }
+
+            if(!Lecture.equals(lec, lec_)) {
+              result = this.dbHelper.updateWithOutVersionLec(lec);
+            }
+          }
+
+          if(result == null) {
+            console.log("LECTURE ......: " + lec.name);
+            if(wordCheckFlag) {
+              result = new Promise<any>(re => re());
+            }
+          }
+
+          if(wordCheckFlag) {
+            pros.push(result.then(any => {
+              return this.checkWord(lecDs, cat, lec);
+            }));
+          }
+        });
+
+        return Promise.all(pros).then(any => {
+          let pros2 = new Array<Promise<any>>();
+
+          map.forEach((lec: Lecture, id: string) => {
+            pros2.push(this.dbHelper.deleteByIdForLec(id));
+          });
+
+          return Promise.all(pros2)
+          .then(any => {
+            return new Promise(re => re());
+          }).catch(err => {
+            return new Promise(re => re());
+          });
+        });
+      }));
+
+      return Promise.all(pros3).then(any => {
+        return new Promise(re => re());
+      }).catch(err => {
+        return new Promise(re => re());
+      });
+      
+    });
+  }
+
+  checkWord(lecDs: firebase.firestore.DocumentSnapshot, cat: Category, lec: Lecture): Promise<any> {
+    return new Promise(re => re());
   }
 }

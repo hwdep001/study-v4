@@ -1,3 +1,4 @@
+import { Lecture } from './../models/Lecture';
 import { Category } from './../models/Category';
 import { ContactDBCategory } from './db/contactDBCategory';
 import { Injectable } from '@angular/core';
@@ -115,5 +116,25 @@ export class DBHelper {
   
   selectBySubIdForCat(subId: string): Promise<any> {
     return this.catDB.selectBySubId(this.sqlOb, subId);
+  }
+
+  //////////////////////////////////////////////
+  // LECTURE
+  //////////////////////////////////////////////
+
+  insertWithOutVersionLec(lec: Lecture): Promise<any> {
+    return this.lecDB.insertWithOutVersion(this.sqlOb, lec);
+  }
+  
+  updateWithOutVersionLec(lec: Lecture): Promise<any> {
+    return this.lecDB.updateWithOutVersion(this.sqlOb, lec);
+  }
+  
+  deleteByIdForLec(id: string): Promise<any> {
+    return this.lecDB.deleteById(this.sqlOb, id);
+  }
+  
+  selectByCatIdForLec(catId: string): Promise<any> {
+    return this.lecDB.selectByCatId(this.sqlOb, catId);
   }
 }
