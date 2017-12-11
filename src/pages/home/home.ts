@@ -35,6 +35,10 @@ export class HomePage {
     });
   }
 
+  clickCreateBtn() {
+    this.dbHelper.initializeTable();
+  }
+
   clickDropBtn() {
     firebase.firestore().collection("users").doc(this.user.uid).get().then(ds => {
       if(ds.exists) {

@@ -1,3 +1,4 @@
+import { Category } from './../models/Category';
 import { ContactDBCategory } from './db/contactDBCategory';
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
@@ -23,8 +24,8 @@ export class DBHelper {
     private countDB: ContactDBCount,
     private levelDB: ContactDBLevel,
     private subDB: ContactDBSubject,
-    private catDB: ContactDBLecture,
-    private lecDB: ContactDBCategory,
+    private catDB: ContactDBCategory,
+    private lecDB: ContactDBLecture,
     private wordDB: ContactDBWord,
     private test_: TestService
   ) {
@@ -51,8 +52,8 @@ export class DBHelper {
     this.countDB.createTable(this.sqlOb);
     this.levelDB.createTable(this.sqlOb);
     this.subDB.createTable(this.sqlOb);
-    this.lecDB.createTable(this.sqlOb);
     this.catDB.createTable(this.sqlOb);
+    this.lecDB.createTable(this.sqlOb);
     this.wordDB.createTable(this.sqlOb);
   }
 
@@ -61,8 +62,8 @@ export class DBHelper {
     this.countDB.dropTable(this.sqlOb);
     this.levelDB.dropTable(this.sqlOb);
     this.subDB.dropTable(this.sqlOb);
-    this.lecDB.dropTable(this.sqlOb);
     this.catDB.dropTable(this.sqlOb);
+    this.lecDB.dropTable(this.sqlOb);
     this.wordDB.dropTable(this.sqlOb);
   }
 
@@ -71,8 +72,8 @@ export class DBHelper {
     this.countDB.delete(this.sqlOb);
     this.levelDB.delete(this.sqlOb);
     this.subDB.delete(this.sqlOb);
-    this.lecDB.delete(this.sqlOb);
     this.catDB.delete(this.sqlOb);
+    this.lecDB.delete(this.sqlOb);
     this.wordDB.delete(this.sqlOb);
   }
 
@@ -80,11 +81,11 @@ export class DBHelper {
   // SUBJECT
   //////////////////////////////////////////////
 
-  insertSub(sub: Subject) {
+  insertSub(sub: Subject): Promise<any> {
     return this.subDB.insert(this.sqlOb, sub);
   }
 
-  updateSub(sub: Subject) {
+  updateSub(sub: Subject): Promise<any> {
     return this.subDB.update(this.sqlOb, sub);
   }
 
@@ -96,4 +97,23 @@ export class DBHelper {
     return this.subDB.selectById(this.sqlOb, id);
   }
 
+  //////////////////////////////////////////////
+  // CATEGORY
+  //////////////////////////////////////////////
+
+  insertWithOutVersionCat(cat: Category): Promise<any> {
+    return this.catDB.insertWithOutVersion(this.sqlOb, cat);
+  }
+  
+  updateWithOutVersionCat(cat: Category): Promise<any> {
+    return this.catDB.updateWithOutVersion(this.sqlOb, cat);
+  }
+  
+  deleteByIdForCat(id: string): Promise<any> {
+    return this.catDB.deleteById(this.sqlOb, id);
+  }
+  
+  selectBySubIdForCat(subId: string): Promise<any> {
+    return this.catDB.selectBySubId(this.sqlOb, subId);
+  }
 }

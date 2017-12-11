@@ -32,7 +32,7 @@ export class ContactDBSubject {
     insert(sqlOb: SQLiteObject, sub: Subject) {
         return sqlOb.executeSql(this.query.INSERT, [sub.id, sub.name, sub.num])
         .then(res => {
-            console.log(this.TAG + " INSERTED: " + sub);
+            console.log(this.TAG + " INSERTED: " + sub.name);
         })
         .catch(e => console.log(e));
     }
@@ -40,7 +40,7 @@ export class ContactDBSubject {
     update(sqlOb: SQLiteObject, sub: Subject) {
         return sqlOb.executeSql(this.query.UPDATE, [sub.name, sub.num, sub.id])
         .then(res => {
-            console.log(this.TAG + " UPDATED: " + sub);
+            console.log(this.TAG + " UPDATED: " + sub.name);
         })
         .catch(e => console.log(e));
     }

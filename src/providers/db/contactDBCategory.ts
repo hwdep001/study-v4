@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { Subject } from './../../models/Subject';
 import { Category } from '../../models/Category';
 
 @Injectable()
@@ -38,17 +37,36 @@ export class ContactDBCategory {
         .catch(e => console.log(e));
     }
 
-    // insert(sqlOb: SQLiteObject, cat: Category) {
-    //     sqlOb.executeSql(this.query.INSERT, [sub.id, sub.name, sub.num])
-    //     .then(res => {
-    //         console.log("TABLE INSERTED: " + res);
-    //     })
-    //     .catch(e => console.log(e));
-    // }
+    insertWithOutVersion(sqlOb: SQLiteObject, cat: Category) {
+        return sqlOb.executeSql(this.query.INSERT_WITHOUT_VERSION, 
+            [cat.id, cat.name, cat.num, cat.subjectId])
+        .then(res => {
+            console.log(this.TAG + " INSERTED: " + cat.name);
+        })
+        .catch(e => console.log(e));
+    }
 
-    // selectAll(sqlOb: SQLiteObject): Promise<any> {
-    //     return sqlOb.executeSql(this.query.SELECT_ALL, {});
-    // }
+    updateWithOutVersion(sqlOb: SQLiteObject, cat: Category) {
+        return sqlOb.executeSql(this.query.UPDATE_WITHOUT_VERSION, 
+            [cat.name, cat.num, cat.subjectId, cat.id])
+        .then(res => {
+            console.log(this.TAG + " UPDATED: " + cat.name);
+        })
+        .catch(e => console.log(e));
+    }
+
+    deleteById(sqlOb: SQLiteObject, id: string) {
+        return sqlOb.executeSql(this.query.DELETE_BY_ID, 
+            [id])
+        .then(res => {
+            console.log(this.TAG + " DELETED: " + id);
+        })
+        .catch(e => console.log(e));
+    }
+
+    selectBySubId(sqlOb: SQLiteObject, subId: string): Promise<any> {
+        return sqlOb.executeSql(this.query.SELECT_BY_SUBJECT, [subId]);
+    }
 
     
 
@@ -65,13 +83,20 @@ export class ContactDBCategory {
                                     + " REFERENCES subject (id) ON DELETE CASCADE"
                                     + " )",
             DROP_TABLE:         "DROP TABLE IF EXISTS category",
+            INSERT_WITHOUT_VERSION:             
+                                "INSERT INTO category "
+                                    + " (id, name, num, version, subjectId) "
+                                    + " VALUES(?, ?, ?, -1, ?) ",
+            UPDATE_WITHOUT_VERSION: 
+                                "UPDATE category "
+                                    + " SET name=?, num=?, version=-1, subjectId=? "
+                                    + " WHERE id=? ",
             DELETE:             "DELETE FROM category ",
-            // INSERT:         "INSERT INTO category "
-            //                     + " (id, name, num) "
-            //                     + " VALUES(?, ?, ?) ",
-            // SELECT_ALL:     "SELECT id, name, num "
-            //                     + " FROM category "
-            //                     + " ORDER BY num",
+            DELETE_BY_ID:       "DELETE FROM category WHERE id=?",
+            SELECT_BY_SUBJECT:  "SELECT id, name, num, version, subjectId "
+                                    + " FROM category "
+                                    + " WHERE subjectId=? "
+                                    + " ORDER BY num",
         }
         
     }
@@ -80,7 +105,9 @@ export class ContactDBCategory {
 interface query {
     CREATE_TABLE?: string,
     DROP_TABLE?: string,
+    INSERT_WITHOUT_VERSION?: string,
+    UPDATE_WITHOUT_VERSION?: string,
     DELETE?: string,
-    // INSERT?: string,
-    // SELECT_ALL?: string,
+    DELETE_BY_ID?: string,
+    SELECT_BY_SUBJECT?: string,
 }
