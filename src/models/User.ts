@@ -1,18 +1,26 @@
+import { CommonUtil } from "../utils/commonUtil";
+
 export class User {
   uid: string;
   email: string;
   displayName: string;
   photoURL: string;
 
+  createDate: string;
+  lastDate: string;
+
   isSignIn: boolean;
   isAuth: boolean;
 
   user2ObjectForSet() {
+    const date = new Date().yyyy_MM_dd_HH_mm_ss();
     return {
       uid: this.uid,
       email: this.email,
       displayName: this.displayName,
       photoURL: this.photoURL,
+      createDate: date,
+      lastDate: date,
       isSignIn: false,
       isAuth: false
     }
@@ -23,7 +31,8 @@ export class User {
       uid: this.uid,
       email: this.email,
       displayName: this.displayName,
-      photoURL: this.photoURL
+      photoURL: this.photoURL,
+      lastDate: new Date().yyyy_MM_dd_HH_mm_ss(),
     }
   }
 }

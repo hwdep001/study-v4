@@ -68,6 +68,7 @@ export class MyApp {
     this.usersRef = firebase.firestore().collection("users");
     this.initializeApp();
     this.subscribeAuth();
+    CommonUtil.void();
   }
 
   initializeApp() {
