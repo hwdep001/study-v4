@@ -46,6 +46,15 @@ export class ContactDBCategory {
         .catch(e => console.log(e));
     }
 
+    update(sqlOb: SQLiteObject, cat: Category) {
+        return sqlOb.executeSql(this.query.UPDATE, 
+            [cat.name, cat.num, cat.version, cat.subjectId, cat.id])
+        .then(res => {
+            console.log(this.TAG + " UPDATED: " + cat.name);
+        })
+        .catch(e => console.log(e));
+    }
+
     updateWithOutVersion(sqlOb: SQLiteObject, cat: Category) {
         return sqlOb.executeSql(this.query.UPDATE_WITHOUT_VERSION, 
             [cat.name, cat.num, cat.subjectId, cat.id])
@@ -87,6 +96,9 @@ export class ContactDBCategory {
                                 "INSERT INTO category "
                                     + " (id, name, num, version, subjectId) "
                                     + " VALUES(?, ?, ?, -1, ?) ",
+            UPDATE:             "UPDATE category "
+                                    + " SET name=?, num=?, version=?, subjectId=? "
+                                    + " WHERE id=? ",
             UPDATE_WITHOUT_VERSION: 
                                 "UPDATE category "
                                     + " SET name=?, num=?, version=-1, subjectId=? "
@@ -106,6 +118,7 @@ interface query {
     CREATE_TABLE?: string,
     DROP_TABLE?: string,
     INSERT_WITHOUT_VERSION?: string,
+    UPDATE?: string,
     UPDATE_WITHOUT_VERSION?: string,
     DELETE?: string,
     DELETE_BY_ID?: string,

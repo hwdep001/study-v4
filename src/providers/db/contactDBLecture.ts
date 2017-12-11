@@ -1,7 +1,6 @@
-import { Lecture } from './../../models/Lecture';
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { Category } from '../../models/Category';
+import { Lecture } from './../../models/Lecture';
 
 @Injectable()
 export class ContactDBLecture {
@@ -47,6 +46,15 @@ export class ContactDBLecture {
         .catch(e => console.log(e));
     }
 
+    update(sqlOb: SQLiteObject, lec: Lecture) {
+        return sqlOb.executeSql(this.query.UPDATE, 
+            [lec.name, lec.num, lec.version, lec.categoryId, lec.id])
+        .then(res => {
+            console.log(this.TAG + " UPDATED: " + lec.name);
+        })
+        .catch(e => console.log(e));
+    }
+
     updateWithOutVersion(sqlOb: SQLiteObject, lec: Lecture) {
         return sqlOb.executeSql(this.query.UPDATE_WITHOUT_VERSION, 
             [lec.name, lec.num, lec.categoryId, lec.id])
@@ -88,6 +96,9 @@ export class ContactDBLecture {
                                 "INSERT INTO lecture "
                                     + " (id, name, num, version, categoryId) "
                                     + " VALUES(?, ?, ?, -1, ?) ",
+            UPDATE:             "UPDATE lecture"
+                                    + " SET name=?, num=?, version=?, categoryId=? "
+                                    + " WHERE id=? ",
             UPDATE_WITHOUT_VERSION: 
                                 "UPDATE lecture "
                                     + " SET name=?, num=?, version=-1, categoryId=? "
@@ -107,6 +118,7 @@ interface query {
     CREATE_TABLE?: string,
     DROP_TABLE?: string,
     INSERT_WITHOUT_VERSION?: string,
+    UPDATE?: string,
     UPDATE_WITHOUT_VERSION?: string,
     DELETE?: string,
     DELETE_BY_ID?: string,

@@ -34,19 +34,4 @@ export class HomePage {
       this.navCtrl.setRoot(SigninPage);
     });
   }
-
-  clickCreateBtn() {
-    this.dbHelper.initializeTable();
-  }
-
-  clickDropBtn() {
-    firebase.firestore().collection("users").doc(this.user.uid).get().then(ds => {
-      if(ds.exists) {
-        if(ds.data().isAuth) {
-          this.dbHelper.dropTables();
-        }
-      }
-    });
-  }
-
 }

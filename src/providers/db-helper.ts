@@ -1,18 +1,20 @@
-import { Lecture } from './../models/Lecture';
-import { Category } from './../models/Category';
-import { ContactDBCategory } from './db/contactDBCategory';
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 import { ContactDBCount } from './db/contactDBCount';
 import { ContactDBLevel } from './db/contactDBLevel';
 import { ContactDBSubject } from './db/contactDBSubject';
+import { ContactDBCategory } from './db/contactDBCategory';
 import { ContactDBLecture } from './db/contactDBLecture';
 import { ContactDBWord } from './db/contactDBWord';
-
-import { User } from '../models/User';
 import { TestService } from './test-service';
-import { Subject } from '../models/Subject';
+
+import { Count } from './../models/Count';
+import { Level } from './../models/Level';
+import { Subject } from './../models/Subject';
+import { Lecture } from './../models/Lecture';
+import { Category } from './../models/Category';
+import { Word } from './../models/Word';
 
 @Injectable()
 export class DBHelper {
@@ -79,6 +81,30 @@ export class DBHelper {
   }
 
   //////////////////////////////////////////////
+  // Count
+  //////////////////////////////////////////////
+
+  insertCount(count: Count): Promise<any> {
+    return this.countDB.insert(this.sqlOb, count);
+  }
+
+  deleteCount(): Promise<any> {
+    return this.countDB.delete(this.sqlOb);
+  }
+
+  //////////////////////////////////////////////
+  // Level
+  //////////////////////////////////////////////
+
+  insertLevel(level: Level): Promise<any> {
+    return this.levelDB.insert(this.sqlOb, level);
+  }
+
+  deleteLevel(): Promise<any> {
+    return this.levelDB.delete(this.sqlOb);
+  }
+
+  //////////////////////////////////////////////
   // SUBJECT
   //////////////////////////////////////////////
 
@@ -105,6 +131,10 @@ export class DBHelper {
   insertWithOutVersionCat(cat: Category): Promise<any> {
     return this.catDB.insertWithOutVersion(this.sqlOb, cat);
   }
+
+  updateCat(cat: Category): Promise<any> {
+    return this.catDB.update(this.sqlOb, cat);
+  }
   
   updateWithOutVersionCat(cat: Category): Promise<any> {
     return this.catDB.updateWithOutVersion(this.sqlOb, cat);
@@ -126,6 +156,10 @@ export class DBHelper {
     return this.lecDB.insertWithOutVersion(this.sqlOb, lec);
   }
   
+  updateLec(lec: Lecture): Promise<any> {
+    return this.lecDB.update(this.sqlOb, lec);
+  }
+
   updateWithOutVersionLec(lec: Lecture): Promise<any> {
     return this.lecDB.updateWithOutVersion(this.sqlOb, lec);
   }
@@ -136,5 +170,25 @@ export class DBHelper {
   
   selectByCatIdForLec(catId: string): Promise<any> {
     return this.lecDB.selectByCatId(this.sqlOb, catId);
+  }
+
+  //////////////////////////////////////////////
+  // WORD
+  //////////////////////////////////////////////
+
+  insertWord(word: Word): Promise<any> {
+    return this.wordDB.insert(this.sqlOb, word);
+  }
+  
+  updateWithOutLevelWord(word: Word): Promise<any> {
+    return this.wordDB.updateWithOutLevel(this.sqlOb, word);
+  }
+  
+  deleteByIdForWord(id: string): Promise<any> {
+    return this.wordDB.deleteById(this.sqlOb, id);
+  }
+  
+  selectByLecIdForWord(lecId: string): Promise<any> {
+    return this.wordDB.selectByLecId(this.sqlOb, lecId);
   }
 }

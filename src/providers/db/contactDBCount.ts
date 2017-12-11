@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { Count } from './../../models/Count';
 
 @Injectable()
 export class ContactDBCount {
@@ -27,7 +28,16 @@ export class ContactDBCount {
         })
         .catch(e => console.log(e));
     }
-    
+
+    insert(sqlOb: SQLiteObject, count: Count) {
+        return sqlOb.executeSql(this.query.INSERT, 
+            [count.id])
+        .then(res => {
+            console.log(this.TAG + " INSERTED: " + count.id);
+        })
+        .catch(e => console.log(e));
+    }
+
     delete(sqlOb: SQLiteObject) {
         return sqlOb.executeSql(this.query.DELETE, [])
         .then(res => {
@@ -35,18 +45,6 @@ export class ContactDBCount {
         })
         .catch(e => console.log(e));
     }
-
-    // insert(sqlOb: SQLiteObject, cat: Category) {
-    //     sqlOb.executeSql(this.query.INSERT, [sub.id, sub.name, sub.num])
-    //     .then(res => {
-    //         console.log("TABLE INSERTED: " + res);
-    //     })
-    //     .catch(e => console.log(e));
-    // }
-
-    // selectAll(sqlOb: SQLiteObject): Promise<any> {
-    //     return sqlOb.executeSql(this.query.SELECT_ALL, {});
-    // }
 
     
 
@@ -57,13 +55,9 @@ export class ContactDBCount {
                                     + " PRIMARY KEY (id)"
                                     + " )",
             DROP_TABLE:         "DROP TABLE IF EXISTS count",
+            INSERT:             "INSERT INTO count (id) "
+                                    + " VALUES (?)",
             DELETE:             "DELETE FROM count ",
-            // INSERT:         "INSERT INTO category "
-            //                     + " (id, name, num) "
-            //                     + " VALUES(?, ?, ?) ",
-            // SELECT_ALL:     "SELECT id, name, num "
-            //                     + " FROM category "
-            //                     + " ORDER BY num",
         }
         
     }
@@ -72,7 +66,6 @@ export class ContactDBCount {
 interface query {
     CREATE_TABLE?: string,
     DROP_TABLE?: string,
+    INSERT?: string,
     DELETE?: string,
-    // INSERT?: string,
-    // SELECT_ALL?: string,
 }

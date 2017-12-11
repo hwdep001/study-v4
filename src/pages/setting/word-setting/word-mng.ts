@@ -10,6 +10,8 @@ import { TestService } from './../../../providers/test-service';
 import { Subject } from './../../../models/Subject';
 import { Category } from './../../../models/Category';
 import { Lecture } from './../../../models/Lecture';
+import { Word } from './../../../models/Word';
+import { Count } from '../../../models/Count';
 
 @Component({
   selector: 'page-wordMng',
@@ -38,17 +40,52 @@ export class WordMngPage {
 
   getSubject() {
     if(this.dbHelper.isCordova) {
+      const loader = this.cmn_.getLoader(null, null);
+      loader.present();
+
       this.dbHelper.selectAllForSub().then(res => {
-        console.log(res);
-      });
+        let pros = new Array<Promise<any>>();
+
+        if(res.rows.length > 0) {
+          this.subs = new Array<Subject>();
+        }
+
+        for(let i=0; i<res.rows.length; i++) {
+          let sub = res.rows.item(i);
+          this.subs.push(sub);
+          pros.push(this.getCategory(sub.id).then(cats => {
+            this.subs[i].cats = cats;
+          }));
+        }
+
+        return Promise.all(pros);
+      }).then(any => loader.dismiss())
+      .catch(err => loader.dismiss());
     ///////////////////////////////////////////////////////////
     } else {
       this.subs = this.test_.selectAllSubs();
       for(let i=0; i<this.subs.length; i++) {
         this.subs[i].cats = this.test_.selectAllCatsBySubId(this.subs[i].id);
       }
-      console.log(this.subs);
     }
+  }
+
+  getCategory(subId: string): Promise<Array<Category>> {
+    return new Promise<Array<Category>> ( (resolve, reject) => {
+      let result: Array<Category>;
+
+      this.dbHelper.selectBySubIdForCat(subId).then(res => {
+
+        if(res.rows.length > 0) {
+          result = new Array<Category>();
+        }
+
+        for(let i=0; i<res.rows.length; i++) {
+          result.push(res.rows.item(i));
+        }
+        resolve(result);
+      });
+    });
   }
 
   initWordLevel() {
@@ -62,14 +99,54 @@ export class WordMngPage {
   updateWord() {
     const loader = this.cmn_.getLoader(null, null);
     loader.present();
+    
+    let pros = new Array<Promise<any>>();
+    pros.push(this.checkCount());
+    pros.push(this.checkLevel());
+    pros.push(this.checkSub());
 
-    this.checkSub().then(any => {
+    Promise.all(pros).then(any => {
       loader.dismiss();
       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }).catch(err => {
       loader.dismiss();
       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!! : " + err);
     });
+  }
+
+  checkCount(): Promise<any> {
+    return this.dbHelper.deleteCount().then(any => {
+      return firebase.firestore().collection("counts").doc("counts").get().then(doc => {
+        if(doc.exists) {
+          
+          let data = doc.data();
+          let pros = new Array<Promise<any>>();
+
+          for(let i=0; i<data.array.length; i++) {
+            pros.push(this.dbHelper.insertCount(new Count(data.array[i])));
+          }
+  
+          return Promise.all(pros);
+        }
+      });
+    }); 
+  }
+
+  checkLevel(): Promise<any> {
+    return this.dbHelper.deleteLevel().then(any => {
+      return firebase.firestore().collection("levels").get().then(querySnapshot => {
+        
+        let pros = new Array<Promise<any>>();
+
+        querySnapshot.forEach(levDs => {
+          let level = levDs.data();
+          level.id = levDs.id;
+          pros.push(this.dbHelper.insertLevel(level));
+        });
+
+        return Promise.all(pros);
+      });
+    }); 
   }
 
   checkSub(): Promise<any> {
@@ -273,6 +350,72 @@ export class WordMngPage {
   }
 
   checkWord(lecDs: firebase.firestore.DocumentSnapshot, cat: Category, lec: Lecture): Promise<any> {
-    return new Promise(re => re());
+    
+    return lecDs.ref.collection("words").orderBy("num").get().then(querySnapshot => {
+
+      let pros3 = new Array<Promise<any>>();
+      let map = new Map<string, Word>();
+
+      pros3.push(this.dbHelper.selectByLecIdForWord(cat.id).then(res => {
+
+        let pros = new Array<Promise<any>>();
+
+        for(let i=0; i<res.rows.length; i++) {
+          const word = res.rows.item(i);
+          map.set(word.id, word);
+        }
+
+        querySnapshot.forEach(wordDs => {
+          let result: Promise<any>;
+          let word = wordDs.data();
+          word.id = wordDs.id;
+          word.lectureId = lec.id;
+          let word_: Word = map.get(word.id);
+
+          // insert
+          if(word_ == null) {
+            result = this.dbHelper.insertWord(word);
+          } else {
+            map.delete(word.id);
+          }
+
+          // update
+          if(word_ != null && !Word.equals(word, word_)) {
+            result = this.dbHelper.updateWithOutLevelWord(word);
+          }
+
+          if(result == null) {
+            console.log("LECTURE ......: " + lec.name);
+          } else {
+            pros.push(result);
+          }
+        });
+
+        return Promise.all(pros).then(any => {
+          let pros2 = new Array<Promise<any>>();
+
+          map.forEach((word: Word, id: string) => {
+            pros2.push(this.dbHelper.deleteByIdForWord(id));
+          });
+
+          return Promise.all(pros2)
+          .then(any => {
+
+            // lecture, cat version update
+            return this.dbHelper.updateLec(lec).then(any => {
+              return this.dbHelper.updateCat(cat);
+            });
+          }).catch(err => {
+            return new Promise(re => re());
+          });
+        });
+      }));
+
+      return Promise.all(pros3).then(any => {
+        return new Promise(re => re());
+      }).catch(err => {
+        return new Promise(re => re());
+      });
+    });
   }
 }
