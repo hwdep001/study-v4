@@ -10,6 +10,8 @@ export class User {
   lastDate: string;
   isAuth: boolean;
 
+  isDel: boolean;
+
   user2ObjectForSet() {
     const date = new Date().yyyy_MM_dd_HH_mm_ss();
     return {
@@ -19,7 +21,8 @@ export class User {
       photoURL: this.photoURL,
       createDate: date,
       lastDate: date,
-      isAuth: false
+      isAuth: false,
+      isDel: false
     }
   }
 

@@ -27,6 +27,7 @@ import { SigninPage } from './../pages/signin/signin';
 import { HomePage } from './../pages/home/home';
 import { TestPage } from '../pages/test/test';
 import { SettingPage } from '../pages/setting/setting';
+import { UserService } from '../providers/user-service';
 
 @Component({
   templateUrl: 'app.html'
@@ -62,6 +63,7 @@ export class MyApp {
     private alertCtrl: AlertController,
 
     private afAuth: AngularFireAuth,
+    private user_: UserService,
     private dbHelper: DBHelper,
     private test_: TestService
   ) {
@@ -79,6 +81,7 @@ export class MyApp {
       this.platform.registerBackButtonAction(() => this.exitApp());
       this.splashScreen.hide();
       this.savePlatform();
+      this.dbHelper.getSQLiteObject();
     });
   }
 
@@ -93,6 +96,9 @@ export class MyApp {
           } else {
             this.usersRef.doc(this.user.uid).set(this.user.user2ObjectForSet());
           }
+          querySnapshot.forEach(doc => {
+            this.user_.setUser(doc.data());
+          });
         });
       }
       this.initializeMenu(fireUser);

@@ -16,6 +16,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from './../environments/environment';
 
 // providers
+import { UserService } from './../providers/user-service';
 import { DBHelper } from '../providers/db-helper';
 import { ContactDBSubject } from './../providers/db/contactDBSubject';
 
@@ -62,6 +63,7 @@ import { SettingPage } from '../pages/setting/setting';
     SplashScreen,
     SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    UserService,
     DBHelper,
     ContactDBSubject,
     TestService

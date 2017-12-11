@@ -1,17 +1,19 @@
 page-wordMng {
     .icontent {
+
+        .drop-btn {
+            background-color: map-get($colors, content-bg);
+        }
+
         .ilist {
-            
+            margin-bottom: 0px;
+
             .iheader {
             }
 
             .iitem {
 
                 .inote {
-                }
-
-                .config {
-                    color: map-get($colors, light-green);
                 }
             }
         }

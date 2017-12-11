@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { Subject } from './../../models/Subject';
 
 @Injectable()
 export class ContactDBSubject {
@@ -27,32 +28,35 @@ export class ContactDBSubject {
         .catch(e => console.log(e));
     }
 
-    // insert(user: User) {
-    //     this.sql = new SQLite();
-    //     this.sql.create({
-    //       name: 'study.db',
-    //       location: 'default'
-    //     })
-    //     .then( (db: SQLiteObject) => {
-    //       const sql = this.query.INSERT
-    //       db.executeSql(sql, [user.uid, user.displayName, user.email, user.photoURL, user.isSignIn, user.isAuth])
-    //       .then(res => {
-    //         console.log("TABLE CREATED: " + res);
-    //         this.sqlOb = db;
-    //       })
-    //       .catch(e => console.log(e));
-    //     }).catch(e => console.log(e));
-    // }
+    insert(sqlOb: SQLiteObject, sub: Subject) {
+        sqlOb.executeSql(this.query.INSERT, [sub.id, sub.name, sub.num])
+        .then(res => {
+            console.log("TABLE INSERTED: " + res);
+        })
+        .catch(e => console.log(e));
+    }
+
+    selectAll(sqlOb: SQLiteObject): Promise<any> {
+        return sqlOb.executeSql(this.query.SELECT_ALL, {});
+    }
+
+    
 
     private initQuery() {
         this.query = {
             CREATE_TABLE:   "CREATE TABLE IF NOT EXISTS subject ("
-                              + " id VARCHAR(32),"
-                              + " name VARCHAR(32),"
-                              + " num INT2, "
-                              + " PRIMARY KEY (id)"
-                              + " )",
+                                + " id VARCHAR(32),"
+                                + " name VARCHAR(32),"
+                                + " num INT2, "
+                                + " PRIMARY KEY (id)"
+                                + " )",
             DROP_TABLE:     "DROP TABLE IF EXISTS subject",
+            INSERT:         "INSERT INTO subject "
+                                + " (id, name, num) "
+                                + " VALUES(?, ?, ?) ",
+            SELECT_ALL:     "SELECT id, name, num "
+                                + " FROM subject "
+                                + " ORDER BY num",
         }
         
     }
@@ -61,4 +65,6 @@ export class ContactDBSubject {
 interface query {
     CREATE_TABLE?: string,
     DROP_TABLE?: string,
+    INSERT?: string,
+    SELECT_ALL?: string,
 }
