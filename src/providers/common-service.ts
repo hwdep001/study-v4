@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/User';
+import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 
 @Injectable()
-export class UserService {
+export class CommonService {
+
+    constructor(
+        private loadingCtrl: LoadingController
+    ) {
+    
+    }
 
     private user_: User = new User();
 
@@ -53,4 +60,18 @@ export class UserService {
         this.user_.isAuth = user.isAuth;
         this.user_.isDel = user.isDel;
     }
+
+    getLoader(spinner: string, content: string, duration?: number, dismissOnPageChange?: boolean) {
+        spinner = spinner ? spinner : "bubbles";
+        content = content ? content : "Please wait...";
+        duration = duration ? duration : 15000;
+        dismissOnPageChange = dismissOnPageChange == true ? true : false;
+        
+        return this.loadingCtrl.create({
+          spinner: spinner,
+          content: content,
+          duration: duration,
+          dismissOnPageChange: dismissOnPageChange
+        });
+      }
 }

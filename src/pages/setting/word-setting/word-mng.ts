@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 
 import * as firebase from 'firebase/app';
 
-import { UserService } from '../../../providers/user-service';
+import { CommonService } from './../../../providers/common-service';
 import { DBHelper } from './../../../providers/db-helper';
 import { TestService } from './../../../providers/test-service';
 
@@ -16,23 +16,33 @@ import { Subject } from './../../../models/Subject';
 export class WordMngPage {
 
   private isCordova: boolean;
+
+  private subsRef: firebase.firestore.CollectionReference;
   private subs: Array<Subject>;
-  user;
+  private user;
 
   constructor(
     public navCtrl: NavController,
-    private user_: UserService,
+    private cmn_: CommonService,
     private dbHelper: DBHelper,
     private test_: TestService
   ) {
     this.isCordova = dbHelper.isCordova;
-    this.user = user_.user;
+
+    this.subsRef = firebase.firestore().collection("subs");
+    this.user = cmn_.user;
     this.getSubject();
+
+    // const loader = this.cmn_.getLoader(null, null);
+    // loader.present();
   }
 
   getSubject() {
     if(this.dbHelper.isCordova) {
-      this.dbHelper.selectAllSubs().then();
+      this.dbHelper.selectAllSubs().then(res => {
+        console.log(res);
+      });
+    ///////////////////////////////////////////////////////////
     } else {
       this.subs = this.test_.selectAllSubs();
       for(let i=0; i<this.subs.length; i++) {
@@ -40,5 +50,21 @@ export class WordMngPage {
       }
       console.log(this.subs);
     }
+  }
+
+  updateWord() {
+    // this.subsRef.orderBy("num").get().then(querySnapshot => {
+    //   querySnapshot.forEach(doc => {
+        
+    //   });
+    // });
+  }
+
+  initWordLevel() {
+
+  }
+
+  deleteWord() {
+    this.dbHelper.dropTables();
   }
 }

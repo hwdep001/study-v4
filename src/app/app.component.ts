@@ -27,7 +27,7 @@ import { SigninPage } from './../pages/signin/signin';
 import { HomePage } from './../pages/home/home';
 import { TestPage } from '../pages/test/test';
 import { SettingPage } from '../pages/setting/setting';
-import { UserService } from '../providers/user-service';
+import { CommonService } from '../providers/common-service';
 
 @Component({
   templateUrl: 'app.html'
@@ -63,7 +63,7 @@ export class MyApp {
     private alertCtrl: AlertController,
 
     private afAuth: AngularFireAuth,
-    private user_: UserService,
+    private cmn_: CommonService,
     private dbHelper: DBHelper,
     private test_: TestService
   ) {
@@ -97,7 +97,7 @@ export class MyApp {
             this.usersRef.doc(this.user.uid).set(this.user.user2ObjectForSet());
           }
           querySnapshot.forEach(doc => {
-            this.user_.setUser(doc.data());
+            this.cmn_.setUser(doc.data());
           });
         });
       }
