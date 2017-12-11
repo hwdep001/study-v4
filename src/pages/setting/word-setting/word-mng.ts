@@ -59,15 +59,20 @@ export class WordMngPage {
   }
 
   updateWord() {
-    this.checkSub();
-  }
-
-  checkSub() {
-    
     const loader = this.cmn_.getLoader(null, null);
     loader.present();
 
-    this.subsRef.orderBy("num").get().then(querySnapshop => {
+    this.checkSub().then(any => {
+      loader.dismiss();
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    }).catch(err => {
+      loader.dismiss();
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!! : " + err);
+    });
+  }
+
+  checkSub(): Promise<any> {
+    return this.subsRef.orderBy("num").get().then(querySnapshop => {
 
       let pros = new Array<Promise<any>>();
 
@@ -94,24 +99,25 @@ export class WordMngPage {
         }));
       });
 
-      Promise.all(pros).then(any => {
-        loader.dismiss();
-        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      return Promise.all(pros).then(any => {
+        return new Promise<any>(re => re());
       }).catch(err => {
-        loader.dismiss();
-        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!! : " + err);
+        return new Promise<any>(re => re());
       });
     });
   }
 
   checkCat(subId: string): Promise<any> {
-    console.log("@@@@@@@@@@ checkCat - " + subId);
 
     return this.subsRef.doc(subId).collection("cats").orderBy("num").get().then(querySnapshot => {
 
+      let pros3 = new Array<Promise<any>>();
       let map = new Map<string, Category>();
 
-      this.dbHelper.selectBySubIdForCat(subId).then(res => {
+      pros3.push(this.dbHelper.selectBySubIdForCat(subId).then(res => {
+
+        let pros = new Array<Promise<any>>();
+
         for(let i=0; i<res.rows.length; i++) {
           const cat = res.rows.item(i);
           map.set(cat.id, cat);
@@ -144,23 +150,47 @@ export class WordMngPage {
             }
           }
 
-          if(lecCheckFlag && result != null) {
-            result.then(any => {
-              this.checkLec(catDs, cat);
-            });
+          if(result == null) {
+            console.log("CATEGORY ......: " + cat.name);
+            if(lecCheckFlag) {
+              result = new Promise<any>(re => re());
+            }
+          }
+
+          if(lecCheckFlag) {
+            pros.push(result.then(any => {
+              // return this.checkLec(catDs, cat);
+            }));
           }
         });
 
-        map.forEach((cat: Category, id: string) => {
-          this.dbHelper.deleteByIdForCat(id);
+        return Promise.all(pros).then(any => {
+          let pros2 = new Array<Promise<any>>();
+
+          map.forEach((cat: Category, id: string) => {
+            pros2.push(this.dbHelper.deleteByIdForCat(id));
+          });
+
+          return Promise.all(pros2)
+          .then(any => {
+            return new Promise(re => re());
+          }).catch(err => {
+            return new Promise(re => re());
+          });
         });
+      }));
+
+      return Promise.all(pros3).then(any => {
+        return new Promise(re => re());
+      }).catch(err => {
+        return new Promise(re => re());
       });
 
-      
     });
   }
 
-  checkLec(catDs: firebase.firestore.DocumentSnapshot, cat: Category) {
+  checkLec(catDs: firebase.firestore.DocumentSnapshot, cat: Category): Promise<any> {
     console.log("[test]-checkLec CAT: " + cat.name);
+    return new Promise<any>(re => re());
   }
 }
