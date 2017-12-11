@@ -177,11 +177,7 @@ export class WordMngPage {
         }));
       });
 
-      return Promise.all(pros).then(any => {
-        return new Promise<any>(re => re());
-      }).catch(err => {
-        return new Promise<any>(re => re());
-      });
+      return Promise.all(pros);
     });
   }
 
@@ -249,21 +245,11 @@ export class WordMngPage {
             pros2.push(this.dbHelper.deleteByIdForCat(id));
           });
 
-          return Promise.all(pros2)
-          .then(any => {
-            return new Promise(re => re());
-          }).catch(err => {
-            return new Promise(re => re());
-          });
+          return Promise.all(pros2);
         });
       }));
 
-      return Promise.all(pros3).then(any => {
-        return new Promise(re => re());
-      }).catch(err => {
-        return new Promise(re => re());
-      });
-
+      return Promise.all(pros3);
     });
   }
 
@@ -331,21 +317,11 @@ export class WordMngPage {
             pros2.push(this.dbHelper.deleteByIdForLec(id));
           });
 
-          return Promise.all(pros2)
-          .then(any => {
-            return new Promise(re => re());
-          }).catch(err => {
-            return new Promise(re => re());
-          });
+          return Promise.all(pros2);
         });
       }));
 
-      return Promise.all(pros3).then(any => {
-        return new Promise(re => re());
-      }).catch(err => {
-        return new Promise(re => re());
-      });
-      
+      return Promise.all(pros3);
     });
   }
 
@@ -411,11 +387,7 @@ export class WordMngPage {
         });
       }));
 
-      return Promise.all(pros3).then(any => {
-        return new Promise(re => re());
-      }).catch(err => {
-        return new Promise(re => re());
-      });
+      return Promise.all(pros3);
     });
   }
 }
