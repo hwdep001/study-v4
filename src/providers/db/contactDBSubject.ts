@@ -5,6 +5,7 @@ import { Subject } from './../../models/Subject';
 @Injectable()
 export class ContactDBSubject {
 
+    private TAG = "SUBJECT";
     private query: query;
 
     constructor(
@@ -15,7 +16,7 @@ export class ContactDBSubject {
     createTable(sqlOb: SQLiteObject) {
         sqlOb.executeSql(this.query.CREATE_TABLE, {})
         .then(res => {
-            console.log("TABLE CREATED: " + res);
+            console.log("TABLE CREATED: " + this.TAG);
         })
         .catch(e => console.log(e));
     }
@@ -23,7 +24,7 @@ export class ContactDBSubject {
     dropTable(sqlOb: SQLiteObject) {
         sqlOb.executeSql(this.query.DROP_TABLE, {})
         .then(res => {
-            console.log("TABLE DROPED: " + res);
+            console.log("TABLE DROPED: " + this.TAG);
         })
         .catch(e => console.log(e));
     }
@@ -31,7 +32,7 @@ export class ContactDBSubject {
     insert(sqlOb: SQLiteObject, sub: Subject) {
         sqlOb.executeSql(this.query.INSERT, [sub.id, sub.name, sub.num])
         .then(res => {
-            console.log("TABLE INSERTED: " + res);
+            console.log(this.TAG + " INSERTED: " + sub);
         })
         .catch(e => console.log(e));
     }

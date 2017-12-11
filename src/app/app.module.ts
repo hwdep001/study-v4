@@ -18,7 +18,12 @@ import { environment } from './../environments/environment';
 // providers
 import { CommonService } from './../providers/common-service';
 import { DBHelper } from '../providers/db-helper';
+import { ContactDBCount } from '../providers/db/contactDBCount';
+import { ContactDBLevel } from '../providers/db/contactDBLevel';
 import { ContactDBSubject } from './../providers/db/contactDBSubject';
+import { ContactDBLecture } from './../providers/db/contactDBLecture';
+import { ContactDBCategory } from './../providers/db/contactDBCategory';
+import { ContactDBWord } from '../providers/db/contactDBWord';
 
 import { TestService } from '../providers/test-service';
 
@@ -65,7 +70,12 @@ import { SettingPage } from '../pages/setting/setting';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     CommonService,
     DBHelper,
+    ContactDBCount,
+    ContactDBLevel,
     ContactDBSubject,
+    ContactDBCategory,
+    ContactDBLecture,
+    ContactDBWord,
     TestService
   ]
 })
