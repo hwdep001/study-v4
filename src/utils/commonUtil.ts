@@ -12,8 +12,6 @@ export class CommonUtil {
             user.email = fireUser.email;
             user.displayName = fireUser.displayName;
             user.photoURL = fireUser.photoURL;
-            user.isSignIn = true;
-            user.isAuth = true;
         }
 
         return user;

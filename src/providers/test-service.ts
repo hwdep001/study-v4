@@ -17,8 +17,4 @@ export class TestService {
     ) {
     }
 
-    dropTables() {
-        this.user_.dropTable();
-    }
-
 }

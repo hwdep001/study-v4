@@ -16,6 +16,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from './../environments/environment';
 
 // providers
+import { DBHelper } from '../providers/db-helper';
 import { UserService } from './../providers/user-service';
 import { TestService } from '../providers/test-service';
 
@@ -24,7 +25,7 @@ import { SigninPage } from './../pages/signin/signin';
 import { HomePage } from '../pages/home/home';
 import { TestPage } from './../pages/test/test';
   import { Tab1Page } from '../pages/test/tab1/tab1';
-import { WordMngPage } from '../pages/word-mng/word-mng';
+import { SettingPage } from '../pages/setting/setting';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { WordMngPage } from '../pages/word-mng/word-mng';
     HomePage,
     TestPage,
       Tab1Page,
-    WordMngPage
+    SettingPage
   ],
   imports: [
     BrowserModule,
@@ -50,13 +51,14 @@ import { WordMngPage } from '../pages/word-mng/word-mng';
     HomePage,
     TestPage,
       Tab1Page,
-    WordMngPage
+    SettingPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DBHelper,
     UserService,
     TestService
   ]

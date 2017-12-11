@@ -14,12 +14,17 @@ import { SigninPage } from './../signin/signin';
 export class HomePage {
 
   //test
-  user: User;
+  user; // :User
 
   constructor(
     public navCtrl: NavController,
   ) {
     this.user = CommonUtil.fireUser2user(firebase.auth().currentUser);
+    firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).get().then(doc => {
+      if(doc.exists) {
+        this.user = doc.data();
+      }
+    })
   }
 
   clickSignOutBtn() {

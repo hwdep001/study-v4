@@ -73,7 +73,7 @@ export class UserService {
         
     }
 
-    initQuery() {
+    private initQuery() {
         this.query = {
             CREATE_TABLE:   "CREATE TABLE IF NOT EXISTS user ("
                                 + " uid VARCHAR(32), "

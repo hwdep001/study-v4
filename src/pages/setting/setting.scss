@@ -1,0 +1,19 @@
+page-setting {
+    .icontent {
+        .ilist {
+            
+            .iheader {
+            }
+
+            .iitem {
+
+                .inote {
+                }
+
+                .config {
+                    color: map-get($colors, light-green);
+                }
+            }
+        }
+    }
+}

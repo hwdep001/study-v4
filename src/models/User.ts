@@ -7,14 +7,23 @@ export class User {
   isSignIn: boolean;
   isAuth: boolean;
 
-  user2Object() {
+  user2ObjectForSet() {
     return {
       uid: this.uid,
       email: this.email,
       displayName: this.displayName,
       photoURL: this.photoURL,
-      isSignIn: this.isSignIn,
-      isAuth: this.isAuth
+      isSignIn: false,
+      isAuth: false
+    }
+  }
+
+  user2ObjectForUpdate() {
+    return {
+      uid: this.uid,
+      email: this.email,
+      displayName: this.displayName,
+      photoURL: this.photoURL
     }
   }
 }
