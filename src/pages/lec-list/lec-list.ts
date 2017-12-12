@@ -55,16 +55,19 @@ export class LecListPage {
     let count = -1;
     let lecIds = [lec.id];
 
-    wordSearch = new WordSearch(this.cat, lec, levIds, count, lecIds);
+    wordSearch = new WordSearch(this.cat, lec, lecIds, levIds, count, false);
     
     this.navCtrl.push(EwListPage, {
       activeName: CommonUtil.getActiveName(this.sub.id), 
-      wordSearch: wordSearch});
+      wordSearch: wordSearch
+    });
   }
 
   moveWordTestPage(): void {
     this.navCtrl.push(WordTestPage, {
-      activeName: CommonUtil.getActiveName(this.sub.id), cat: this.cat});
+      activeName: CommonUtil.getActiveName(this.sub.id), 
+      sub: this.sub, cat: this.cat
+    });
   }
 
 }

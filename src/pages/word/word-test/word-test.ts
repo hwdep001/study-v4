@@ -1,9 +1,18 @@
 import { Component } from '@angular/core';
 import { NavParams, NavController } from 'ionic-angular';
 
+import { CommonUtil } from './../../../utils/commonUtil';
 import { DBHelper } from './../../../providers/db-helper';
-import { CommonService } from './../../../providers/common-service';
 import { TestService } from './../../../providers/test-service';
+
+import { Count } from './../../../models/Count';
+import { Level } from './../../../models/Level';
+import { Subject } from './../../../models/Subject';
+import { Category } from './../../../models/Category';
+import { Lecture } from './../../../models/Lecture';
+import { WordSearch } from './../../../models/WordSearch';
+
+import { EwListPage } from './../ew-list/ew-list';
 
 @Component({
   selector: 'page-wordTest',
@@ -11,17 +20,175 @@ import { TestService } from './../../../providers/test-service';
 })
 export class WordTestPage {
 
+  sub: Subject;
+  cat: Category;
+  lecs: Array<Lecture>;
+  levs: Array<Level>;
+  cnts: Array<Count>;
+
+  lecRange: any = { lower: 1, upper: 1 };
+
+  selectLecs: Array<string>;
+  selectLevs: Array<number>;
+  selectCnt: number;
+  selectLecType: number = 0;  // 0: Checkbox, 1: Range
+
+  isStartBtn: boolean = false;
+
+  // checkbox
+  cbA: boolean = false;
+  cbs: Array<boolean>;
+
   constructor(
     public navCtrl: NavController,
     private param: NavParams,
     private dbHelper: DBHelper,
-    private cmn_: CommonService,
     private test_: TestService
   ) {
     this.initData();
   }
 
   initData(): void {
-    // this.ws = this.param.get("wordSearch");
+    this.sub = this.param.get("sub");
+    this.cat = this.param.get("cat");
+    this.getLecs();
+    this.getLevs();
+    this.getCnts();
+  }
+
+  getLecs(): void {
+    if(this.dbHelper.isCordova) {
+      this.dbHelper.selectByCatIdForLec(this.cat.id).then(items => {
+        this.lecs = items;
+
+        this.initCheckbox(false);
+        this.lecRange = { lower: 1, upper: this.lecs.length };
+      });
+    } else {
+      this.lecs = this.test_.selectAllLecsBycatId(this.cat.id);
+
+      this.initCheckbox(false);
+      this.lecRange = { lower: 1, upper: this.lecs.length };
+    }
+  }
+
+  getLevs(): void {
+    this.selectLevs = new Array<number>();
+    
+    if(this.dbHelper.isCordova) {
+      this.dbHelper.selectAllForLevel().then(items => {
+        this.levs = items;
+        let levIds = new Array<number>();
+        this.levs.forEach(lev => {
+          levIds.push(lev.id);
+        });
+        this.selectLevs = levIds;
+      })
+    } else {
+      this.levs = this.test_.selectAllLevels();
+
+      this.levs.forEach(lev => {
+        this.selectLevs.push(lev.id);
+      });
+    }    
+  }
+
+  getCnts(): void {
+    this.cnts = new Array<Count>();
+    
+    if(this.dbHelper.isCordova) {
+      this.dbHelper.selectAllForCount().then(items => {
+        this.cnts = items;
+        
+        this.selectCnt = this.cnts[1].id;
+      });
+    } else {
+      this.cnts = this.test_.selectAllCounts();
+
+      this.selectCnt = this.cnts[1].id;
+    }
+  }
+
+  initCheckbox(bl: boolean) {
+    this.cbA = bl;
+    this.isStartBtn = bl;
+
+    this.cbs = new Array<boolean>();
+    for(let i=0; i< this.lecs.length; i++) {
+      this.cbs.push(bl);
+    }
+  }
+
+  checkCb(cb: boolean) {
+    if(!cb) {
+      this.cbA = false;
+    } else {
+      let result: boolean = true;
+      this.cbs.every( (ele, index) => {
+        if(!ele) {
+          this.cbA = false;
+          result = false;
+        }
+        return ele;
+      });
+      if(result) {this.cbA = true;}
+    }
+  }
+
+  checkStartBtn(): void {
+    if(this.selectLevs.length == 0) {
+      this.isStartBtn = false;
+      return;
+    }
+
+    if(this.selectLecType == 0) {
+      let isExistTrue: boolean = false;
+      this.cbs.every( (ele, index) => {
+        if(ele) {
+          isExistTrue = true;
+        }
+        return !ele;
+      });
+      if(!isExistTrue) {
+        this.isStartBtn = false;
+        return;
+      }
+    }
+
+    this.isStartBtn = true;
+  }
+
+  startTest() {
+    this.setSelectLecs();
+    console.log("cnt: " + this.selectCnt);
+    console.log("levs: " + this.selectLevs.toString());
+    console.log("lecs length: " + this.selectLecs.length);
+
+    let wordSearch = new WordSearch(this.cat, null, 
+      this.selectLecs, this.selectLevs, this.selectCnt, true);
+    
+    this.navCtrl.push(EwListPage, {
+      activeName: CommonUtil.getActiveName(this.sub.id), 
+      wordSearch: wordSearch
+    });
+  }
+
+  setSelectLecs(): void {
+    let selectLecs: Array<string> = new Array();
+    if(this.selectLecType == 0) {
+      // checkbox
+      for(let i=0; i<this.cbs.length; i++) {
+        if(this.cbs[i]) {
+          selectLecs.push(this.lecs[i].id);
+        }
+      }
+    } else {
+      // range
+      for(let i=this.lecRange.lower; i<=this.lecRange.upper; i++) {
+        selectLecs.push(this.lecs[i-1].id);
+      }
+    }
+
+    this.selectLecs = selectLecs;
   }
 }

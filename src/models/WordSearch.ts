@@ -4,18 +4,24 @@ import { Lecture } from './Lecture';
 export class WordSearch {
     cat: Category;
     lec: Lecture
+    lecIds: Array<string>;
     levIds: Array<number>;
     count: number;
-    lecIds: Array<string>;
+    isRandom: boolean;
 
     constructor(
-        cat: Category, lec: Lecture, levIds: Array<number>, 
-        count: number, lecIds: Array<string>) {
-
+        cat: Category, 
+        lec: Lecture, 
+        lecIds: Array<string>,
+        levIds: Array<number>, 
+        count: number,
+        isRandom: boolean
+    ) {
         this.cat = cat;
         this.lec = lec;
+        this.lecIds = lecIds;
         this.levIds = levIds;
         this.count = count;
-        this.lecIds = lecIds;
+        this.isRandom = isRandom;
     }
 }

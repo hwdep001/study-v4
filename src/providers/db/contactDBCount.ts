@@ -62,9 +62,9 @@ export class ContactDBCount {
             INSERT:             "INSERT INTO count (id) "
                                     + " VALUES (?)",
             DELETE:             "DELETE FROM count ",
-            SELECT_ALL:         "SELECT id, name "
-                                    + " FROM level "
-                                    + " ORDER BY id DESC",
+            SELECT_ALL:         "SELECT id "
+                                    + " FROM count "
+                                    + " ORDER BY id",
         }
         
     }

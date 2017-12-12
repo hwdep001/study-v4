@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as firebase from 'firebase/app';
 
+import { Count } from './../models/Count';
 import { Level } from './../models/Level';
 import { Subject } from './../models/Subject';
 import { Category } from './../models/Category';
@@ -69,7 +70,7 @@ export class TestService {
     selectAllLecsBycatId(catId: string): Array<Lecture> {
         let lecs: Array<Lecture> = new Array();
 
-        for(let i=0; i<2; i++) {
+        for(let i=0; i<20; i++) {
             lecs.push({id:  catId + "-lec-" + i, name: catId + "-렉-" + i, num: i, version: 0});
         }
 
@@ -108,4 +109,15 @@ export class TestService {
 
         return levs;
     }
+
+    selectAllCounts(): Array<Count> {
+        let cnts: Array<Count> = new Array();
+        
+        for(let i=10; i<=100; i=i+10) {
+            cnts.push({id: i});
+        }
+
+        return cnts;
+    }
+
 }

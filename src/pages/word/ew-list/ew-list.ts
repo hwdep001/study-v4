@@ -35,7 +35,7 @@ export class EwListPage {
   }
 
   setTitle(): void {
-    if(this.ws.lecIds.length > 1) {
+    if(this.ws.isRandom) {
       this.title = this.ws.cat.name;
     } else {
       this.title = this.ws.lec.name;
@@ -51,7 +51,7 @@ export class EwListPage {
 
     if(this.dbHelper.isCordova) {
       pro = this.dbHelper.selectBySearchForWord(this.ws.lecIds, 
-          this.ws.levIds, this.ws.count, false).then(items => {
+          this.ws.levIds, this.ws.count, this.ws.isRandom).then(items => {
 
             words = items;
       });
