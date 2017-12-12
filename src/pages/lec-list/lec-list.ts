@@ -11,6 +11,7 @@ import { Lecture } from './../../models/Lecture';
 import { WordSearch } from './../../models/WordSearch';
 
 import { EwListPage } from './../word/ew-list/ew-list';
+import { WordTestPage } from './../word/word-test/word-test';
 
 @Component({
   selector: 'page-lecList',
@@ -61,8 +62,9 @@ export class LecListPage {
       wordSearch: wordSearch});
   }
 
-  moveLecTestPage(): void {
-
+  moveWordTestPage(): void {
+    this.navCtrl.push(WordTestPage, {
+      activeName: CommonUtil.getActiveName(this.sub.id), cat: this.cat});
   }
 
 }

@@ -34,6 +34,7 @@ import { TestPage } from './../pages/test/test';
 import { CatListPage } from '../pages/cat-list/cat-list';
 import { LecListPage } from './../pages/lec-list/lec-list';
 import { EwListPage } from './../pages/word/ew-list/ew-list';
+import { WordTestPage } from './../pages/word/word-test/word-test';
 import { SettingPage } from './../pages/setting/setting';
   import { WordMngPage } from './../pages/setting/word-mng/word-mng';
   
@@ -47,6 +48,7 @@ import { SettingPage } from './../pages/setting/setting';
     CatListPage,
     LecListPage,
     EwListPage,
+    WordTestPage,
     SettingPage,
       WordMngPage
   ],
@@ -68,6 +70,7 @@ import { SettingPage } from './../pages/setting/setting';
     CatListPage,
     LecListPage,
     EwListPage,
+    WordTestPage,
     SettingPage,
       WordMngPage
   ],
