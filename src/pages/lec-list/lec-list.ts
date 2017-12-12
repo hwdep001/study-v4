@@ -10,7 +10,7 @@ import { Category } from './../../models/Category';
 import { Lecture } from './../../models/Lecture';
 import { WordSearch } from './../../models/WordSearch';
 
-import { EwListPage } from './../word-list/ew-list';
+import { EwListPage } from './../word/ew-list/ew-list';
 
 @Component({
   selector: 'page-lecList',

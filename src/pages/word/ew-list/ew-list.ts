@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 
-import { DBHelper } from './../../providers/db-helper';
-import { CommonService } from '../../providers/common-service';
-import { TestService } from './../../providers/test-service';
+import { DBHelper } from './../../../providers/db-helper';
+import { CommonService } from './../../../providers/common-service';
+import { TestService } from './../../../providers/test-service';
 
-import { Word } from './../../models/Word';
-import { WordSearch } from './../../models/WordSearch';
+import { Word } from './../../../models/Word';
+import { WordSearch } from './../../../models/WordSearch';
 
 @Component({
   selector: 'page-ewList',
