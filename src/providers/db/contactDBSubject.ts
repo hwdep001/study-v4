@@ -91,11 +91,11 @@ export class ContactDBSubject {
 }
 
 interface query {
-    CREATE_TABLE?: string,
-    DROP_TABLE?: string,
-    INSERT?: string,
-    UPDATE?: string,
-    DELETE?: string,
+    CREATE_TABLE: string,
+    DROP_TABLE: string,
+    INSERT: string,
+    UPDATE: string,
+    DELETE: string,
     SELECT_ALL: string,
-    SELECT_BY_ID?: string,
+    SELECT_BY_ID: string,
 }

@@ -38,13 +38,9 @@ export class CatListPage {
   }
 
   getSub(): void {
-    this.sub = new Subject();
-
     if(this.dbHelper.isCordova) {
-      this.dbHelper.selectByIdForSub(this.subId).then(res => {
-        if(res.rows.length > 0) {
-          this.sub = res.rows.item(0);
-        }
+      this.dbHelper.selectByIdForSub(this.subId).then(item => {
+        this.sub = item;
       });
     } else {
       this.sub = this.test_.selectSubById(this.subId);
@@ -52,13 +48,9 @@ export class CatListPage {
   }
 
   getCats(): void {
-    this.cats = new Array();
-
     if(this.dbHelper.isCordova) {
-      this.dbHelper.selectBySubIdForCat(this.subId).then(res => {
-        for(let i=0; i<res.rows.length; i++) {
-          this.cats.push(res.rows.item(i));
-        }
+      this.dbHelper.selectBySubIdForCat(this.subId).then(items => {
+        this.cats = items;
       });
     } else {
       this.cats = this.test_.selectAllCatsBySubId(this.subId);

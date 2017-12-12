@@ -115,12 +115,12 @@ export class ContactDBLecture {
 }
 
 interface query {
-    CREATE_TABLE?: string,
-    DROP_TABLE?: string,
-    INSERT_WITHOUT_VERSION?: string,
-    UPDATE?: string,
-    UPDATE_WITHOUT_VERSION?: string,
-    DELETE?: string,
-    DELETE_BY_ID?: string,
-    SELECT_BY_CATEGORY?: string,
+    CREATE_TABLE: string,
+    DROP_TABLE: string,
+    INSERT_WITHOUT_VERSION: string,
+    UPDATE: string,
+    UPDATE_WITHOUT_VERSION: string,
+    DELETE: string,
+    DELETE_BY_ID: string,
+    SELECT_BY_CATEGORY: string,
 }

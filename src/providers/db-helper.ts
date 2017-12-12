@@ -70,14 +70,17 @@ export class DBHelper {
     this.wordDB.dropTable(this.sqlOb);
   }
 
-  deleteTables() {
-    if(!this.isCordova) {return;}
-    this.countDB.delete(this.sqlOb);
-    this.levelDB.delete(this.sqlOb);
-    this.subDB.delete(this.sqlOb);
-    this.catDB.delete(this.sqlOb);
-    this.lecDB.delete(this.sqlOb);
-    this.wordDB.delete(this.sqlOb);
+  deleteTables(): Promise<any> {
+    let pros = new Array<Promise<any>>();
+    if(!this.isCordova) {return new Promise(re=> re())}
+    pros.push(this.countDB.delete(this.sqlOb));
+    pros.push(this.levelDB.delete(this.sqlOb));
+    pros.push(this.subDB.delete(this.sqlOb));
+    pros.push(this.catDB.delete(this.sqlOb));
+    pros.push(this.lecDB.delete(this.sqlOb));
+    pros.push(this.wordDB.delete(this.sqlOb));
+    
+    return Promise.all(pros);
   }
 
   //////////////////////////////////////////////
@@ -94,13 +97,13 @@ export class DBHelper {
 
   selectAllForCount(): Promise<Array<Count>> {
     return this.countDB.selectAll(this.sqlOb).then(res => {
-      let counts = new Array<Count>();
+      let items = new Array<Count>();
 
       for(let i=0; i<res.rows.length; i++) {
-        counts.push(res.rows.item(i));
+        items.push(res.rows.item(i));
       }
 
-      return counts;
+      return items;
     });
   }
 
@@ -118,13 +121,13 @@ export class DBHelper {
 
   selectAllForLevel(): Promise<Array<Level>> {
     return this.levelDB.selectAll(this.sqlOb).then(res => {
-      let levels = new Array<Level>();
+      let items = new Array<Level>();
 
       for(let i=0; i<res.rows.length; i++) {
-        levels.push(res.rows.item(i));
+        items.push(res.rows.item(i));
       }
 
-      return levels;
+      return items;
     });
   }
 
@@ -140,12 +143,28 @@ export class DBHelper {
     return this.subDB.update(this.sqlOb, sub);
   }
 
-  selectAllForSub(): Promise<any> {
-    return this.subDB.selectAll(this.sqlOb);
+  selectAllForSub(): Promise<Array<Subject>> {
+    return this.subDB.selectAll(this.sqlOb).then(res => {
+      let items = new Array<Subject>();
+
+      for(let i=0; i<res.rows.length; i++) {
+        items.push(res.rows.item(i));
+      }
+
+      return items;
+    });
   }
 
-  selectByIdForSub(id: string): Promise<any> {
-    return this.subDB.selectById(this.sqlOb, id);
+  selectByIdForSub(id: string): Promise<Subject> {
+    return this.subDB.selectById(this.sqlOb, id).then(res => {
+      let item: Subject;
+
+      if(res.rows.length > 0) {
+        item = res.rows.item(0);
+      }
+
+      return item;
+    });
   }
 
   //////////////////////////////////////////////
@@ -168,8 +187,16 @@ export class DBHelper {
     return this.catDB.deleteById(this.sqlOb, id);
   }
   
-  selectBySubIdForCat(subId: string): Promise<any> {
-    return this.catDB.selectBySubId(this.sqlOb, subId);
+  selectBySubIdForCat(subId: string): Promise<Array<Category>> {
+    return this.catDB.selectBySubId(this.sqlOb, subId).then(res => {
+      let items = new Array<Category>();
+      
+      for(let i=0; i<res.rows.length; i++) {
+        items.push(res.rows.item(i));
+      }
+
+      return items;
+    });
   }
 
   //////////////////////////////////////////////
@@ -192,8 +219,16 @@ export class DBHelper {
     return this.lecDB.deleteById(this.sqlOb, id);
   }
   
-  selectByCatIdForLec(catId: string): Promise<any> {
-    return this.lecDB.selectByCatId(this.sqlOb, catId);
+  selectByCatIdForLec(catId: string): Promise<Array<Lecture>> {
+    return this.lecDB.selectByCatId(this.sqlOb, catId).then(res => {
+      let items = new Array<Lecture>();
+      
+      for(let i=0; i<res.rows.length; i++) {
+        items.push(res.rows.item(i));
+      }
+
+      return items;
+    });
   }
 
   //////////////////////////////////////////////
@@ -207,12 +242,24 @@ export class DBHelper {
   updateWithOutLevelWord(word: Word): Promise<any> {
     return this.wordDB.updateWithOutLevel(this.sqlOb, word);
   }
+
+  updateAllLevelWord(levelId: number): Promise<any> {
+    return this.wordDB.updateAllLevel(this.sqlOb, levelId);
+  }
   
   deleteByIdForWord(id: string): Promise<any> {
     return this.wordDB.deleteById(this.sqlOb, id);
   }
   
-  selectByLecIdForWord(lecId: string): Promise<any> {
-    return this.wordDB.selectByLecId(this.sqlOb, lecId);
+  selectByLecIdForWord(lecId: string): Promise<Array<Word>> {
+    return this.wordDB.selectByLecId(this.sqlOb, lecId).then(res => {
+      let items = new Array<Word>();
+      
+      for(let i=0; i<res.rows.length; i++) {
+        items.push(res.rows.item(i));
+      }
+
+      return items;
+    });
   }
 }

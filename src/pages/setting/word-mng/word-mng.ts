@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 
 import * as firebase from 'firebase/app';
 
@@ -27,6 +28,7 @@ export class WordMngPage {
 
   constructor(
     public navCtrl: NavController,
+    private toastCtrl: ToastController,
     private cmn_: CommonService,
     private dbHelper: DBHelper,
     private test_: TestService
@@ -43,17 +45,13 @@ export class WordMngPage {
       const loader = this.cmn_.getLoader(null, null);
       loader.present();
 
-      this.dbHelper.selectAllForSub().then(res => {
+      this.dbHelper.selectAllForSub().then(items => {
         let pros = new Array<Promise<any>>();
 
-        if(res.rows.length > 0) {
-          this.subs = new Array<Subject>();
-        }
+        this.subs = items;
 
-        for(let i=0; i<res.rows.length; i++) {
-          let sub = res.rows.item(i);
-          this.subs.push(sub);
-          pros.push(this.getCategory(sub.id).then(cats => {
+        for(let i=0; i<this.subs.length; i++) {
+          pros.push(this.dbHelper.selectBySubIdForCat(this.subs[i].id).then(cats => {
             this.subs[i].cats = cats;
           }));
         }
@@ -70,30 +68,16 @@ export class WordMngPage {
     }
   }
 
-  getCategory(subId: string): Promise<Array<Category>> {
-    return new Promise<Array<Category>> ( (resolve, reject) => {
-      let result: Array<Category>;
-
-      this.dbHelper.selectBySubIdForCat(subId).then(res => {
-
-        if(res.rows.length > 0) {
-          result = new Array<Category>();
-        }
-
-        for(let i=0; i<res.rows.length; i++) {
-          result.push(res.rows.item(i));
-        }
-        resolve(result);
-      });
+  initWordLevel() {
+    this.dbHelper.updateAllLevelWord(0).then(any => {
+      this.showToast("bottom", "초기화되었습니다.");
     });
   }
 
-  initWordLevel() {
-
-  }
-
   deleteWord() {
-    this.dbHelper.deleteTables();
+    this.dbHelper.deleteTables().then(any => {
+      this.getSubject();
+    });
   }
 
   updateWord() {
@@ -107,9 +91,11 @@ export class WordMngPage {
 
     Promise.all(pros).then(any => {
       loader.dismiss();
+      this.getSubject();
       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }).catch(err => {
       loader.dismiss();
+      this.getSubject();
       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!! : " + err);
     });
   }
@@ -160,10 +146,8 @@ export class WordMngPage {
         let sub = subDs.data();
         sub.id = subDs.id;
 
-        pros.push(this.dbHelper.selectByIdForSub(sub.id).then(res => {
-          if(res.rows.length > 0) {
-            sub_ = res.rows.item(0);
-          }
+        pros.push(this.dbHelper.selectByIdForSub(sub.id).then(item => {
+          sub_ = item;
 
           if(sub_ == null) {
             result = this.dbHelper.insertSub(sub);
@@ -188,13 +172,12 @@ export class WordMngPage {
       let pros3 = new Array<Promise<any>>();
       let map = new Map<string, Category>();
 
-      pros3.push(this.dbHelper.selectBySubIdForCat(subId).then(res => {
+      pros3.push(this.dbHelper.selectBySubIdForCat(subId).then(items => {
 
         let pros = new Array<Promise<any>>();
 
-        for(let i=0; i<res.rows.length; i++) {
-          const cat = res.rows.item(i);
-          map.set(cat.id, cat);
+        for(let i=0; i<items.length; i++) {
+          map.set(items[i].id, items[i]);
         }
 
         querySnapshot.forEach(catDs => {
@@ -260,13 +243,12 @@ export class WordMngPage {
       let pros3 = new Array<Promise<any>>();
       let map = new Map<string, Lecture>();
 
-      pros3.push(this.dbHelper.selectByCatIdForLec(cat.id).then(res => {
+      pros3.push(this.dbHelper.selectByCatIdForLec(cat.id).then(items => {
 
         let pros = new Array<Promise<any>>();
 
-        for(let i=0; i<res.rows.length; i++) {
-          const lec = res.rows.item(i);
-          map.set(lec.id, lec);
+        for(let i=0; i<items.length; i++) {
+          map.set(items[i].id, items[i]);
         }
 
         querySnapshot.forEach(lecDs => {
@@ -332,13 +314,12 @@ export class WordMngPage {
       let pros3 = new Array<Promise<any>>();
       let map = new Map<string, Word>();
 
-      pros3.push(this.dbHelper.selectByLecIdForWord(cat.id).then(res => {
+      pros3.push(this.dbHelper.selectByLecIdForWord(cat.id).then(items => {
 
         let pros = new Array<Promise<any>>();
 
-        for(let i=0; i<res.rows.length; i++) {
-          const word = res.rows.item(i);
-          map.set(word.id, word);
+        for(let i=0; i<items.length; i++) {
+          map.set(items[i].id, items[i]);
         }
 
         querySnapshot.forEach(wordDs => {
@@ -389,5 +370,15 @@ export class WordMngPage {
 
       return Promise.all(pros3);
     });
+  }
+
+  private showToast(position: string, message: string, duration?: number) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      position: position,
+      duration: (duration == null) ? 2500 : duration
+    });
+
+    toast.present(toast);
   }
 }

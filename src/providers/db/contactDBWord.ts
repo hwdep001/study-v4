@@ -49,6 +49,14 @@ export class ContactDBWord {
         .catch(e => console.log(e));
     }
 
+    updateAllLevel(sqlOb: SQLiteObject, levelId: number) {
+        return sqlOb.executeSql(this.query.UPDATE_ALL_LEVEL, [levelId])
+        .then(res => {
+            console.log(this.TAG + " UPDATED ALL LEVEL: " + levelId);
+        })
+        .catch(e => console.log(e));
+    }
+
     delete(sqlOb: SQLiteObject) {
         return sqlOb.executeSql(this.query.DELETE, [])
         .then(res => {
@@ -97,6 +105,8 @@ export class ContactDBWord {
                                 "UPDATE word "
                                     + " SET head1=?, head2=?, body1=-1, body2=?, num=?, lectureId=? "
                                     + " WHERE id=? ",
+            UPDATE_ALL_LEVEL:   "UPDATE word "
+                                    + " SET levelId=? ",
             DELETE:             "DELETE FROM word ",
             DELETE_BY_ID:       "DELETE FROM word WHERE id=?",
             SELECT_BY_LECTURE:  "SELECT id, head1, head2, body1, body2, num, lectureId, levelId "
@@ -109,11 +119,12 @@ export class ContactDBWord {
 }
 
 interface query {
-    CREATE_TABLE?: string,
-    DROP_TABLE?: string,
-    INSERT?: string,
-    UPDATE_WITHOUT_LEVEL?: string,
-    DELETE?: string,
-    DELETE_BY_ID?: string,
-    SELECT_BY_LECTURE?: string,
+    CREATE_TABLE: string,
+    DROP_TABLE: string,
+    INSERT: string,
+    UPDATE_WITHOUT_LEVEL: string,
+    UPDATE_ALL_LEVEL: string,
+    DELETE: string,
+    DELETE_BY_ID: string,
+    SELECT_BY_LECTURE: string,
 }

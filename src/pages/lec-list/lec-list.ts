@@ -44,13 +44,9 @@ export class LecListPage {
   }
 
   getLecs(): void {
-    this.lecs = new Array<Lecture>();
-
     if(this.dbHelper.isCordova) {
-      this.dbHelper.selectByCatIdForLec(this.cat.id).then(res => {
-        for(let i=0; i<res.rows.length; i++) {
-          this.lecs.push(res.rows.item(i));
-        }
+      this.dbHelper.selectByCatIdForLec(this.cat.id).then(items => {
+        this.lecs = items;
       });
     } else {
       this.lecs = this.test_.selectAllLecsBycatId(this.cat.id);

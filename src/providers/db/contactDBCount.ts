@@ -71,9 +71,9 @@ export class ContactDBCount {
 }
 
 interface query {
-    CREATE_TABLE?: string,
-    DROP_TABLE?: string,
-    INSERT?: string,
-    DELETE?: string,
-    SELECT_ALL?: string,
+    CREATE_TABLE: string,
+    DROP_TABLE: string,
+    INSERT: string,
+    DELETE: string,
+    SELECT_ALL: string,
 }
