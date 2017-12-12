@@ -4,22 +4,16 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{cat.name}}</ion-title>
+    
+    <ion-buttons end>
+      <button ion-button icon-only (click)="startTest()" [disabled]="isStartBtn == false">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
-  <ion-grid class="add-navi-gird">
-    <ion-row>
-      <ion-col col-100>
-        <ion-buttons end>
-          <button ion-button item-right (click)="startTest()" [disabled]="isStartBtn == false">
-            시작
-          </button>
-        </ion-buttons>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 </ion-header>
 
-<ion-content class="icontent margin-100">
+<ion-content class="icontent">
   
     <ion-list class="ilist">
       <ion-list-header class="iheader" no-lines>

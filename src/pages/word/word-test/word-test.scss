@@ -1,16 +1,4 @@
 page-wordTest {
-    .add-navi-gird {
-        padding: 0 0 0 21px; 
-        height: 44px; 
-        background-color: map-get($colors, content-bg);
-
-        ion-row {
-            ion-col {
-                padding: 0px;
-            }
-        }
-    }
-
     .icontent {
 
         .ilist {
@@ -35,10 +23,5 @@ page-wordTest {
                 }
             }
         }
-    }
-
-    .margin-100 {
-        .fixed-content {margin-top: 100px !important;}
-        .scroll-content {margin-top: 100px !important;}
     }
 }
