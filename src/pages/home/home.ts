@@ -1,10 +1,9 @@
-import { DBHelper } from './../../providers/db-helper';
-import { CommonUtil } from './../../utils/commonUtil';
-import { User } from './../../models/User';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import * as firebase from 'firebase/app';
+
+import { CommonUtil } from './../../utils/commonUtil';
 
 import { SigninPage } from './../signin/signin';
 
@@ -18,8 +17,7 @@ export class HomePage {
   user; // :User
 
   constructor(
-    public navCtrl: NavController,
-    private dbHelper: DBHelper
+    public navCtrl: NavController
   ) {
     this.user = CommonUtil.fireUser2user(firebase.auth().currentUser);
     firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).get().then(doc => {

@@ -1,5 +1,5 @@
-import { User } from './../models/User';
 import * as firebase from 'firebase/app';
+import { User } from './../models/User';
 
 declare global {
     interface Date {
@@ -67,8 +67,8 @@ export class CommonUtil {
 
     public static void(): void {};
 
-    public static fireUser2user(fireUser: firebase.User) {
-        let user = null;
+    public static fireUser2user(fireUser: firebase.User): User {
+        let user: User = null;
 
         if(fireUser != null) {
             user = new User();

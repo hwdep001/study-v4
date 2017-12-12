@@ -8,11 +8,11 @@ import { CommonService } from './../../../providers/common-service';
 import { DBHelper } from './../../../providers/db-helper';
 import { TestService } from './../../../providers/test-service';
 
+import { Count } from '../../../models/Count';
 import { Subject } from './../../../models/Subject';
 import { Category } from './../../../models/Category';
 import { Lecture } from './../../../models/Lecture';
 import { Word } from './../../../models/Word';
-import { Count } from '../../../models/Count';
 
 @Component({
   selector: 'page-wordMng',

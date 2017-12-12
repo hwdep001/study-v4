@@ -1,5 +1,3 @@
-import { CommonUtil } from "../utils/commonUtil";
-
 export class User {
   uid: string;
   email: string;

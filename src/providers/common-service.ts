@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { User } from '../models/User';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
+
+import { User } from '../models/User';
 
 @Injectable()
 export class CommonService {

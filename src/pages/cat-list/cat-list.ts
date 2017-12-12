@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import * as firebase from 'firebase/app';
-
 import { CommonUtil } from '../../utils/commonUtil';
 import { DBHelper } from './../../providers/db-helper';
 import { TestService } from './../../providers/test-service';

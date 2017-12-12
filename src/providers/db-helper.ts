@@ -12,8 +12,8 @@ import { TestService } from './test-service';
 import { Count } from './../models/Count';
 import { Level } from './../models/Level';
 import { Subject } from './../models/Subject';
-import { Lecture } from './../models/Lecture';
 import { Category } from './../models/Category';
+import { Lecture } from './../models/Lecture';
 import { Word } from './../models/Word';
 
 @Injectable()

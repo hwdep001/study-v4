@@ -3,8 +3,6 @@ import { NavController } from 'ionic-angular';
 
 import * as firebase from 'firebase/app';
 
-import { HomePage } from './../home/home';
-
 @Component({
   selector: 'page-signin',
   templateUrl: 'signin.html'
