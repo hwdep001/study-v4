@@ -1,3 +1,6 @@
+
+import { Level } from './../../models/Level';
+import { Count } from './../../models/Count';
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
@@ -7,9 +10,10 @@ import { CommonUtil } from './../../utils/commonUtil';
 import { DBHelper } from './../../providers/db-helper';
 import { TestService } from './../../providers/test-service';
 
+import { Subject } from './../../models/Subject';
 import { Category } from './../../models/Category';
 import { Lecture } from './../../models/Lecture';
-import { Subject } from './../../models/Subject';
+import { WordSearch } from './../../models/WordSearch';
 
 import { WordListPage } from './../word-list/word-list';
 
@@ -54,9 +58,33 @@ export class LecListPage {
   }
 
   clickLec(lec: Lecture): void {
-    this.navCtrl.push(WordListPage, {
-      activeName: CommonUtil.getActiveName(this.sub.id), 
-      sub: this.sub, cat: this.cat, lec: lec});
+    let wordSearch: WordSearch;
+    let levIds = new Array<number>();
+    let count = -1;
+    let lecIds = [lec.id];
+
+    let pros: Promise<any>;
+
+    if(this.dbHelper.isCordova) {
+      pros = this.dbHelper.selectAllForLevel().then(levels => {
+        for(let level of levels) {
+          levIds.push(level.id);
+        }
+      });
+    } else {
+      this.test_.selectAllLevels().forEach(level => {
+        levIds.push(level.id);
+      });
+      pros = new Promise<any>(re => re());
+    }
+
+    pros.then(any => {
+      wordSearch = new WordSearch(this.cat, levIds, count, lecIds);
+      
+      this.navCtrl.push(WordListPage, {
+        activeName: CommonUtil.getActiveName(this.sub.id), 
+        wordSearch: wordSearch});
+    });
   }
 
   moveLecTestPage(): void {

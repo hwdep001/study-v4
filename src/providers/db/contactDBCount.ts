@@ -46,6 +46,10 @@ export class ContactDBCount {
         .catch(e => console.log(e));
     }
 
+    selectAll(sqlOb: SQLiteObject): Promise<any> {
+        return sqlOb.executeSql(this.query.SELECT_ALL, {});
+    }
+
     
 
     private initQuery() {
@@ -58,6 +62,9 @@ export class ContactDBCount {
             INSERT:             "INSERT INTO count (id) "
                                     + " VALUES (?)",
             DELETE:             "DELETE FROM count ",
+            SELECT_ALL:         "SELECT id, name "
+                                    + " FROM level "
+                                    + " ORDER BY id DESC",
         }
         
     }
@@ -68,4 +75,5 @@ interface query {
     DROP_TABLE?: string,
     INSERT?: string,
     DELETE?: string,
+    SELECT_ALL?: string,
 }

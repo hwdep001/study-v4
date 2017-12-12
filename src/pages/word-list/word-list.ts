@@ -6,19 +6,14 @@ import * as firebase from 'firebase/app';
 import { DBHelper } from './../../providers/db-helper';
 import { TestService } from './../../providers/test-service';
 
-import { Subject } from './../../models/Subject';
-import { Category } from './../../models/Category';
-import { Lecture } from './../../models/Lecture';
+import { Word } from './../../models/Word';
+import { WordSearch } from './../../models/WordSearch';
 
 @Component({
   selector: 'page-wordList',
   templateUrl: 'word-list.html'
 })
 export class WordListPage {
-
-  sub: Subject;
-  cat: Category;
-  lec: Lecture;
 
   constructor(
     private param: NavParams,
@@ -29,9 +24,7 @@ export class WordListPage {
   }
 
   initData(): void {
-    this.sub = this.param.get(`sub`);
-    this.cat = this.param.get(`cat`);
-    this.lec = this.param.get(`lec`);
+    const wordSearch: WordSearch = this.param.get("wordSearch");
   }
 
 }

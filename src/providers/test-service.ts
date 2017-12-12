@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import * as firebase from 'firebase/app';
 
+import { Level } from './../models/Level';
 import { Subject } from './../models/Subject';
 import { Category } from './../models/Category';
 import { Lecture } from './../models/Lecture';
@@ -75,4 +76,14 @@ export class TestService {
         return lecs;
     }
 
+    selectAllLevels(): Array<Level> {
+        let levs: Array<Level> = new Array();
+        levs.push({id:  2, name: "Very Easy"});
+        levs.push({id:  1, name: "Easy"});
+        levs.push({id:  0, name: "Normal"});
+        levs.push({id:  -1, name: "Difficult"});
+        levs.push({id:  -2, name: "Very Difficult"});
+
+        return levs;
+    }
 }

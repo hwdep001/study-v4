@@ -92,6 +92,18 @@ export class DBHelper {
     return this.countDB.delete(this.sqlOb);
   }
 
+  selectAllForCount(): Promise<Array<Count>> {
+    return this.countDB.selectAll(this.sqlOb).then(res => {
+      let counts = new Array<Count>();
+
+      for(let i=0; i<res.rows.length; i++) {
+        counts.push(res.rows.item(i));
+      }
+
+      return counts;
+    });
+  }
+
   //////////////////////////////////////////////
   // Level
   //////////////////////////////////////////////
@@ -102,6 +114,18 @@ export class DBHelper {
 
   deleteLevel(): Promise<any> {
     return this.levelDB.delete(this.sqlOb);
+  }
+
+  selectAllForLevel(): Promise<Array<Level>> {
+    return this.levelDB.selectAll(this.sqlOb).then(res => {
+      let levels = new Array<Level>();
+
+      for(let i=0; i<res.rows.length; i++) {
+        levels.push(res.rows.item(i));
+      }
+
+      return levels;
+    });
   }
 
   //////////////////////////////////////////////

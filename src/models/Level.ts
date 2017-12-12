@@ -1,4 +1,4 @@
 export class Level {
-    id?: string;
+    id?: number;
     name?: string;
 }

@@ -46,6 +46,10 @@ export class ContactDBLevel {
         .catch(e => console.log(e));
     }
 
+    selectAll(sqlOb: SQLiteObject): Promise<any> {
+        return sqlOb.executeSql(this.query.SELECT_ALL, {});
+    }
+
     
 
     private initQuery() {
@@ -59,6 +63,9 @@ export class ContactDBLevel {
             INSERT:             "INSERT INTO level (id, name) "
                                     + " VALUES (?, ?)",
             DELETE:             "DELETE FROM level ",
+            SELECT_ALL:         "SELECT id, name "
+                                    + " FROM level "
+                                    + " ORDER BY id DESC",
         }
         
     }
@@ -69,4 +76,5 @@ interface query {
     DROP_TABLE?: string,
     INSERT?: string,
     DELETE?: string,
+    SELECT_ALL?: string,
 }
