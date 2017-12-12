@@ -5,9 +5,11 @@ export class Word {
     body1?: string;
     body2?: string;
     num?: number;
-
     lectureId?: string;
     levelId?: number;
+
+    //
+    lectureName?: string;
 
     static equals(a: any, b: any) {
         if(a == null || b == null) return false;

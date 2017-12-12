@@ -6,6 +6,7 @@ import { Level } from './../models/Level';
 import { Subject } from './../models/Subject';
 import { Category } from './../models/Category';
 import { Lecture } from './../models/Lecture';
+import { Word } from './../models/Word';
 
 @Injectable()
 export class TestService {
@@ -73,6 +74,28 @@ export class TestService {
         }
 
         return lecs;
+    }
+
+    selectAllWordByLecId(lecIds: Array<string>): Array<Word> {
+        let words: Array<Word> = new Array();
+
+        lecIds.forEach(lecId => {
+            for(let i=0; i<5; i++) {
+                words.push({
+                    id: "id" + i, 
+                    head1: "head1-"+i, 
+                    head2: "head2-"+1, 
+                    body1: "body1-"+i, 
+                    body2: "body2-"+i, 
+                    num: i, 
+                    lectureId: lecId, 
+                    levelId: i%5-2, 
+                    lectureName: "강의" + lecId
+                });
+            }
+        });
+
+        return words;
     }
 
     selectAllLevels(): Array<Level> {

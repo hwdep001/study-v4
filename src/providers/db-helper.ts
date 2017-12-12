@@ -262,4 +262,18 @@ export class DBHelper {
       return items;
     });
   }
+
+  selectBySearchForWord(lecIds: Array<string>, levIds: Array<number>, 
+                          count: number, isRandom: boolean): Promise<Array<Word>> {
+    return this.wordDB.selectBySearch(this.sqlOb, lecIds, 
+                                        levIds, count, isRandom).then(res => {
+      let items = new Array<Word>();
+      
+      for(let i=0; i<res.rows.length; i++) {
+        items.push(res.rows.item(i));
+      }
+
+      return items;
+    });
+  }
 }

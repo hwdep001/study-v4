@@ -13,6 +13,9 @@ import { WordSearch } from './../../models/WordSearch';
 })
 export class WordListPage {
 
+  words: Array<Word>;
+  ws: WordSearch;
+
   constructor(
     private param: NavParams,
     private dbHelper: DBHelper,
@@ -22,7 +25,20 @@ export class WordListPage {
   }
 
   initData(): void {
-    const wordSearch: WordSearch = this.param.get("wordSearch");
+    this.ws = this.param.get("wordSearch");
+    this.getWords();
+  }
+
+  getWords(): void {
+    if(this.dbHelper.isCordova) {
+      this.dbHelper.selectBySearchForWord(this.ws.lecIds, 
+          this.ws.levIds, this.ws.count, false).then(items => {
+
+        this.words = items;
+      });
+    } else {
+      this.words = this.test_.selectAllWordByLecId(this.ws.lecIds);
+    }
   }
 
 }

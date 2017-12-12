@@ -3,7 +3,6 @@ export class Lecture {
     name?: string;
     num?: number;
     version?: number;
-
     categoryId?: string;
 
     static equals(a: any, b: any) {

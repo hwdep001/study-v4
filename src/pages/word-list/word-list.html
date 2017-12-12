@@ -9,4 +9,10 @@
 
 <ion-content class="icontent">
 
+  <ion-list class="ilist">
+    <ion-item class="ilist-item cursor" *ngFor="let word of words; let i = index">
+      <div>{{word.id}} / {{word.head1}} / {{word.lectureName}}</div>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

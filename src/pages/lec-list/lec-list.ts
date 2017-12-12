@@ -55,28 +55,11 @@ export class LecListPage {
     let count = -1;
     let lecIds = [lec.id];
 
-    let pros: Promise<any>;
-
-    if(this.dbHelper.isCordova) {
-      pros = this.dbHelper.selectAllForLevel().then(levels => {
-        for(let level of levels) {
-          levIds.push(level.id);
-        }
-      });
-    } else {
-      this.test_.selectAllLevels().forEach(level => {
-        levIds.push(level.id);
-      });
-      pros = new Promise<any>(re => re());
-    }
-
-    pros.then(any => {
-      wordSearch = new WordSearch(this.cat, levIds, count, lecIds);
-      
-      this.navCtrl.push(WordListPage, {
-        activeName: CommonUtil.getActiveName(this.sub.id), 
-        wordSearch: wordSearch});
-    });
+    wordSearch = new WordSearch(this.cat, levIds, count, lecIds);
+    
+    this.navCtrl.push(WordListPage, {
+      activeName: CommonUtil.getActiveName(this.sub.id), 
+      wordSearch: wordSearch});
   }
 
   moveLecTestPage(): void {

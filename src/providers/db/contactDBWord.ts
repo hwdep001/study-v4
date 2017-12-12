@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLiteObject } from '@ionic-native/sqlite';
+import { CommonUtil } from '../../utils/commonUtil';
 import { Word } from './../../models/Word';
 
 @Injectable()
@@ -32,7 +33,7 @@ export class ContactDBWord {
     insert(sqlOb: SQLiteObject, word: Word) {
         return sqlOb.executeSql(this.query.INSERT, 
             [word.id, word.head1, word.head2, word.body1, word.body2, 
-                word.num, word.lectureId, word.levelId])
+                word.num, word.lectureId])
         .then(res => {
             console.log(this.TAG + " INSERTED: " + word.head1);
         })
@@ -78,6 +79,45 @@ export class ContactDBWord {
         return sqlOb.executeSql(this.query.SELECT_BY_LECTURE, [lecId]);
     }
 
+    selectBySearch(sqlOb: SQLiteObject, lecIds: Array<string>, levIds: Array<number>,
+                    count: number, isRandom: boolean): Promise<any> {
+        let sql = this.query.SELECT_BY_SEARCH;
+        let params = [];
+        let where_lec = " AND w.lectureId IN (" 
+                        + CommonUtil.getQForSqlInSyntax(lecIds.length) + ") ";
+        let where_lev = " AND w.levelId IN ("
+                        + CommonUtil.getQForSqlInSyntax(levIds.length) + ") ";
+
+        if(lecIds.length > 0) {
+            sql = sql.replace("{{WHERE_LEC}}", where_lec);
+            params.pushArray(lecIds);
+        } else {
+            sql = sql.replace("{{WHERE_LEC}}", "");
+        }
+
+        if(levIds.length > 0) {
+            sql = sql.replace("{{WHERE_LEV}}", where_lev);
+            params.pushArray(levIds);
+        } else {
+            sql = sql.replace("{{WHERE_LEV}}", "");
+        }
+
+        if(isRandom) {
+            sql = sql.replace("{{ORDER_BY}}", "RANDOM()");
+        } else {
+            sql = sql.replace("{{ORDER_BY}}", "w.num");
+        }
+
+        if(count > 0) {
+            sql = sql.replace("{{LIMIT}}", "LIMIT ?");
+            params.push(count);
+        } else {
+            sql = sql.replace("{{LIMIT}}", "");
+        }
+
+        return sqlOb.executeSql(sql, params);
+    }
+
     
 
     private initQuery() {
@@ -100,7 +140,7 @@ export class ContactDBWord {
             DROP_TABLE:         "DROP TABLE IF EXISTS word",
             INSERT:             "INSERT INTO word "
                                     + " (id, head1, head2, body1, body2, num, lectureId, levelId) "
-                                    + " VALUES(?, ?, ?, ?, ?, ?, ?, ?) ",
+                                    + " VALUES(?, ?, ?, ?, ?, ?, ?, 0) ",
             UPDATE_WITHOUT_LEVEL: 
                                 "UPDATE word "
                                     + " SET head1=?, head2=?, body1=-1, body2=?, num=?, lectureId=? "
@@ -113,6 +153,14 @@ export class ContactDBWord {
                                     + " FROM word "
                                     + " WHERE lectureId=? "
                                     + " ORDER BY num",
+            SELECT_BY_SEARCH:   "SELECT w.id, w.head1, w.head2, w.body1, w.body2, w.num, w.lectureId, w.levelId, "
+                                    + " l.name as lectureName "
+                                    + " FROM word w "
+                                    + " LEFT JOIN lecture l ON w.lectureId = l.id "
+                                    + " WHERE 1=1 "
+                                    + " {{WHERE_LEC}} {{WHERE_LEV}} "
+                                    + " ORDER BY {{ORDER_BY}} "
+                                    + " {{LIMIT}} ",
         }
         
     }
@@ -127,4 +175,5 @@ interface query {
     DELETE: string,
     DELETE_BY_ID: string,
     SELECT_BY_LECTURE: string,
+    SELECT_BY_SEARCH: string,
 }

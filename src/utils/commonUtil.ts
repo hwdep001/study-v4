@@ -96,5 +96,19 @@ export class CommonUtil {
         }
     
         return result;
-      }
+    }
+
+    public static getQForSqlInSyntax(count: number): string {
+        let result = "";
+
+        for(let i=0; i<count; i++) {
+            result += "?";
+
+            if(i < count-1) {
+                result += ",";
+            }
+        }
+
+        return result;
+    }
 }
