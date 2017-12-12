@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 
 import * as firebase from 'firebase/app';
 
-import { User } from './../models/User';
 import { Subject } from './../models/Subject';
 import { Category } from './../models/Category';
+import { Lecture } from './../models/Lecture';
 
 @Injectable()
 export class TestService {
@@ -30,7 +30,7 @@ export class TestService {
         }
     }
 
-    setSubMap() {
+    setSubMap(): void {
         this.subMap = new Map<string, Subject>();
         this.subMap.set("sp", {id: "sp", name: "맞춤법",   num: 0});
         this.subMap.set("sl", {id: "sl", name: "표준어",   num: 1});
@@ -41,7 +41,7 @@ export class TestService {
         this.subMap.set("ew", {id: "ew", name: "영단어",   num: 6});
     }
 
-    selectAllSubs() {
+    selectAllSubs(): Array<Subject> {
         let subs: Array<Subject> = new Array();
 
         this.subMap.forEach( (sub: Subject, key: string) => {
@@ -55,7 +55,7 @@ export class TestService {
         return this.subMap.get(id);
     }
 
-    selectAllCatsBySubId(subId: string) {
+    selectAllCatsBySubId(subId: string): Array<Category> {
         let cats: Array<Category> = new Array();
 
         for(let i=0; i<2; i++) {
@@ -63,6 +63,16 @@ export class TestService {
         }
 
         return cats;
+    }
+
+    selectAllLecsBycatId(catId: string): Array<Lecture> {
+        let lecs: Array<Lecture> = new Array();
+
+        for(let i=0; i<2; i++) {
+            lecs.push({id:  catId + "-lec-" + i, name: catId + "-렉-" + i, num: i, version: 0});
+        }
+
+        return lecs;
     }
 
 }

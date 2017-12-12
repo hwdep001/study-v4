@@ -3,12 +3,14 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import * as firebase from 'firebase/app';
 
-import { CommonService } from './../../providers/common-service';
+import { CommonUtil } from '../../utils/commonUtil';
 import { DBHelper } from './../../providers/db-helper';
 import { TestService } from './../../providers/test-service';
 
 import { Subject } from './../../models/Subject';
 import { Category } from './../../models/Category';
+
+import { LecListPage } from './../lec-list/lec-list';
 
 @Component({
   selector: 'page-catList',
@@ -16,7 +18,7 @@ import { Category } from './../../models/Category';
 })
 export class CatListPage {
 
-  subKey: string;
+  subId: string;
   sub: Subject;
   cats: Array<Category>;
 
@@ -30,7 +32,7 @@ export class CatListPage {
   }
 
   initData(): void {
-    this.subKey = this.param.get(`key`);
+    this.subId = this.param.get('id');
     this.getSub();
     this.getCats();
   }
@@ -39,13 +41,13 @@ export class CatListPage {
     this.sub = new Subject();
 
     if(this.dbHelper.isCordova) {
-      this.dbHelper.selectByIdForSub(this.subKey).then(res => {
+      this.dbHelper.selectByIdForSub(this.subId).then(res => {
         if(res.rows.length > 0) {
           this.sub = res.rows.item(0);
         }
       });
     } else {
-      this.sub = this.test_.selectSubById(this.subKey);
+      this.sub = this.test_.selectSubById(this.subId);
     }
   }
 
@@ -53,14 +55,19 @@ export class CatListPage {
     this.cats = new Array();
 
     if(this.dbHelper.isCordova) {
-      this.dbHelper.selectBySubIdForCat(this.subKey).then(res => {
+      this.dbHelper.selectBySubIdForCat(this.subId).then(res => {
         for(let i=0; i<res.rows.length; i++) {
           this.cats.push(res.rows.item(i));
         }
       });
     } else {
-      this.cats = this.test_.selectAllCatsBySubId(this.subKey);
+      this.cats = this.test_.selectAllCatsBySubId(this.subId);
     }
+  }
+
+  clickCat(cat: Category): void {
+    this.navCtrl.push(LecListPage, {
+      activeName: CommonUtil.getActiveName(this.subId), sub: this.sub, cat: cat});
   }
 
 }

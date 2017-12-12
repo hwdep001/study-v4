@@ -17,23 +17,24 @@ import { environment } from './../environments/environment';
 
 // providers
 import { CommonService } from './../providers/common-service';
-import { DBHelper } from '../providers/db-helper';
-import { ContactDBCount } from '../providers/db/contactDBCount';
-import { ContactDBLevel } from '../providers/db/contactDBLevel';
+import { DBHelper } from './../providers/db-helper';
+import { ContactDBCount } from './../providers/db/contactDBCount';
+import { ContactDBLevel } from './../providers/db/contactDBLevel';
 import { ContactDBSubject } from './../providers/db/contactDBSubject';
 import { ContactDBLecture } from './../providers/db/contactDBLecture';
 import { ContactDBCategory } from './../providers/db/contactDBCategory';
-import { ContactDBWord } from '../providers/db/contactDBWord';
-
-import { TestService } from '../providers/test-service';
+import { ContactDBWord } from './../providers/db/contactDBWord';
+import { TestService } from '.././providers/test-service';
 
 // pages
 import { SigninPage } from './../pages/signin/signin';
-import { HomePage } from '../pages/home/home';
+import { HomePage } from './../pages/home/home';
 import { TestPage } from './../pages/test/test';
   import { Tab1Page } from '../pages/test/tab1/tab1';
 import { CatListPage } from '../pages/cat-list/cat-list';
-import { SettingPage } from '../pages/setting/setting';
+import { LecListPage } from './../pages/lec-list/lec-list';
+import { WordListPage } from './../pages/word-list/word-list';
+import { SettingPage } from './../pages/setting/setting';
   import { WordMngPage } from './../pages/setting/word-mng/word-mng';
   
 @NgModule({
@@ -44,6 +45,8 @@ import { SettingPage } from '../pages/setting/setting';
     TestPage,
       Tab1Page,
     CatListPage,
+    LecListPage,
+    WordListPage,
     SettingPage,
       WordMngPage
   ],
@@ -63,6 +66,8 @@ import { SettingPage } from '../pages/setting/setting';
     TestPage,
       Tab1Page,
     CatListPage,
+    LecListPage,
+    WordListPage,
     SettingPage,
       WordMngPage
   ],
