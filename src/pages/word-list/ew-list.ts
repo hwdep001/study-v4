@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 
 import { DBHelper } from './../../providers/db-helper';
+import { CommonService } from '../../providers/common-service';
 import { TestService } from './../../providers/test-service';
 
 import { Word } from './../../models/Word';
@@ -20,6 +21,7 @@ export class EwListPage {
   constructor(
     private param: NavParams,
     private dbHelper: DBHelper,
+    private cmn_: CommonService,
     private test_: TestService
   ) {
     this.initData();
@@ -27,6 +29,7 @@ export class EwListPage {
 
   initData(): void {
     this.ws = this.param.get("wordSearch");
+
     this.setTitle();
     this.getWords();
   }
@@ -40,14 +43,43 @@ export class EwListPage {
   }
 
   getWords(): void {
+    const loader = this.cmn_.getLoader(null, null);
+    loader.present();
+
+    let pro: Promise<any>;
+    let words: Array<Word>;
+
     if(this.dbHelper.isCordova) {
-      this.dbHelper.selectBySearchForWord(this.ws.lecIds, 
+      pro = this.dbHelper.selectBySearchForWord(this.ws.lecIds, 
           this.ws.levIds, this.ws.count, false).then(items => {
 
-        this.words = items;
+            words = items;
       });
     } else {
-      this.words = this.test_.selectAllWordByLecId(this.ws.lecIds);
+      words = this.test_.selectAllWordByLecId(this.ws.lecIds);
+      pro = new Promise(re => re());
+    }
+
+    pro.then(any => {
+      for(let i=0; i<words.length; i++) {
+        words[i].bodyFlag = false;
+      }
+      this.words = words;
+      loader.dismiss();
+    }).catch(err => {
+      loader.dismiss();
+    });
+  }
+
+  clickThumbs(word: Word, thumbCode: number) {
+    const level: number = thumbCode + (word.levelId == undefined ? 0 : word.levelId);
+
+    if(level > 2 || level < -2){
+      return;
+    } else {
+      this.dbHelper.updateLevelWord(word.id, level).then(any => {
+        word.levelId = level;
+      });
     }
   }
 

@@ -246,6 +246,10 @@ export class DBHelper {
   updateAllLevelWord(levelId: number): Promise<any> {
     return this.wordDB.updateAllLevel(this.sqlOb, levelId);
   }
+
+  updateLevelWord(id: string, levelId: number): Promise<any> {
+    return this.wordDB.updateLevel(this.sqlOb, id, levelId);
+  }
   
   deleteByIdForWord(id: string): Promise<any> {
     return this.wordDB.deleteById(this.sqlOb, id);

@@ -1,11 +1,79 @@
 page-ewList {
-    .icontent {
+    
+        .icontent {
+    
+            .icontent-middle {
+                height: 320px;
+                justify-content: center;
+                display: flex!important;
+                align-items: center!important;
 
-        .ilist {
-            
-            .ilist-item {
-                
+                margin-top: 20px;
+                margin-bottom: 20px;
+    
+                .icard {
+                    max-width: 450px;
+                    height: 300px;
+    
+                    border-top: 3px solid;
+                    border-radius: 3px;
+    
+                    .icard-header {
+                        height: 50px;
+    
+                        padding: 10px 16px;
+    
+                        ion-col {
+                            padding: 0px;
+                            font-size: 20px;
+                        }
+                    }
+    
+                    .icard-content {
+                        height: 200px;
+                    }
+    
+                    .head {
+                        font-size: 25px;
+                    }
+    
+                    .body {
+                    }
+    
+                    .icard-foot {
+                        height: 50px;
+                        border-top: 1px solid;
+                        border-color: rgba(196, 196, 196, 0.69);
+                        
+                        .foot-up {}
+                        .foot-desc-col {
+                            .foot-desc-note {
+                                color: gray;
+                            }
+                        }
+                        .foot-down{}
+                    }
+                }
+            }
+    
+            .icard-border-2 {
+                border-color: map-get($word-levels, -2) !important;
+            }
+            .icard-border-1 {
+                border-color: map-get($word-levels, -1) !important;
+            }
+            .icard-border0 {
+                border-color: map-get($word-levels, 0) !important;
+            }
+            .icard-borderundefined {
+                border-color: map-get($word-levels, 0) !important;
+            }
+            .icard-border1 {
+                border-color: map-get($word-levels, 1) !important;
+            }
+            .icard-border2 {
+                border-color: map-get($word-levels, 2) !important;
             }
         }
     }
-}
+    

@@ -10,6 +10,12 @@ export class Word {
 
     //
     lectureName?: string;
+    bodyFlag?: boolean;
+
+    constructor() {
+        this.levelId = 0;
+        this.bodyFlag = false;
+    }
 
     static equals(a: any, b: any) {
         if(a == null || b == null) return false;
