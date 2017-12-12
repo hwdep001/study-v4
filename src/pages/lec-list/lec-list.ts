@@ -11,7 +11,7 @@ import { Category } from './../../models/Category';
 import { Lecture } from './../../models/Lecture';
 import { WordSearch } from './../../models/WordSearch';
 
-import { WordListPage } from './../word-list/word-list';
+import { EwListPage } from './../word-list/ew-list';
 
 @Component({
   selector: 'page-lecList',
@@ -55,9 +55,9 @@ export class LecListPage {
     let count = -1;
     let lecIds = [lec.id];
 
-    wordSearch = new WordSearch(this.cat, levIds, count, lecIds);
+    wordSearch = new WordSearch(this.cat, lec, levIds, count, lecIds);
     
-    this.navCtrl.push(WordListPage, {
+    this.navCtrl.push(EwListPage, {
       activeName: CommonUtil.getActiveName(this.sub.id), 
       wordSearch: wordSearch});
   }
