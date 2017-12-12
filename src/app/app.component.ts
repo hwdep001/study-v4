@@ -14,6 +14,7 @@ import { AngularFireAuth } from 'angularfire2/auth';  // delete X
 
 // providers
 import { CommonUtil } from './../utils/commonUtil';
+import { CommonService } from '../providers/common-service';
 import { DBHelper } from '../providers/db-helper';
 import { TestService } from '../providers/test-service';
 
@@ -26,8 +27,8 @@ import { User } from '../models/User';
 import { SigninPage } from './../pages/signin/signin';
 import { HomePage } from './../pages/home/home';
 import { TestPage } from '../pages/test/test';
+import { CatListPage } from './../pages/cat-list/cat-list';
 import { SettingPage } from '../pages/setting/setting';
-import { CommonService } from '../providers/common-service';
 
 @Component({
   templateUrl: 'app.html'
@@ -118,7 +119,14 @@ export class MyApp {
   setPages() {
     const homePage: PageInterface = { title: '대시보드', name: 'HomePage',  component: HomePage, icon: 'home' };
     const tabsPage: PageInterface = { title: 'Tabs', name: 'TabsPage', component: TestPage, icon: 'home'};
-    const settingPage: PageInterface = { title: '설정', name: 'SettingPage', component: SettingPage, icon: 'home'};
+    const spPage: PageInterface = { title: '맞춤법',   name: 'SpPage',  component: CatListPage, param: {activeName: "SpPage", key: "sp"}, icon: 'book' };
+    const slPage: PageInterface = { title: '표준어',   name: 'SlPage',  component: CatListPage, param: {activeName: "SlPage", key: "sl"}, icon: 'book' };
+    const lwPage: PageInterface = { title: '외래어',   name: 'LwPage',  component: CatListPage, param: {activeName: "LwPage", key: "lw"}, icon: 'book' };
+    const krPage: PageInterface = { title: '어휘',     name: 'KrPage',  component: CatListPage, param: {activeName: "KrPage", key: "kr"}, icon: 'book' };
+    const ccPage: PageInterface = { title: '한자',     name: 'CcPage',  component: CatListPage, param: {activeName: "CcPage", key: "cc"}, icon: 'book' };
+    const c4Page: PageInterface = { title: '한자성어', name: 'C4Page',  component: CatListPage, param: {activeName: "C4Page", key: "c4"}, icon: 'book' };
+    const ewPage: PageInterface = { title: '영단어',   name: 'EwPage',  component: CatListPage, param: {activeName: "EwPage", key: "ew"}, icon: 'book' };
+    const settingPage: PageInterface = { title: '설정', name: 'SettingPage', component: SettingPage, icon: 'settings'};
     // const ewPage: PageInterface = { title: '영단어', name: 'EwPage',  component: CatListPage, param: {activeName: "EwPage", key: "ew"}, icon: 'book' };
     // const lwPage: PageInterface = { title: '외래어', name: 'LwPage',  component: CatListPage, param: {activeName: "LwPage", key: "lw"}, icon: 'book' };
     // const ciPage: PageInterface = { title: '한자성어', name: 'CiPage',  component: CatListPage, param: {activeName: "CiPage", key: "ci"}, icon: 'book' };
@@ -131,10 +139,13 @@ export class MyApp {
       this.navigatePages.push(tabsPage);
 
       this.studyPages = [];
-      // this.studyPages.push(ewPage);
-      // this.studyPages.push(lwPage);
-      // this.studyPages.push(ciPage);
-      // this.studyPages.push(ccPage);
+      this.studyPages.push(spPage);
+      this.studyPages.push(slPage);
+      this.studyPages.push(lwPage);
+      this.studyPages.push(krPage);
+      this.studyPages.push(ccPage);
+      this.studyPages.push(c4Page);
+      this.studyPages.push(ewPage);
 
       this.accountPages = [];
       this.accountPages.push(settingPage);

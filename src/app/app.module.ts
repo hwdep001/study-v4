@@ -32,8 +32,9 @@ import { SigninPage } from './../pages/signin/signin';
 import { HomePage } from '../pages/home/home';
 import { TestPage } from './../pages/test/test';
   import { Tab1Page } from '../pages/test/tab1/tab1';
+import { CatListPage } from '../pages/cat-list/cat-list';
 import { SettingPage } from '../pages/setting/setting';
-  import { WordMngPage } from './../pages/setting/word-setting/word-mng';
+  import { WordMngPage } from './../pages/setting/word-mng/word-mng';
   
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { SettingPage } from '../pages/setting/setting';
     HomePage,
     TestPage,
       Tab1Page,
+    CatListPage,
     SettingPage,
       WordMngPage
   ],
@@ -60,6 +62,7 @@ import { SettingPage } from '../pages/setting/setting';
     HomePage,
     TestPage,
       Tab1Page,
+    CatListPage,
     SettingPage,
       WordMngPage
   ],

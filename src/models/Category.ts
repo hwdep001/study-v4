@@ -3,7 +3,7 @@ export class Category {
     name?: string;
     num?: number;
     version?: number;
-
+    
     subjectId?: string;
 
     static equals(a: any, b: any) {

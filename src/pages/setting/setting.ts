@@ -1,4 +1,3 @@
-import { WordMngPage } from './word-setting/word-mng';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
@@ -7,6 +6,8 @@ import * as firebase from 'firebase/app';
 import { CommonUtil } from './../../utils/commonUtil';
 
 import { User } from '../../models/User';
+
+import { WordMngPage } from './word-mng/word-mng';
 
 @Component({
   selector: 'page-setting',
