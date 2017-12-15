@@ -23,11 +23,4 @@ export class HomePage {
   ) {
     this.user = cmn_.user;
   }
-
-  //test
-  clickSignOutBtn() {
-    firebase.auth().signOut().then( () => {
-      this.navCtrl.setRoot(SigninPage);
-    });
-  }
 }
