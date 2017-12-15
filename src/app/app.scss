@@ -37,6 +37,18 @@
 
 
 
+// toast
+.toast-success {
+    div {
+        background-color: map-get($word-levels, lev1);
+    }
+}
+.toast-fail {
+    div {
+        background-color: map-get($word-levels, lev-1);
+    }
+}
+
 
 
 // side menu background color

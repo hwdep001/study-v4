@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 
 import * as firebase from 'firebase/app';
 
@@ -28,7 +27,6 @@ export class WordMngPage {
 
   constructor(
     public navCtrl: NavController,
-    private toastCtrl: ToastController,
     private cmn_: CommonService,
     private dbHelper: DBHelper,
     private test_: TestService
@@ -70,7 +68,7 @@ export class WordMngPage {
 
   initWordLevel() {
     this.dbHelper.updateAllLevelWord(0).then(any => {
-      this.showToast("bottom", "초기화되었습니다.");
+      this.cmn_.Toast.present("bottom", "초기화되었습니다.", null);
     });
   }
 
@@ -370,15 +368,5 @@ export class WordMngPage {
 
       return Promise.all(pros3);
     });
-  }
-
-  private showToast(position: string, message: string, duration?: number) {
-    let toast = this.toastCtrl.create({
-      message: message,
-      position: position,
-      duration: (duration == null) ? 2500 : duration
-    });
-
-    toast.present(toast);
   }
 }
