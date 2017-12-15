@@ -1,0 +1,82 @@
+page-krList {
+    
+        .icontent {
+    
+            .icontent-middle {
+                height: 520px;
+                justify-content: center;
+                display: flex!important;
+                align-items: center!important;
+
+                margin-top: 20px;
+                margin-bottom: 20px;
+    
+                .icard {
+                    max-width: 450px;
+                    height: 500px;
+    
+                    border-top: 3px solid;
+                    border-radius: 3px;
+
+                    .icard-ex {
+                        height: 400px;
+                        .ex {
+                            white-space: pre-wrap;
+                            font-size: 18px;
+                        }
+                    }
+    
+                    .icard-header {
+                        height: 50px;
+                        border-bottom: 1px solid;
+                        border-color: rgba(196, 196, 196, 0.69);
+                    }
+    
+                    .icard-body1 {
+                        height: 340px;
+                        .meaning {
+                            white-space: pre-wrap;
+                            font-size: 18px;
+                        }
+                    }
+
+                    .icard-body2 {
+                        height: 60px;
+                        color: rgb(35, 115, 190);
+                        font-size: 30px;
+                    }
+
+                    .icard-footer {
+                        height: 50px;
+                        border-top: 1px solid;
+                        border-color: rgba(196, 196, 196, 0.69);
+                        
+                        .footer-up {}
+                        .footer-desc-col {
+                            .footer-desc-note {
+                                color: gray;
+                            }
+                        }
+                        .footer-down{}
+                    }
+                }
+            }
+    
+            .icard-border-2 {
+                border-color: map-get($word-levels, lev-2) !important;
+            }
+            .icard-border-1 {
+                border-color: map-get($word-levels, lev-1) !important;
+            }
+            .icard-border0 {
+                border-color: map-get($word-levels, lev0) !important;
+            }
+            .icard-border1 {
+                border-color: map-get($word-levels, lev1) !important;
+            }
+            .icard-border2 {
+                border-color: map-get($word-levels, lev2) !important;
+            }
+        }
+    }
+    

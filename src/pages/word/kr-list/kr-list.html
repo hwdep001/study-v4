@@ -12,30 +12,33 @@
   <div class="icontent-middle" *ngFor="let word of words; let i = index" >
     <ion-card class="icard" text-wrap [ngClass]="'icard-border' + word.levelId">
       <!-- ///////////////////////////////////////////////////////////////////// -->
-      <div (click)="word.flag1 = !word.flag1" >
-        <ion-row class="icard-header">
-          <ion-col align-self-center text-center>
-            {{word.que}}
-          </ion-col>
-        </ion-row>
+      <ion-row class="icard-header" (click)="word.flag2 = !word.flag2" >
+        <ion-col align-self-center text-right>
+          <ion-label *ngIf="word.flag2 == false" >예시 보기&nbsp;
+            <ion-icon name="arrow-round-forward"></ion-icon>
+          </ion-label>
+          <ion-label *ngIf="word.flag2 == true">뜻 보기&nbsp;
+            <ion-icon name="arrow-round-back"></ion-icon>
+          </ion-label>
+        </ion-col>
+      </ion-row>
 
+      <ion-row class="icard-ex" *ngIf="word.flag2 == true">
+        <ion-card-content align-self-center>
+          <ion-label class="ex">{{word.ant}}</ion-label>
+        </ion-card-content>
+      </ion-row>
+      
+      <div *ngIf="word.flag2 == false" (click)="word.flag1 = !word.flag1">
         <ion-row class="icard-body1">
+          <ion-card-content align-self-center>
+            <ion-label class="meaning">{{word.syn}}</ion-label>
+          </ion-card-content>
+        </ion-row>
+        <ion-row class="icard-body2">
           <ion-col *ngIf="word.flag1 == true" align-self-center text-center>
-            {{word.me3}}
+            {{word.me7}}
           </ion-col>
-        </ion-row>
-        <ion-row class="icard-body2">
-          <ion-col align-self-center text-center>
-            <button ion-button outline block color="gray">{{word.me1}}</button>
-          </ion-col>
-        </ion-row>
-        <ion-row class="icard-body2">
-          <ion-col align-self-center text-center>
-            <button ion-button outline block color="gray">{{word.me2}}</button>
-          </ion-col>
-        </ion-row>
-        <ion-row class="icard-body3">
-          <br>
         </ion-row>
       </div>
       <!-- ///////////////////////////////////////////////////////////////////// -->

@@ -13,6 +13,7 @@ import { WordSearch } from './../../models/WordSearch';
 import { EwListPage } from './../word/ew-list/ew-list';
 import { SpsllwListPage } from './../word/spsllw-list/spsllw-list';
 import { WordTestPage } from './../word/word-test/word-test';
+import { KrListPage } from './../word/kr-list/kr-list';
 
 @Component({
   selector: 'page-lecList',
@@ -67,11 +68,12 @@ export class LecListPage {
         this.navCtrl.push(SpsllwListPage, params);
         break;
       case "kr":
+        this.navCtrl.push(KrListPage, params);
         break;
       case "cc":
-        break;
+        // break;
       case "c4":
-        break;
+        // break;
       case "ew":
         this.navCtrl.push(EwListPage, params);
         break;

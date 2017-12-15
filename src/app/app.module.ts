@@ -39,6 +39,7 @@ import { WordTestPage } from './../pages/word/word-test/word-test';
 import { SettingTabPage } from './../pages/setting/setting-tab';
   import { InfoPage } from './../pages/setting/info/info';
   import { WordMngPage } from './../pages/setting/word-mng/word-mng';
+import { KrListPage } from '../pages/word/kr-list/kr-list';
   
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { SettingTabPage } from './../pages/setting/setting-tab';
     LecListPage,
     EwListPage,
     SpsllwListPage,
+    KrListPage,
     WordTestPage,
     SettingTabPage,
       InfoPage,
@@ -75,6 +77,7 @@ import { SettingTabPage } from './../pages/setting/setting-tab';
     LecListPage,
     EwListPage,
     SpsllwListPage,
+    KrListPage,
     WordTestPage,
     SettingTabPage,
       InfoPage,
