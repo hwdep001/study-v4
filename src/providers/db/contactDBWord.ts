@@ -213,8 +213,8 @@ export class ContactDBWord {
                                     + " FROM word "
                                     + " WHERE lectureId=? "
                                     + " ORDER BY num",
-            SELECT_BY_SEARCH:   "SELECT w.id, w.num, w.lectureId, w.levelId, w.qeu, w.me1, w.me2, w.me3, w.me4, " 
-                                    + " w.me5, w.me6, w.me7, w.me8, w.me9, w.me10, w.me11, w.me12, w.me13, w.syn, w.ant"
+            SELECT_BY_SEARCH:   "SELECT w.id, w.num, w.lectureId, w.levelId, w.que, w.me1, w.me2, w.me3, w.me4, " 
+                                    + " w.me5, w.me6, w.me7, w.me8, w.me9, w.me10, w.me11, w.me12, w.me13, w.syn, w.ant, "
                                     + " l.name as lectureName "
                                     + " FROM word w "
                                     + " LEFT JOIN lecture l ON w.lectureId = l.id "

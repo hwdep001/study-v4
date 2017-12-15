@@ -14,7 +14,7 @@ export class ContactDBCount {
     }
 
     createTable(sqlOb: SQLiteObject) {
-        sqlOb.executeSql(this.query.CREATE_TABLE, {})
+        return sqlOb.executeSql(this.query.CREATE_TABLE, {})
         .then(res => {
             console.log("TABLE CREATED: " + this.TAG);
         })
@@ -49,9 +49,25 @@ export class ContactDBCount {
     selectAll(sqlOb: SQLiteObject): Promise<any> {
         return sqlOb.executeSql(this.query.SELECT_ALL, {});
     }
-
     
 
+
+    initDefaultData(sqlOb: SQLiteObject): Promise<any> {
+        let pros = new Array<Promise<any>>();
+
+        let cnts: Array<Count> = new Array();
+        
+        for(let i=10; i<=100; i=i+10) {
+            cnts.push({id: i});
+        }
+
+        cnts.forEach(cnt => {
+            pros.push(this.insert(sqlOb, cnt));
+        });
+
+        return Promise.all(pros);
+    }
+    
     private initQuery() {
         this.query = {
             CREATE_TABLE:       "CREATE TABLE IF NOT EXISTS count ("

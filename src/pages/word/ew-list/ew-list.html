@@ -14,20 +14,20 @@
 
       <ion-row class="icard-header">
         <ion-col align-self-center text-center *ngIf="word.bodyFlag == true" (click)="word.bodyFlag = !word.bodyFlag">
-          {{word.head1}}
+          {{word.que}}
         </ion-col>
       </ion-row>
 
       <ion-row class="icard-content head"  
                 *ngIf="word.bodyFlag == false" (click)="word.bodyFlag = !word.bodyFlag">
         <ion-col align-self-center text-center>
-            {{word.head1}}
+            {{word.que}}
         </ion-col>
       </ion-row>
 
       <ion-card-content class="icard-content body" align-self-center 
                         *ngIf="word.bodyFlag == true" (click)="word.bodyFlag = !word.bodyFlag">
-        <pre>{{word.body1}}</pre>
+        <pre>{{word.me2}}</pre>
       </ion-card-content>
 
       <ion-row class="icard-foot">

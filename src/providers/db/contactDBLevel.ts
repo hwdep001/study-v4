@@ -52,6 +52,23 @@ export class ContactDBLevel {
 
     
 
+    initDefaultData(sqlOb: SQLiteObject): Promise<any> {
+        let pros = new Array<Promise<any>>();
+
+        let levs: Array<Level> = new Array();
+        levs.push({id:  2, name: "Very Easy"});
+        levs.push({id:  1, name: "Easy"});
+        levs.push({id:  0, name: "Normal"});
+        levs.push({id:  -1, name: "Difficult"});
+        levs.push({id:  -2, name: "Very Difficult"});
+
+        levs.forEach(lev => {
+            pros.push(this.insert(sqlOb, lev));
+        });
+
+        return Promise.all(pros);
+    }
+
     private initQuery() {
         this.query = {
             CREATE_TABLE:       "CREATE TABLE IF NOT EXISTS level ("

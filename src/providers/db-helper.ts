@@ -87,6 +87,10 @@ export class DBHelper {
   // Count
   //////////////////////////////////////////////
 
+  initDefaultDataCount(): Promise<any> {
+    return this.countDB.initDefaultData(this.sqlOb);
+  }
+
   insertCount(count: Count): Promise<any> {
     return this.countDB.insert(this.sqlOb, count);
   }
@@ -110,6 +114,10 @@ export class DBHelper {
   //////////////////////////////////////////////
   // Level
   //////////////////////////////////////////////
+
+  initDefaultDataLevel(): Promise<any> {
+    return this.levelDB.initDefaultData(this.sqlOb);
+  }
 
   insertLevel(level: Level): Promise<any> {
     return this.levelDB.insert(this.sqlOb, level);
@@ -135,12 +143,20 @@ export class DBHelper {
   // SUBJECT
   //////////////////////////////////////////////
 
+  initDefaultDataSub(): Promise<Array<Subject>> {
+    return this.subDB.initDefaultData(this.sqlOb);
+  }
+
   insertSub(sub: Subject): Promise<any> {
     return this.subDB.insert(this.sqlOb, sub);
   }
 
   updateSub(sub: Subject): Promise<any> {
     return this.subDB.update(this.sqlOb, sub);
+  }
+
+  deleteSub(): Promise<any> {
+    return this.subDB.delete(this.sqlOb);
   }
 
   selectAllForSub(): Promise<Array<Subject>> {

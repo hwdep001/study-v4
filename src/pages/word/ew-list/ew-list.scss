@@ -57,22 +57,19 @@ page-ewList {
             }
     
             .icard-border-2 {
-                border-color: map-get($word-levels, -2) !important;
+                border-color: map-get($word-levels, lev-2) !important;
             }
             .icard-border-1 {
-                border-color: map-get($word-levels, -1) !important;
+                border-color: map-get($word-levels, lev-1) !important;
             }
             .icard-border0 {
-                border-color: map-get($word-levels, 0) !important;
-            }
-            .icard-borderundefined {
-                border-color: map-get($word-levels, 0) !important;
+                border-color: map-get($word-levels, lev0) !important;
             }
             .icard-border1 {
-                border-color: map-get($word-levels, 1) !important;
+                border-color: map-get($word-levels, lev1) !important;
             }
             .icard-border2 {
-                border-color: map-get($word-levels, 2) !important;
+                border-color: map-get($word-levels, lev2) !important;
             }
         }
     }

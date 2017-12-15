@@ -60,7 +60,29 @@ export class ContactDBSubject {
     selectById(sqlOb: SQLiteObject, id: string): Promise<any> {
         return sqlOb.executeSql(this.query.SELECT_BY_ID, [id]);
     }
+    
 
+
+    initDefaultData(sqlOb: SQLiteObject): Promise<Array<Subject>> {
+        let pros = new Array<Promise<any>>();
+
+        let subs: Array<Subject> = new Array();
+        subs.push({id: "sp", name: "맞춤법",   num: 1});
+        subs.push({id: "sl", name: "표준어",   num: 2});
+        subs.push({id: "lw", name: "외래어",   num: 3});
+        subs.push({id: "kr", name: "어휘",     num: 4});
+        subs.push({id: "cc", name: "한자",     num: 5});
+        subs.push({id: "c4", name: "한자성어", num: 6});
+        subs.push({id: "ew", name: "영단어",   num: 7});
+
+        subs.forEach(sub => {
+            pros.push(this.insert(sqlOb, sub));
+        });
+
+        return Promise.all(pros).then(any => {
+            return subs;
+        });
+    }
     
 
     private initQuery() {

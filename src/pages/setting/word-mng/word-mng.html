@@ -9,19 +9,14 @@
 
 <ion-content class="icontent" scroll=false>
 
-  <ion-item class="drop-btn" *ngIf="user.isAuth" >
-    <button ion-button block (click)="updateWord()" >단어 업데이트</button>
-  </ion-item>
-  <ion-item class="drop-btn" *ngIf="user.isAuth" >
-    <button ion-button block (click)="initWordLevel()" >단어 레벨 초기화</button>
-  </ion-item>
-  <ion-item class="drop-btn" *ngIf="user.isDel" >
-    <button ion-button block (click)="deleteWord()" >데이터 초기화</button>
-  </ion-item>
-
   <ion-list class="ilist" *ngFor="let sub of subs">
     <ion-list-header class="iheader" no-lines>
       {{sub.name}}
+      <ion-buttons item-right class="refresh-btn" (click)="checkCat(sub.id)" >
+        <button ion-button clear icon-only>
+          <ion-icon name="refresh"></ion-icon>
+        </button>
+      </ion-buttons>
     </ion-list-header>
     <ion-item class="iitem" *ngFor="let cat of sub.cats">
       {{cat.name}}
@@ -29,5 +24,18 @@
         {{cat.version}}
       </ion-note>
     </ion-item>
+    <ng-container *ngIf="sub.cats?.length == 0">
+    <ion-item class="iitem" *ngFor="let num of [0,1]" no-lines>
+    </ion-item>
+    </ng-container>
   </ion-list>
+
+  <br>
+  <ion-item class="drop-btn" >
+    <button ion-button block (click)="initWordLevel()" >단어 레벨 초기화</button>
+  </ion-item>
+  <ion-item class="drop-btn" *ngIf="cmn_.isDel" >
+    <button ion-button block (click)="deleteWord()" >데이터 초기화</button>
+  </ion-item>
+
 </ion-content>

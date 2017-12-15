@@ -56,8 +56,16 @@ export class CommonService {
         return this.existUser? this.user_.isDel : false;
     }
 
+    get ad(): boolean {
+        return true;
+    }
+
     get existUser(): boolean {
         return this.user_ == null ? false: true;
+    }
+
+    setIsDel(isDel: boolean): void {
+        this.user.isDel = isDel;
     }
 
     setUser(user) {

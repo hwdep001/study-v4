@@ -142,7 +142,7 @@ export class MyApp {
   }
 
   setPages() {
-    const homePage: PageInterface = { title: '대시보드', name: 'HomePage',  component: HomePage, icon: 'home' };
+    const homePage: PageInterface = { title: 'Home', name: 'HomePage',  component: HomePage, icon: 'home' };
     const tabsPage: PageInterface = { title: 'Tabs', name: 'TabsPage', component: TestPage, icon: 'home'};
     const spPage: PageInterface = { title: '맞춤법',   name: 'SpPage',  component: CatListPage, param: {activeName: "SpPage", id: "sp"}, icon: 'book' };
     const slPage: PageInterface = { title: '표준어',   name: 'SlPage',  component: CatListPage, param: {activeName: "SlPage", id: "sl"}, icon: 'book' };
@@ -156,7 +156,9 @@ export class MyApp {
     if(this.cmn_.isAuth){
       this.navigatePages = [];
       this.navigatePages.push(homePage);
-      this.navigatePages.push(tabsPage);
+      if(this.cmn_.ad) {
+        this.navigatePages.push(tabsPage);
+      }
 
       this.studyPages = [];
       this.studyPages.push(spPage);

@@ -7,7 +7,6 @@ import { CommonService } from './../../../providers/common-service';
 import { DBHelper } from './../../../providers/db-helper';
 import { TestService } from './../../../providers/test-service';
 
-import { Count } from '../../../models/Count';
 import { Subject } from './../../../models/Subject';
 import { Category } from './../../../models/Category';
 import { Lecture } from './../../../models/Lecture';
@@ -23,7 +22,6 @@ export class WordMngPage {
 
   private subsRef: firebase.firestore.CollectionReference;
   private subs: Array<Subject>;
-  private user;
 
   constructor(
     public navCtrl: NavController,
@@ -31,141 +29,83 @@ export class WordMngPage {
     private dbHelper: DBHelper,
     private test_: TestService
   ) {
-    this.isCordova = dbHelper.isCordova;
+    const loader = this.cmn_.getLoader(null, null);
+    loader.present();
 
+    this.isCordova = dbHelper.isCordova;
     this.subsRef = firebase.firestore().collection("subs");
-    this.user = cmn_.user;
-    this.getSubject();
+    this.initData().then(any => loader.dismiss()).catch(err => loader.dismiss());
   }
 
-  getSubject() {
+  private initData(): Promise<any> {
+
+    let pros = new Array<Promise<any>>();
     if(this.dbHelper.isCordova) {
-      const loader = this.cmn_.getLoader(null, null);
-      loader.present();
-
-      this.dbHelper.selectAllForSub().then(items => {
-        let pros = new Array<Promise<any>>();
-
-        this.subs = items;
-
+      pros.push(this.checkCount());
+      pros.push(this.checkLevel());
+      pros.push(this.checkSub().then(any => {
         for(let i=0; i<this.subs.length; i++) {
           pros.push(this.dbHelper.selectBySubIdForCat(this.subs[i].id).then(cats => {
             this.subs[i].cats = cats;
           }));
         }
-
-        return Promise.all(pros);
-      }).then(any => loader.dismiss())
-      .catch(err => loader.dismiss());
-    ///////////////////////////////////////////////////////////
+      }));
     } else {
       this.subs = this.test_.selectAllSubs();
       for(let i=0; i<this.subs.length; i++) {
-        this.subs[i].cats = this.test_.selectAllCatsBySubId(this.subs[i].id);
+        this.subs[i].cats = [];
+        // this.subs[i].cats = this.test_.selectAllCatsBySubId(this.subs[i].id);
       }
     }
+
+    return Promise.all(pros);
   }
 
-  initWordLevel() {
-    this.dbHelper.updateAllLevelWord(0).then(any => {
-      this.cmn_.Toast.present("bottom", "초기화되었습니다.", null);
+  private checkCount(): Promise<any> {
+    return this.dbHelper.selectAllForCount().then(items => {
+
+      if(items.length != 10) {
+        return this.dbHelper.deleteCount().then(any => {
+
+          return this.dbHelper.initDefaultDataCount();
+        }); 
+      }
     });
   }
 
-  deleteWord() {
-    this.dbHelper.deleteTables().then(any => {
-      this.getSubject();
+  private checkLevel(): Promise<any> {
+    return this.dbHelper.selectAllForLevel().then(items => {
+
+      if(items.length != 5) {
+        return this.dbHelper.deleteLevel().then(any => {
+
+          return this.dbHelper.initDefaultDataLevel();
+        });
+      }
     });
   }
 
-  updateWord() {
+  private checkSub(): Promise<any> {
+    return this.dbHelper.selectAllForSub().then(items => {
+      
+      if(items.length != 7) {
+        return this.dbHelper.deleteSub().then(any => {
+
+          return this.dbHelper.initDefaultDataSub().then(newSubs => {
+            this.subs = newSubs;
+          });
+        });
+      } else {
+        this.subs = items;
+      }
+    });
+  }
+
+  checkCat(subId: string) {
     const loader = this.cmn_.getLoader(null, null);
     loader.present();
-    
-    let pros = new Array<Promise<any>>();
-    pros.push(this.checkCount());
-    pros.push(this.checkLevel());
-    pros.push(this.checkSub());
 
-    Promise.all(pros).then(any => {
-      loader.dismiss();
-      this.getSubject();
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    }).catch(err => {
-      loader.dismiss();
-      this.getSubject();
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!! : " + err);
-    });
-  }
-
-  checkCount(): Promise<any> {
-    return this.dbHelper.deleteCount().then(any => {
-      return firebase.firestore().collection("counts").doc("counts").get().then(doc => {
-        if(doc.exists) {
-          
-          let data = doc.data();
-          let pros = new Array<Promise<any>>();
-
-          for(let i=0; i<data.array.length; i++) {
-            pros.push(this.dbHelper.insertCount(new Count(data.array[i])));
-          }
-  
-          return Promise.all(pros);
-        }
-      });
-    }); 
-  }
-
-  checkLevel(): Promise<any> {
-    return this.dbHelper.deleteLevel().then(any => {
-      return firebase.firestore().collection("levels").get().then(querySnapshot => {
-        
-        let pros = new Array<Promise<any>>();
-
-        querySnapshot.forEach(levDs => {
-          let level = levDs.data();
-          level.id = levDs.id;
-          pros.push(this.dbHelper.insertLevel(level));
-        });
-
-        return Promise.all(pros);
-      });
-    }); 
-  }
-
-  checkSub(): Promise<any> {
-    return this.subsRef.orderBy("num").get().then(querySnapshop => {
-
-      let pros = new Array<Promise<any>>();
-
-      querySnapshop.forEach(subDs => {
-        let result: Promise<any>;
-        let sub_: Subject;
-        let sub = subDs.data();
-        sub.id = subDs.id;
-
-        pros.push(this.dbHelper.selectByIdForSub(sub.id).then(item => {
-          sub_ = item;
-
-          if(sub_ == null) {
-            result = this.dbHelper.insertSub(sub);
-          } else {
-            result = this.dbHelper.updateSub(sub);
-          }
-
-          return result.then(any => {
-            return this.checkCat(sub.id);
-          });
-        }));
-      });
-
-      return Promise.all(pros);
-    });
-  }
-
-  checkCat(subId: string): Promise<any> {
-
-    return this.subsRef.doc(subId).collection("cats").orderBy("num").get().then(querySnapshot => {
+    let pro = this.subsRef.doc(subId).collection("cats").orderBy("num").get().then(querySnapshot => {
 
       let pros3 = new Array<Promise<any>>();
       let map = new Map<string, Category>();
@@ -232,9 +172,13 @@ export class WordMngPage {
 
       return Promise.all(pros3);
     });
-  }
 
-  checkLec(catDs: firebase.firestore.DocumentSnapshot, cat: Category): Promise<any> {
+    pro.then(any => {
+      this.initData().then(any => loader.dismiss()).catch(err => loader.dismiss());
+    }).catch(err => loader.dismiss());
+  }
+    
+  private checkLec(catDs: firebase.firestore.DocumentSnapshot, cat: Category): Promise<any> {
     
     return catDs.ref.collection("lecs").orderBy("num").get().then(querySnapshot => {
 
@@ -305,7 +249,7 @@ export class WordMngPage {
     });
   }
 
-  checkWord(lecDs: firebase.firestore.DocumentSnapshot, cat: Category, lec: Lecture): Promise<any> {
+  private checkWord(lecDs: firebase.firestore.DocumentSnapshot, cat: Category, lec: Lecture): Promise<any> {
     
     return lecDs.ref.collection("words").orderBy("num").get().then(querySnapshot => {
 
@@ -369,4 +313,35 @@ export class WordMngPage {
       return Promise.all(pros3);
     });
   }
+
+  initWordLevel() {
+    this.cmn_.Alert.confirm("모든 단어의 레벨을 초기화하시겠습니까?").then(any => {
+
+      const loader = this.cmn_.getLoader(null, null);
+      loader.present();
+  
+      this.dbHelper.updateAllLevelWord(0).then(any => {
+        loader.dismiss();
+        this.cmn_.Toast.present("bottom", "초기화되었습니다.", null);
+      }).catch(err => loader.dismiss());
+    }).catch(err => {});
+  }
+
+  deleteWord() {
+    this.cmn_.Alert.confirm("모든 단어 및 데이터를 삭제하시겠습니까?").then(any => {
+      const loader = this.cmn_.getLoader(null, null);
+      loader.present();
+  
+      this.dbHelper.deleteTables().then(any => {
+        return this.initData().then(any => {
+          return firebase.firestore().collection("users").doc(this.cmn_.uid).update({isDel: false});
+        })
+      }).then(any => {
+        loader.dismiss();
+        this.cmn_.setIsDel(false);
+        this.cmn_.Toast.present("bottom", "삭제하였습니다.", null);
+      }).catch(err => loader.dismiss());
+    }).catch(err => {});
+  }
+
 }
