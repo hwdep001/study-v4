@@ -27,7 +27,7 @@ import { SigninPage } from './../pages/signin/signin';
 import { HomePage } from './../pages/home/home';
 import { TestPage } from './../pages/test/test';
 import { CatListPage } from './../pages/cat-list/cat-list';
-import { SettingPage } from './../pages/setting/setting';
+import { SettingTabPage } from './../pages/setting/setting-tab';
 
 @Component({
   templateUrl: 'app.html'
@@ -151,7 +151,7 @@ export class MyApp {
     const ccPage: PageInterface = { title: '한자',     name: 'CcPage',  component: CatListPage, param: {activeName: "CcPage", id: "cc"}, icon: 'book' };
     const c4Page: PageInterface = { title: '한자성어', name: 'C4Page',  component: CatListPage, param: {activeName: "C4Page", id: "c4"}, icon: 'book' };
     const ewPage: PageInterface = { title: '영단어',   name: 'EwPage',  component: CatListPage, param: {activeName: "EwPage", id: "ew"}, icon: 'book' };
-    const settingPage: PageInterface = { title: '설정', name: 'SettingPage', component: SettingPage, icon: 'settings'};
+    const settingTabPage: PageInterface = { title: '설정', name: 'SettingTabPage', component: SettingTabPage, icon: 'settings'};
 
     if(this.cmn_.isAuth){
       this.navigatePages = [];
@@ -168,7 +168,7 @@ export class MyApp {
       this.studyPages.push(ewPage);
 
       this.accountPages = [];
-      this.accountPages.push(settingPage);
+      this.accountPages.push(settingTabPage);
     }
 
     this.menuTitle.header = "Menu";

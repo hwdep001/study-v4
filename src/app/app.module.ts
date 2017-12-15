@@ -35,7 +35,8 @@ import { CatListPage } from './../pages/cat-list/cat-list';
 import { LecListPage } from './../pages/lec-list/lec-list';
 import { EwListPage } from './../pages/word/ew-list/ew-list';
 import { WordTestPage } from './../pages/word/word-test/word-test';
-import { SettingPage } from './../pages/setting/setting';
+import { SettingTabPage } from './../pages/setting/setting-tab';
+  import { InfoPage } from './../pages/setting/info/info';
   import { WordMngPage } from './../pages/setting/word-mng/word-mng';
   
 @NgModule({
@@ -49,7 +50,8 @@ import { SettingPage } from './../pages/setting/setting';
     LecListPage,
     EwListPage,
     WordTestPage,
-    SettingPage,
+    SettingTabPage,
+      InfoPage,
       WordMngPage
   ],
   imports: [
@@ -71,7 +73,8 @@ import { SettingPage } from './../pages/setting/setting';
     LecListPage,
     EwListPage,
     WordTestPage,
-    SettingPage,
+    SettingTabPage,
+      InfoPage,
       WordMngPage
   ],
   providers: [
