@@ -11,12 +11,12 @@ declare global {
         pushArray(array: Array<T>): void;
         shuffleArray(): void;
     }
-    }
+}
 
-    /**
-     * yyMMdd
-     */
-    Date.prototype.yyMMdd = function(): string {
+/**
+ * yyMMdd
+ */
+Date.prototype.yyMMdd = function(): string {
     var yy = this.getFullYear().toString().slice(2, 4);
     var MM = this.getMonth() + 1; // getMonth() is zero-based
     var dd = this.getDate();
@@ -25,12 +25,12 @@ declare global {
             (MM>9 ? '' : '0') + MM,
             (dd>9 ? '' : '0') + dd
             ].join('');
-    };
+};
 
-    /**
-     * yyyy-MM-dd HH:mm:ss
-     */
-    Date.prototype.yyyy_MM_dd_HH_mm_ss = function(): string {
+/**
+ * yyyy-MM-dd HH:mm:ss
+ */
+Date.prototype.yyyy_MM_dd_HH_mm_ss = function(): string {
     var yyyy = this.getFullYear();
     var MM = this.getMonth() + 1; // getMonth() is zero-based
     var dd = this.getDate();
@@ -45,13 +45,13 @@ declare global {
             (mm>9 ? '' : '0') + mm, ":",
             (ss>9 ? '' : '0') + ss
             ].join('');
-    };
+};
 
-    Array.prototype.pushArray = function(array) {
+Array.prototype.pushArray = function(array) {
     this.push.apply(this, array);
-    };
+};
 
-    Array.prototype.shuffleArray = function() {
+Array.prototype.shuffleArray = function() {
     let m = this.length, t, i;
 
     while (m) {

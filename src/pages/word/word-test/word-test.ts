@@ -13,6 +13,7 @@ import { Lecture } from './../../../models/Lecture';
 import { WordSearch } from './../../../models/WordSearch';
 
 import { EwListPage } from './../ew-list/ew-list';
+import { SpsllwListPage } from './../spsllw-list/spsllw-list';
 
 @Component({
   selector: 'page-wordTest',
@@ -160,17 +161,30 @@ export class WordTestPage {
 
   startTest() {
     this.setSelectLecs();
-    console.log("cnt: " + this.selectCnt);
-    console.log("levs: " + this.selectLevs.toString());
-    console.log("lecs length: " + this.selectLecs.length);
-
-    let wordSearch = new WordSearch(this.cat, null, 
-      this.selectLecs, this.selectLevs, this.selectCnt, true);
     
-    this.navCtrl.push(EwListPage, {
+    const params = {
       activeName: CommonUtil.getActiveName(this.sub.id), 
-      wordSearch: wordSearch
-    });
+      wordSearch: new WordSearch(
+        this.cat, null, this.selectLecs, this.selectLevs, this.selectCnt, true
+      )
+    }
+
+    switch(this.sub.id) {
+      case "sp":
+      case "sl":
+      case "lw":
+        this.navCtrl.push(SpsllwListPage, params);
+        break;
+      case "kr":
+        break;
+      case "cc":
+        break;
+      case "c4":
+        break;
+      case "ew":
+        this.navCtrl.push(EwListPage, params);
+        break;
+    }
   }
 
   setSelectLecs(): void {

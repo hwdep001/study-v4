@@ -1,0 +1,82 @@
+page-spsllwList {
+    
+        .icontent {
+    
+            .icontent-middle {
+                height: 420px;
+                justify-content: center;
+                display: flex!important;
+                align-items: center!important;
+
+                margin-top: 20px;
+                margin-bottom: 20px;
+    
+                .icard {
+                    max-width: 450px;
+                    height: 400px;
+    
+                    border-top: 3px solid;
+                    border-radius: 3px;
+    
+                    .icard-header {
+                        height: 190px;
+                        padding: 10px 16px;
+    
+                        ion-col {
+                            padding: 0px;
+                            font-size: 22px;
+                        }
+                    }
+    
+                    .icard-body1 {
+                        height: 50px;
+                        color: rgb(35, 115, 190);
+                        font-size: 18px;
+                    }
+
+                    .icard-body2 {
+                        height: 50px;
+                        margin-left: 5%;
+                        margin-right: 5%;
+                        botton {
+                        }
+                    }
+
+                    .icard-body3 {
+                        height: 10px;
+                    }
+
+                    .icard-footer {
+                        height: 50px;
+                        border-top: 1px solid;
+                        border-color: rgba(196, 196, 196, 0.69);
+                        
+                        .footer-up {}
+                        .footer-desc-col {
+                            .footer-desc-note {
+                                color: gray;
+                            }
+                        }
+                        .footer-down{}
+                    }
+                }
+            }
+    
+            .icard-border-2 {
+                border-color: map-get($word-levels, lev-2) !important;
+            }
+            .icard-border-1 {
+                border-color: map-get($word-levels, lev-1) !important;
+            }
+            .icard-border0 {
+                border-color: map-get($word-levels, lev0) !important;
+            }
+            .icard-border1 {
+                border-color: map-get($word-levels, lev1) !important;
+            }
+            .icard-border2 {
+                border-color: map-get($word-levels, lev2) !important;
+            }
+        }
+    }
+    

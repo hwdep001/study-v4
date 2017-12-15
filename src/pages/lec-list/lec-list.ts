@@ -11,6 +11,7 @@ import { Lecture } from './../../models/Lecture';
 import { WordSearch } from './../../models/WordSearch';
 
 import { EwListPage } from './../word/ew-list/ew-list';
+import { SpsllwListPage } from './../word/spsllw-list/spsllw-list';
 import { WordTestPage } from './../word/word-test/word-test';
 
 @Component({
@@ -50,24 +51,41 @@ export class LecListPage {
   }
 
   clickLec(lec: Lecture): void {
-    let wordSearch: WordSearch;
     let levIds = new Array<number>();
     let count = -1;
     let lecIds = [lec.id];
 
-    wordSearch = new WordSearch(this.cat, lec, lecIds, levIds, count, false);
-    
-    this.navCtrl.push(EwListPage, {
+    const params = {
       activeName: CommonUtil.getActiveName(this.sub.id), 
-      wordSearch: wordSearch
-    });
+      wordSearch: new WordSearch(this.cat, lec, lecIds, levIds, count, false)
+    }
+
+    switch(this.sub.id) {
+      case "sp":
+      case "sl":
+      case "lw":
+        this.navCtrl.push(SpsllwListPage, params);
+        break;
+      case "kr":
+        break;
+      case "cc":
+        break;
+      case "c4":
+        break;
+      case "ew":
+        this.navCtrl.push(EwListPage, params);
+        break;
+    }
   }
 
   moveWordTestPage(): void {
-    this.navCtrl.push(WordTestPage, {
+    const params = {
       activeName: CommonUtil.getActiveName(this.sub.id), 
-      sub: this.sub, cat: this.cat
-    });
+      sub: this.sub, 
+      cat: this.cat
+    }
+
+    this.navCtrl.push(WordTestPage, params);
   }
 
 }
