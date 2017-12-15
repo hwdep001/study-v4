@@ -4,6 +4,7 @@ import { NavController } from 'ionic-angular';
 import * as firebase from 'firebase/app';
 
 import { CommonUtil } from './../../utils/commonUtil';
+import { CommonService } from '../../providers/common-service';
 
 import { SigninPage } from './../signin/signin';
 
@@ -14,19 +15,16 @@ import { SigninPage } from './../signin/signin';
 export class HomePage {
 
   //test
-  user; // :User
+  user;
 
   constructor(
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private cmn_: CommonService
   ) {
-    this.user = CommonUtil.fireUser2user(firebase.auth().currentUser);
-    firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).get().then(doc => {
-      if(doc.exists) {
-        this.user = doc.data();
-      }
-    })
+    this.user = cmn_.user;
   }
 
+  //test
   clickSignOutBtn() {
     firebase.auth().signOut().then( () => {
       this.navCtrl.setRoot(SigninPage);

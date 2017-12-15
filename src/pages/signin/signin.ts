@@ -9,9 +9,12 @@ import * as firebase from 'firebase/app';
 })
 export class SigninPage {
 
+  user;
+
   constructor(
     public navCtrl: NavController
   ) {
+    this.user = firebase.auth().currentUser;
   }
 
   signInWithGoogle() {

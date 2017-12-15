@@ -3,6 +3,7 @@ import { LoadingController } from 'ionic-angular/components/loading/loading-cont
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 
+import { Loading } from 'ionic-angular/components/loading/loading';
 import { ToastOptions } from 'ionic-angular/components/toast/toast-options';
 import { User } from '../models/User';
 
@@ -18,56 +19,65 @@ export class CommonService {
     }
 
     private user_: User = new User();
-
+    
     get user(): User {
         return this.user_;
     }
 
     get uid(): string {
-        return this.user_.uid;
+        return this.existUser? this.user_.uid : null;
     }
 
     get displayName(): string {
-        return this.user_.displayName;
+        return this.existUser? this.user_.displayName : null;
     }
 
     get email(): string {
-        return this.user_.email;
+        return this.existUser? this.user_.email : null;
     }
 
     get photoURL(): string {
-        return this.user_.photoURL;
+        return this.existUser? this.user_.photoURL : null;
     }
 
     get createDate(): string {
-        return this.user_.createDate;
+        return this.existUser? this.user_.createDate : null;
     }
 
     get lastDate(): string {
-        return this.user_.lastDate;
+        return this.existUser? this.user_.lastDate : null;
     }
 
     get isAuth(): boolean {
-        return this.user_.isAuth;
+        return this.existUser? this.user_.isAuth : false;
     }
 
     get isDel(): boolean {
-        return this.user_.isDel;
+        return this.existUser? this.user_.isDel : false;
+    }
+
+    get existUser(): boolean {
+        return this.user_ == null ? false: true;
     }
 
     setUser(user) {
-        this.user_ = new User();
-        this.user_.uid = user.uid;
-        this.user_.displayName = user.displayName;
-        this.user_.email = user.email;
-        this.user_.photoURL = user.photoURL;
-        this.user_.createDate = user.createDate;
-        this.user_.lastDate = user.lastDate;
-        this.user_.isAuth = user.isAuth;
-        this.user_.isDel = user.isDel;
+
+        if(user == null) {
+            this.user_ = null;
+        } else {
+            this.user_ = new User();
+            this.user_.uid = user.uid;
+            this.user_.displayName = user.displayName;
+            this.user_.email = user.email;
+            this.user_.photoURL = user.photoURL;
+            this.user_.createDate = user.createDate;
+            this.user_.lastDate = user.lastDate;
+            this.user_.isAuth = user.isAuth;
+            this.user_.isDel = user.isDel;
+        }
     }
 
-    getLoader(spinner: string, content: string, duration?: number, dismissOnPageChange?: boolean) {
+    getLoader(spinner: string, content: string, duration?: number, dismissOnPageChange?: boolean): Loading {
         spinner = spinner ? spinner : "bubbles";
         content = content ? content : "Please wait...";
         duration = duration ? duration : 15000;
@@ -131,7 +141,7 @@ export class CommonService {
                     duration: (duration == null) ? 2500 : duration
                 }
                 if(cssClass != null) {
-                options.cssClass = cssClass;
+                    options.cssClass = cssClass;
                 }
 
                 this.toastCtrl.create(options).present();

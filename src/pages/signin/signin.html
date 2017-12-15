@@ -4,13 +4,13 @@
 <ion-content class="icontent" padding>
   <ion-list class="ilist">
     <ion-item class="item-btn" no-lines>
-        <button class="signInBtn" ion-button block icon-left (click)="signInWithGoogle()">
-            <ion-icon name="logo-googleplus"></ion-icon>
-            SIGN IN WITH Google
-        </button>
-        <button class="signInBtn" ion-button block icon-left (click)="signOut()">
+      <button class="signInBtn" ion-button block icon-left (click)="signInWithGoogle()" *ngIf="user == null" >
           <ion-icon name="logo-googleplus"></ion-icon>
-          SIGN OUT
+          SIGN IN WITH Google
+      </button>
+      <button class="signInBtn" ion-button block icon-left (click)="signOut()" *ngIf="user != null" >
+        <ion-icon name="logo-googleplus"></ion-icon>
+        SIGN OUT
       </button>
     </ion-item>
   </ion-list>

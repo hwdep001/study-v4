@@ -21,7 +21,6 @@ import { TestService } from '../providers/test-service';
 // models
 import { MenuTitleInterface } from '../models/menu/MenuTitleInterface';
 import { PageInterface } from './../models/menu/PageInterface';
-import { User } from '../models/User';
 
 // pages
 import { SigninPage } from './../pages/signin/signin';
@@ -40,7 +39,6 @@ export class MyApp {
   lastBack: any;  // for backbutton
 
   usersRef: firebase.firestore.CollectionReference;
-  user: User;
 
   pages: Array<{title: string, component: any}>;
   navigatePages: PageInterface[];
@@ -88,31 +86,58 @@ export class MyApp {
 
   subscribeAuth() {
     firebase.auth().onAuthStateChanged(fireUser => {
-      this.user = CommonUtil.fireUser2user(fireUser);
+      
+      let pros: Promise<any>;
 
       if(fireUser != null) {
-        this.usersRef.where("uid", "==", this.user.uid).get().then(querySnapshot => {
-          if(querySnapshot.size > 0) {
-            this.usersRef.doc(this.user.uid).update(this.user.user2ObjectForUpdate());
-          } else {
-            this.usersRef.doc(this.user.uid).set(this.user.user2ObjectForSet());
-          }
-          querySnapshot.forEach(doc => {
+        pros = this.usersRef.doc(fireUser.uid).get().then(doc => {
+          if(doc.exists) {
+            this.usersRef.doc(fireUser.uid).update({
+              uid: fireUser.uid,
+              email: fireUser.email,
+              displayName: fireUser.displayName,
+              photoURL: fireUser.photoURL,
+              lastDate: new Date().yyyy_MM_dd_HH_mm_ss()
+            });
+
             this.cmn_.setUser(doc.data());
-          });
+          } else {
+            const newUser: object = {
+              uid: fireUser.uid,
+              email: fireUser.email,
+              displayName: fireUser.displayName,
+              photoURL: fireUser.photoURL,
+              createDate: new Date().yyyy_MM_dd_HH_mm_ss(),
+              lastDate: new Date().yyyy_MM_dd_HH_mm_ss(),
+              isAuth: false,
+              isDel: false
+            }
+            this.cmn_.setUser(newUser);
+            this.usersRef.doc(fireUser.uid).set(newUser);
+          }
         });
+      } else {
+        this.cmn_.setUser(null);
+        pros = new Promise(re => re());
       }
-      this.initializeMenu(fireUser);
+
+      pros.then(any => {
+        this.initializeMenu();
+      });;
     });
   }
 
-  initializeMenu(fireUser: firebase.User) {
+  initializeMenu() {
     this.setPages();
 
-    if(this.user != null) {
-      this.rootPage = HomePage;
+    if(this.cmn_.isAuth) {
+      this.nav.setRoot(HomePage);
     } else {
-      this.rootPage = SigninPage;
+      if(this.cmn_.uid != null) {
+        this.cmn_.Toast.present("top", "권한이 없습니다.", "toast-fail");
+      }
+
+      this.nav.setRoot(SigninPage);
     }
   }
 
@@ -128,7 +153,7 @@ export class MyApp {
     const ewPage: PageInterface = { title: '영단어',   name: 'EwPage',  component: CatListPage, param: {activeName: "EwPage", id: "ew"}, icon: 'book' };
     const settingPage: PageInterface = { title: '설정', name: 'SettingPage', component: SettingPage, icon: 'settings'};
 
-    if(this.user != null){
+    if(this.cmn_.isAuth){
       this.navigatePages = [];
       this.navigatePages.push(homePage);
       this.navigatePages.push(tabsPage);
