@@ -83,15 +83,27 @@ export class TestService {
         lecIds.forEach(lecId => {
             for(let i=0; i<5; i++) {
                 words.push({
-                    id: "id" + i, 
-                    head1: "head1-"+i, 
-                    head2: "head2-"+1, 
-                    body1: "body1-"+i, 
-                    body2: "body2-"+i, 
-                    num: i, 
+                    id: "id" + i+1,
+                    num: i+1, 
                     lectureId: lecId, 
                     levelId: i%5-2, 
-                    lectureName: "강의" + lecId
+                    lectureName: "강의" + lecId,
+                    que: "que" + i+1,
+                    me1: "me1" + i+1,
+                    me2: "me2" + i+1,
+                    me3: "me3" + i+1,
+                    me4: "me4" + i+1,
+                    me5: "me5" + i+1,
+                    me6: "me6" + i+1,
+                    me7: "me7" + i+1,
+                    me8: "me8" + i+1,
+                    me9: "me9" + i+1,
+                    me10: "me10" + i+1,
+                    me11: "me11" + i+1,
+                    me12: "me12" + i+1,
+                    me13: "me13" + i+1,
+                    syn: "syn" + i+1,
+                    ant: "ant" + i+1,
                 });
             }
         });

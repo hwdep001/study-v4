@@ -31,21 +31,55 @@ export class ContactDBWord {
     }
 
     insert(sqlOb: SQLiteObject, word: Word) {
-        return sqlOb.executeSql(this.query.INSERT, 
-            [word.id, word.head1, word.head2, word.body1, word.body2, 
-                word.num, word.lectureId])
-        .then(res => {
-            console.log(this.TAG + " INSERTED: " + word.head1);
+        return sqlOb.executeSql(this.query.INSERT, [
+            word.id, 
+            word.num, 
+            word.lectureId, 
+            word.que,
+            word.me1,
+            word.me2,
+            word.me3,
+            word.me4,
+            word.me5,
+            word.me6,
+            word.me7,
+            word.me8,
+            word.me9,
+            word.me10,
+            word.me11,
+            word.me12,
+            word.me13,
+            word.syn,
+            word.ant
+        ]).then(res => {
+            console.log(this.TAG + " INSERTED: " + word.que);
         })
         .catch(e => console.log(e));
     }
 
     updateWithOutLevel(sqlOb: SQLiteObject, word: Word) {
-        return sqlOb.executeSql(this.query.UPDATE_WITHOUT_LEVEL, 
-            [word.head1, word.head2, word.body1, word.body2, 
-                word.num, word.lectureId, word.id])
-        .then(res => {
-            console.log(this.TAG + " UPDATED: " + word.head1);
+        return sqlOb.executeSql(this.query.UPDATE_WITHOUT_LEVEL,[
+            word.num, 
+            word.lectureId, 
+            word.que,
+            word.me1,
+            word.me2,
+            word.me3,
+            word.me4,
+            word.me5,
+            word.me6,
+            word.me7,
+            word.me8,
+            word.me9,
+            word.me10,
+            word.me11,
+            word.me12,
+            word.me13,
+            word.syn,
+            word.ant,
+            word.id
+        ]).then(res => {
+            console.log(this.TAG + " UPDATED: " + word.que);
         })
         .catch(e => console.log(e));
     }
@@ -132,13 +166,25 @@ export class ContactDBWord {
         this.query = {
             CREATE_TABLE:       "CREATE TABLE IF NOT EXISTS word ("
                                     + "id VARCHAR(32),"
-                                    + "head1 VARCHAR(64),"
-                                    + "head2 VARCHAR(64),"
-                                    + "body1 TEXT,"
-                                    + "body2 TEXT,"
                                     + "num INT,"
                                     + "lectureId VARCHAR(32), "
                                     + "levelId INT2 DEFAULT 0, "
+                                    +  "que TEXT,"
+                                    +  "me1 TEXT,"
+                                    +  "me2 TEXT,"
+                                    +  "me3 TEXT,"
+                                    +  "me4 TEXT,"
+                                    +  "me5 TEXT,"
+                                    +  "me6 TEXT,"
+                                    +  "me7 TEXT,"
+                                    +  "me8 TEXT,"
+                                    +  "me9 TEXT,"
+                                    + "me10 TEXT,"
+                                    + "me11 TEXT,"
+                                    + "me12 TEXT,"
+                                    + "me13 TEXT,"
+                                    +  "syn TEXT,"
+                                    +  "ant TEXT,"
                                     + " PRIMARY KEY (id), "
                                     + " FOREIGN KEY (lectureId) "
                                     + " REFERENCES lecture (id) ON DELETE CASCADE, "
@@ -147,11 +193,13 @@ export class ContactDBWord {
                                     + ")",
             DROP_TABLE:         "DROP TABLE IF EXISTS word",
             INSERT:             "INSERT INTO word "
-                                    + " (id, head1, head2, body1, body2, num, lectureId, levelId) "
-                                    + " VALUES(?, ?, ?, ?, ?, ?, ?, 0) ",
+                                    + " (id, num, lectureId, levelId, que, me1, me2, me3, me4, me5, me6, " 
+                                    +  " me7, me8, me9, me10, me11, me12, me13, syn, ant) "
+                                    + " VALUES(?, ?, ?, 0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ",
             UPDATE_WITHOUT_LEVEL: 
                                 "UPDATE word "
-                                    + " SET head1=?, head2=?, body1=-1, body2=?, num=?, lectureId=? "
+                                    + " SET num=?, lectureId=?, que=?, me1=?, me2=?, me3=?, me4=?, me5=?, me6=?, "
+                                    +     " me7=?, me8=?, me9=?, me10=?, me11=?, me12=?, me13=?, syn=?, ant=? "
                                     + " WHERE id=? ",
             UPDATE_ALL_LEVEL:   "UPDATE word "
                                     + " SET levelId=? ",
@@ -160,11 +208,13 @@ export class ContactDBWord {
                                     + " WHERE id=? ",
             DELETE:             "DELETE FROM word ",
             DELETE_BY_ID:       "DELETE FROM word WHERE id=?",
-            SELECT_BY_LECTURE:  "SELECT id, head1, head2, body1, body2, num, lectureId, levelId "
+            SELECT_BY_LECTURE:  "SELECT id, num, lectureId, levelId, que, me1, me2, me3, me4, me5, me6, me7, "
+                                    + " me8, me9, me10, me11, me12, me13, syn, ant"
                                     + " FROM word "
                                     + " WHERE lectureId=? "
                                     + " ORDER BY num",
-            SELECT_BY_SEARCH:   "SELECT w.id, w.head1, w.head2, w.body1, w.body2, w.num, w.lectureId, w.levelId, "
+            SELECT_BY_SEARCH:   "SELECT w.id, w.num, w.lectureId, w.levelId, w.qeu, w.me1, w.me2, w.me3, w.me4, " 
+                                    + " w.me5, w.me6, w.me7, w.me8, w.me9, w.me10, w.me11, w.me12, w.me13, w.syn, w.ant"
                                     + " l.name as lectureName "
                                     + " FROM word w "
                                     + " LEFT JOIN lecture l ON w.lectureId = l.id "

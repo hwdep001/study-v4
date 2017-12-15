@@ -10,11 +10,32 @@ import * as firebase from 'firebase/app';
 export class SigninPage {
 
   user;
+  userListener: any
 
   constructor(
     public navCtrl: NavController
   ) {
+    
+  }
+
+  ionViewDidEnter() {
     this.user = firebase.auth().currentUser;
+    if(this.user != null) {
+      this.userListener = firebase.firestore().collection("users").doc(this.user.uid).onSnapshot(doc => {
+        if(doc && doc.exists) {
+          const snapshotUser = doc.data();
+          if(snapshotUser.isAuth == true) {
+            window.location.reload();
+          }
+        }
+      });
+    }
+  }
+  
+  ionViewWillLeave() {
+    if(this.userListener != null) {
+      this.userListener.unsubscribe();
+    }
   }
 
   signInWithGoogle() {
