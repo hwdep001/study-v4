@@ -27,3 +27,10 @@ $ cordova plugin add cordova-plugin-inappbrowser --save
 $ cordova plugin add cordova-plugin-customurlscheme --variable \
   URL_SCHEME=com.firebase.cordova --save
 ```
+
+### [Status Bar] (https://ionicframework.com/docs/native/status-bar/)
+
+```
+$ ionic cordova plugin add cordova-plugin-statusbar
+$ npm install --save @ionic-native/status-bar
+```

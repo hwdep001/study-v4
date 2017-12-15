@@ -26,9 +26,9 @@ import { User } from '../models/User';
 // pages
 import { SigninPage } from './../pages/signin/signin';
 import { HomePage } from './../pages/home/home';
-import { TestPage } from '../pages/test/test';
+import { TestPage } from './../pages/test/test';
 import { CatListPage } from './../pages/cat-list/cat-list';
-import { SettingPage } from '../pages/setting/setting';
+import { SettingPage } from './../pages/setting/setting';
 
 @Component({
   templateUrl: 'app.html'
@@ -78,7 +78,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString("#466299");
       this.platform.registerBackButtonAction(() => this.exitApp());
       this.splashScreen.hide();
       this.savePlatform();
