@@ -10,43 +10,58 @@
 <ion-content class="icontent">
 
   <div class="icontent-middle" *ngFor="let word of words; let i = index" >
-    <ion-card class="icard" [ngClass]="'icard-border' + word.levelId">
-
-      <ion-row class="icard-header">
-        <ion-col align-self-center text-center *ngIf="word.bodyFlag == true" (click)="word.bodyFlag = !word.bodyFlag">
-          {{word.que}}
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="icard-content head"  
-                *ngIf="word.bodyFlag == false" (click)="word.bodyFlag = !word.bodyFlag">
-        <ion-col align-self-center text-center>
+    <ion-card class="icard" text-wrap [ngClass]="'icard-border' + word.levelId">
+      <!-- ///////////////////////////////////////////////////////////////////// -->
+      <div *ngIf="word.flag1 == false" (click)="word.flag1 = true">
+        <ion-row class="icard-que">
+          <ion-col align-self-center text-center>
             {{word.que}}
-        </ion-col>
-      </ion-row>
-
-      <ion-card-content class="icard-content body" align-self-center 
-                        *ngIf="word.bodyFlag == true" (click)="word.bodyFlag = !word.bodyFlag">
-        <pre>{{word.me2}}</pre>
-      </ion-card-content>
-
-      <ion-row class="icard-foot">
-          <ion-col col-20 class="foot-up" align-self-center text-center>
-            <button ion-button color="gray" clear small icon-start (click)="clickThumbs(word, 1)">
-              <ion-icon name='thumbs-up'></ion-icon>
-            </button>
-          </ion-col>
-          <ion-col col-60 class="foot-desc-col" align-self-center text-center>
-            <ion-note class="foot-desc-note">
-              {{word.lectureName}}
-            </ion-note>
-          </ion-col>
-          <ion-col col-20 class="foot-down" align-self-center text-center>
-            <button ion-button color="gray" clear small icon-start (click)="clickThumbs(word, -1)">
-              <ion-icon name='thumbs-down'></ion-icon>
-            </button>
           </ion-col>
         </ion-row>
+      </div>
+      <!-- ///////////////////////////////////////////////////////////////////// -->
+      <div *ngIf="word.flag1 == true" (click)="word.flag1 = false">
+        <ion-row class="icard-header">
+          <ion-col align-self-center text-center>
+            {{word.que}}
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="icard-body1">
+          <ion-card-content align-self-center>
+            <ion-label class="meaning">
+              <ng-container *ngIf="word.me1 != null">{{word.me1}}.</ng-container> {{word.me2}}
+            </ion-label>
+            <ion-label class="meaning">
+              <ng-container *ngIf="word.me3 != null">{{word.me3}}.</ng-container> {{word.me4}}
+            </ion-label>
+          </ion-card-content>
+        </ion-row>
+        <ion-row class="icard-body2">
+          <ion-card-content align-self-center>
+            <ion-label>{{word.me5}}</ion-label>
+            <ion-label>{{word.me6}}</ion-label>
+          </ion-card-content>
+        </ion-row>
+      </div>
+      <!-- ///////////////////////////////////////////////////////////////////// -->
+      <ion-row class="icard-footer">
+        <ion-col col-20 class="footer-up" align-self-center text-center>
+          <button ion-button color="gray" clear small icon-start (click)="clickThumbs(word, 1)">
+            <ion-icon name='thumbs-up'></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col col-60 class="footer-desc-col" align-self-center text-center>
+          <ion-note class="footer-desc-note">
+            {{word.lectureName}}
+          </ion-note>
+        </ion-col>
+        <ion-col col-20 class="footer-down" align-self-center text-center>
+          <button ion-button color="gray" clear small icon-start (click)="clickThumbs(word, -1)">
+            <ion-icon name='thumbs-down'></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
     </ion-card>
   </div>
 

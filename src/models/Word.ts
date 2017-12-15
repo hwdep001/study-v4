@@ -24,11 +24,11 @@ export class Word {
 
     //
     lectureName?: string;
-    bodyFlag?: boolean;
+    flag1?: boolean;
 
     constructor() {
         this.levelId = 0;
-        this.bodyFlag = false;
+        this.flag1 = false;
     }
 
     static equals(a: Word, b: any) {

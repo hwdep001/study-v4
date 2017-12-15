@@ -17,41 +17,64 @@ page-ewList {
     
                     border-top: 3px solid;
                     border-radius: 3px;
-    
-                    .icard-header {
-                        height: 50px;
-    
-                        padding: 10px 16px;
-    
+
+                    .icard-que {
+                        height: 250px;
+
                         ion-col {
                             padding: 0px;
-                            font-size: 20px;
+                            font-size: 30px;
                         }
                     }
     
-                    .icard-content {
-                        height: 200px;
+                    .icard-header {
+                        height: 50px;
+                        padding: 10px 16px;
+
+                        border-bottom: 1px solid;
+                        border-color: rgba(196, 196, 196, 0.69);
+    
+                        ion-col {
+                            padding: 0px;
+                            font-size: 22px;
+                        }
                     }
     
-                    .head {
-                        font-size: 25px;
+                    ion-card-content {
+                        padding-top: 20px;
                     }
-    
-                    .body {
+
+                    .icard-body1 {
+                        height: 100px;
+                        
+                        ion-label {
+                            margin: 0px;
+                            font-size: 15px;
+                        }
                     }
-    
-                    .icard-foot {
+
+                    .icard-body2 {
+                        height: 100px;
+
+                        ion-label {
+                            margin: 0px;
+                            font-size: 13px;
+                            color: gray;
+                        }
+                    }
+
+                    .icard-footer {
                         height: 50px;
                         border-top: 1px solid;
                         border-color: rgba(196, 196, 196, 0.69);
                         
-                        .foot-up {}
-                        .foot-desc-col {
-                            .foot-desc-note {
+                        .footer-up {}
+                        .footer-desc-col {
+                            .footer-desc-note {
                                 color: gray;
                             }
                         }
-                        .foot-down{}
+                        .footer-down{}
                     }
                 }
             }

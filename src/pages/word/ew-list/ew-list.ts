@@ -62,7 +62,7 @@ export class EwListPage {
 
     pro.then(any => {
       for(let i=0; i<words.length; i++) {
-        words[i].bodyFlag = false;
+        words[i].flag1 = false;
       }
       this.words = words;
       loader.dismiss();
