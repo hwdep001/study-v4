@@ -85,6 +85,13 @@ export class CommonService {
         }
     }
 
+    /**
+     * 
+     * @param spinner 
+     * @param content 
+     * @param duration default 15000 ms
+     * @param dismissOnPageChange
+     */
     getLoader(spinner: string, content: string, duration?: number, dismissOnPageChange?: boolean): Loading {
         spinner = spinner ? spinner : "bubbles";
         content = content ? content : "Please wait...";

@@ -111,6 +111,17 @@ export class TestService {
         return words;
     }
 
+    selectCountGroupBySubIdForWord(): Array<any> {
+        let items = new Array<any>();
+        let i = 1;
+        this.subMap.forEach( (sub: Subject, key: string) => {
+            items.push({id: sub.id, name: sub.name, count: i});
+            i++;
+        });
+
+        return items;
+    }
+
     selectAllLevels(): Array<Level> {
         let levs: Array<Level> = new Array();
         levs.push({id:  2, name: "Very Easy"});

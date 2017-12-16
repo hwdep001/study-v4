@@ -102,7 +102,7 @@ export class WordMngPage {
   }
 
   checkCat(subId: string) {
-    const loader = this.cmn_.getLoader(null, null);
+    const loader = this.cmn_.getLoader(null, null, 90000);
     loader.present();
 
     let pro = this.subsRef.doc(subId).collection("cats").orderBy("num").get().then(querySnapshot => {

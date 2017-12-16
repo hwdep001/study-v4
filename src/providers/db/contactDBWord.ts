@@ -117,6 +117,10 @@ export class ContactDBWord {
         .catch(e => console.log(e));
     }
 
+    selectCountGroupBySubId(sqlOb: SQLiteObject): Promise<any> {
+        return sqlOb.executeSql(this.query.SELECT_COUNT_GROUPBY_SUBJECT, []);
+    }
+
     selectByLecId(sqlOb: SQLiteObject, lecId: string): Promise<any> {
         return sqlOb.executeSql(this.query.SELECT_BY_LECTURE, [lecId]);
     }
@@ -208,6 +212,13 @@ export class ContactDBWord {
                                     + " WHERE id=? ",
             DELETE:             "DELETE FROM word ",
             DELETE_BY_ID:       "DELETE FROM word WHERE id=?",
+            SELECT_COUNT_GROUPBY_SUBJECT: 
+                                "SELECT s.id, s.name, count(w.id) as count "
+                                    + " FROM word w "
+                                    + " LEFT JOIN lecture l ON w.lectureId = l.id "
+                                    + " LEFT JOIN category c ON l.categoryId = c.id "
+                                    + " LEFT JOIN subject s ON c.subjectId = s.id "
+                                    + " GROUP BY s.id",
             SELECT_BY_LECTURE:  "SELECT id, num, lectureId, levelId, que, me1, me2, me3, me4, me5, me6, me7, "
                                     + " me8, me9, me10, me11, me12, me13, syn, ant "
                                     + " FROM word "
@@ -236,6 +247,7 @@ interface query {
     UPDATE_LEVEL: string,
     DELETE: string,
     DELETE_BY_ID: string,
+    SELECT_COUNT_GROUPBY_SUBJECT: string,
     SELECT_BY_LECTURE: string,
     SELECT_BY_SEARCH: string,
 }

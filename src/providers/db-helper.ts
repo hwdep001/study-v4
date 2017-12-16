@@ -280,6 +280,19 @@ export class DBHelper {
   deleteByIdForWord(id: string): Promise<any> {
     return this.wordDB.deleteById(this.sqlOb, id);
   }
+
+  selectCountGroupBySubIdForWord(): Promise<Array<any>> {
+    return this.wordDB.selectCountGroupBySubId(this.sqlOb).then(res => {
+      let items = new Array<any>();
+      
+      for(let i=0; i<res.rows.length; i++) {
+        const item = res.rows.item(i);
+        items.push({id: item.id, name: item.name, count: item.count});
+      }
+
+      return items;
+    });
+  }
   
   selectByLecIdForWord(lecId: string): Promise<Array<Word>> {
     return this.wordDB.selectByLecId(this.sqlOb, lecId).then(res => {

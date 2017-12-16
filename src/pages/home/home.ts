@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { CommonService } from '../../providers/common-service';
+import { DBHelper } from './../../providers/db-helper';
+import { TestService } from './../../providers/test-service';
 
 @Component({
   selector: 'page-home',
@@ -9,13 +10,24 @@ import { CommonService } from '../../providers/common-service';
 })
 export class HomePage {
 
-  //test
-  user;
+  cntMap: Array<any>
 
   constructor(
     public navCtrl: NavController,
-    private cmn_: CommonService
+    private dbHelper: DBHelper,
+    private test_: TestService
   ) {
-    this.user = cmn_.user;
+    this.initData();
   }
+
+  initData(): void {
+    if(this.dbHelper.isCordova) {
+      this.dbHelper.selectCountGroupBySubIdForWord().then(items => {
+        this.cntMap = items;
+      });
+    } else {
+      this.cntMap = this.test_.selectCountGroupBySubIdForWord();
+    }
+  }
+
 }

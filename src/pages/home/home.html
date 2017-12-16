@@ -7,17 +7,17 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Home</h3>
-  
-    <ion-item *ngIf="user != null">
-      <div>uid : {{user.uid}}</div>
-      <div>email : {{user.email}}</div>
-      <div>displayName : {{user.displayName}}</div>
-      <div>photoURL : {{user.photoURL}}</div>
-      <div>createDate : {{user.createDate}}</div>
-      <div>lastDate : {{user.lastDate}}</div>
-      <div>isAuth : {{user.isAuth}}</div>
-      <div>isDel : {{user.isDel}}</div>
-    </ion-item>
+<ion-content class="icontent">
+  <ion-card ion-card class="icard" *ngFor="let item of cntMap" >
+      <ion-card-content>
+        <ion-row>
+          <ion-col col-70 class="icard-name">
+            <ion-label>{{item.name}}</ion-label>
+          </ion-col>
+          <ion-col col-30 class="icard-count">
+            <ion-label>{{item.count}}</ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
 </ion-content>
