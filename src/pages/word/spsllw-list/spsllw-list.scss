@@ -30,8 +30,15 @@ page-spsllwList {
     
                     .icard-body1 {
                         height: 50px;
-                        color: rgb(35, 115, 190);
                         font-size: 18px;
+
+                        .an-t {
+                            color: map-get($colors, primary);
+                        }
+
+                        .an-f {
+                            color: map-get($colors, danger);
+                        }
                     }
 
                     .icard-body2 {
@@ -49,7 +56,7 @@ page-spsllwList {
                     .icard-footer {
                         height: 50px;
                         border-top: 1px solid;
-                        border-color: rgba(196, 196, 196, 0.69);
+                        border-color: map-get($colors, icard-boader);
                         
                         .footer-up {}
                         .footer-desc-col {

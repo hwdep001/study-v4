@@ -3,6 +3,7 @@ question
 choice1 
 choice2  
 answer 
+answer_num
 
 
 [kr]

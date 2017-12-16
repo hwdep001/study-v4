@@ -13,7 +13,7 @@ export class ContactDBCount {
         this.initQuery();
     }
 
-    createTable(sqlOb: SQLiteObject) {
+    createTable(sqlOb: SQLiteObject): Promise<any> {
         return sqlOb.executeSql(this.query.CREATE_TABLE, {})
         .then(res => {
             console.log("TABLE CREATED: " + this.TAG);
@@ -21,8 +21,8 @@ export class ContactDBCount {
         .catch(e => console.log(e));
     }
 
-    dropTable(sqlOb: SQLiteObject) {
-        sqlOb.executeSql(this.query.DROP_TABLE, {})
+    dropTable(sqlOb: SQLiteObject): Promise<any> {
+        return sqlOb.executeSql(this.query.DROP_TABLE, {})
         .then(res => {
             console.log("TABLE DROPED: " + this.TAG);
         })

@@ -65,6 +65,7 @@ export class SpsllwListPage {
       for(let i=0; i<words.length; i++) {
         words[i].flag1 = false;
         const word = words[i];
+        word.me5 = (word.me4 == "1") ? word.me1 : word.me2;
         ox = [word.me1, word.me2];
         ox.shuffleArray();
         word.me1 = ox[0];
@@ -87,6 +88,11 @@ export class SpsllwListPage {
         word.levelId = level;
       });
     }
+  }
+
+  clickAnswer(seletedanswer: string, word: Word): void {
+    word.me6 = (seletedanswer == word.me5) ? "an-t" : "an-f";
+    word.flag1 = true;
   }
 
 }

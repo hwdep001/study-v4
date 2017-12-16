@@ -14,16 +14,16 @@ export class ContactDBWord {
         this.initQuery();
     }
 
-    createTable(sqlOb: SQLiteObject) {
-        sqlOb.executeSql(this.query.CREATE_TABLE, {})
+    createTable(sqlOb: SQLiteObject): Promise<any> {
+        return sqlOb.executeSql(this.query.CREATE_TABLE, {})
         .then(res => {
             console.log("TABLE CREATED: " + this.TAG);
         })
         .catch(e => console.log(e));
     }
 
-    dropTable(sqlOb: SQLiteObject) {
-        sqlOb.executeSql(this.query.DROP_TABLE, {})
+    dropTable(sqlOb: SQLiteObject): Promise<any> {
+        return sqlOb.executeSql(this.query.DROP_TABLE, {})
         .then(res => {
             console.log("TABLE DROPED: " + this.TAG);
         })
@@ -209,7 +209,7 @@ export class ContactDBWord {
             DELETE:             "DELETE FROM word ",
             DELETE_BY_ID:       "DELETE FROM word WHERE id=?",
             SELECT_BY_LECTURE:  "SELECT id, num, lectureId, levelId, que, me1, me2, me3, me4, me5, me6, me7, "
-                                    + " me8, me9, me10, me11, me12, me13, syn, ant"
+                                    + " me8, me9, me10, me11, me12, me13, syn, ant "
                                     + " FROM word "
                                     + " WHERE lectureId=? "
                                     + " ORDER BY num",

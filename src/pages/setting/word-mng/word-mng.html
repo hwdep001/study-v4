@@ -25,7 +25,7 @@
       </ion-note>
     </ion-item>
     <ng-container *ngIf="sub.cats?.length == 0">
-    <ion-item class="iitem" *ngFor="let num of [0,1]" no-lines>
+    <ion-item class="iitem" no-lines>
     </ion-item>
     </ng-container>
   </ion-list>
@@ -36,6 +36,9 @@
   </ion-item>
   <ion-item class="drop-btn" *ngIf="cmn_.isDel" >
     <button ion-button block (click)="deleteWord()" >데이터 초기화</button>
+  </ion-item>
+  <ion-item class="drop-btn" *ngIf="cmn_.isDel" >
+    <button ion-button block (click)="dropTables()" >DROP TABLES</button>
   </ion-item>
 
 </ion-content>

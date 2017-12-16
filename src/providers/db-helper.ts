@@ -50,24 +50,34 @@ export class DBHelper {
     });
   }
 
-  initializeTable() {
-    if(!this.isCordova) {return;}
-    this.countDB.createTable(this.sqlOb);
-    this.levelDB.createTable(this.sqlOb);
-    this.subDB.createTable(this.sqlOb);
-    this.catDB.createTable(this.sqlOb);
-    this.lecDB.createTable(this.sqlOb);
-    this.wordDB.createTable(this.sqlOb);
+  initializeTable(): Promise<any> {
+    let pros = new Array<Promise<any>>();
+
+    pros.push(this.countDB.createTable(this.sqlOb));
+    pros.push(this.levelDB.createTable(this.sqlOb).then(any => {
+      return this.subDB.createTable(this.sqlOb).then(any => {
+        return this.catDB.createTable(this.sqlOb).then(any => {
+          return this.lecDB.createTable(this.sqlOb).then(any => {
+            return this.wordDB.createTable(this.sqlOb);
+          });
+        });
+      });
+    }));
+
+    return Promise.all(pros);
   }
 
-  dropTables() {
-    if(!this.isCordova) {return;}
-    this.countDB.dropTable(this.sqlOb);
-    this.levelDB.dropTable(this.sqlOb);
-    this.subDB.dropTable(this.sqlOb);
-    this.catDB.dropTable(this.sqlOb);
-    this.lecDB.dropTable(this.sqlOb);
-    this.wordDB.dropTable(this.sqlOb);
+  dropTables(): Promise<any> {
+    return this.wordDB.dropTable(this.sqlOb).then(any => {
+      this.lecDB.dropTable(this.sqlOb).then(any => {
+        this.catDB.dropTable(this.sqlOb).then(any => {
+          this.subDB.dropTable(this.sqlOb).then(any => {
+            this.levelDB.dropTable(this.sqlOb);
+            this.countDB.dropTable(this.sqlOb);
+          });
+        });
+      });
+    });
   }
 
   deleteTables(): Promise<any> {

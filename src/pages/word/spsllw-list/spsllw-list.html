@@ -12,7 +12,7 @@
   <div class="icontent-middle" *ngFor="let word of words; let i = index" >
     <ion-card class="icard" text-wrap [ngClass]="'icard-border' + word.levelId">
       <!-- ///////////////////////////////////////////////////////////////////// -->
-      <div (click)="word.flag1 = !word.flag1" >
+      <div (click)="word.flag1 = false" >
         <ion-row class="icard-header">
           <ion-col align-self-center text-center>
             {{word.que}}
@@ -20,24 +20,28 @@
         </ion-row>
 
         <ion-row class="icard-body1">
-          <ion-col *ngIf="word.flag1 == true" align-self-center text-center>
+          <ion-col *ngIf="word.flag1 == true" align-self-center text-center [ngClass]="word.me6">
             {{word.me3}}
           </ion-col>
         </ion-row>
-        <ion-row class="icard-body2">
-          <ion-col align-self-center text-center>
-            <button ion-button outline block color="gray">{{word.me1}}</button>
-          </ion-col>
-        </ion-row>
-        <ion-row class="icard-body2">
-          <ion-col align-self-center text-center>
-            <button ion-button outline block color="gray">{{word.me2}}</button>
-          </ion-col>
-        </ion-row>
-        <ion-row class="icard-body3">
-          <br>
-        </ion-row>
       </div>
+      <ion-row class="icard-body2">
+        <ion-col align-self-center text-center>
+          <button ion-button outline block color="gray" (click)="clickAnswer(word.me1, word)" >
+            {{word.me1}}
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="icard-body2">
+        <ion-col align-self-center text-center>
+          <button ion-button outline block color="gray" (click)="clickAnswer(word.me2, word)" >
+            {{word.me2}}
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="icard-body3">
+        <br>
+      </ion-row>
       <!-- ///////////////////////////////////////////////////////////////////// -->
       <ion-row class="icard-footer">
         <ion-col col-20 class="footer-up" align-self-center text-center>

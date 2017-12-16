@@ -256,7 +256,7 @@ export class WordMngPage {
       let pros3 = new Array<Promise<any>>();
       let map = new Map<string, Word>();
 
-      pros3.push(this.dbHelper.selectByLecIdForWord(cat.id).then(items => {
+      pros3.push(this.dbHelper.selectByLecIdForWord(lec.id).then(items => {
 
         let pros = new Array<Promise<any>>();
 
@@ -344,4 +344,18 @@ export class WordMngPage {
     }).catch(err => {});
   }
 
+  dropTables() {
+    this.cmn_.Alert.confirm("Do you want to drop the database?").then(any => {
+      const loader = this.cmn_.getLoader(null, null);
+      loader.present();
+
+      this.dbHelper.dropTables().then(any => {
+        return firebase.firestore().collection("users").doc(this.cmn_.uid).update({isDel: false});
+      }).then(any => {
+        loader.dismiss();
+        this.cmn_.Toast.present("bottom", "Successfully deleted database.", null);
+        window.location.reload();
+      })
+    }).catch(err => {});
+  }
 }
