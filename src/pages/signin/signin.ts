@@ -10,7 +10,7 @@ import * as firebase from 'firebase/app';
 export class SigninPage {
 
   user;
-  userListener: any
+  unsubscribe: any
 
   constructor(
     public navCtrl: NavController
@@ -21,7 +21,7 @@ export class SigninPage {
   ionViewDidEnter() {
     this.user = firebase.auth().currentUser;
     if(this.user != null) {
-      this.userListener = firebase.firestore().collection("users").doc(this.user.uid).onSnapshot(doc => {
+      this.unsubscribe = firebase.firestore().collection("users").doc(this.user.uid).onSnapshot(doc => {
         if(doc && doc.exists) {
           const snapshotUser = doc.data();
           if(snapshotUser.isAuth == true) {
@@ -33,8 +33,8 @@ export class SigninPage {
   }
   
   ionViewWillLeave() {
-    if(this.userListener != null) {
-      this.userListener.unsubscribe();
+    if(this.unsubscribe != null) {
+      this.unsubscribe();
     }
   }
 

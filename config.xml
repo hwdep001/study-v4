@@ -78,8 +78,8 @@
         <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
     </platform>
     <universal-links>
-        <host name="https://g2x3y.app.goo.gl/CTXh" scheme="https" />
-        <host name="study-v2.firebaseapp.com" scheme="https">
+        <host name="https://x6c2y.app.goo.gl/29hQ" scheme="https" />
+        <host name="study-v4.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback" />
         </host>
     </universal-links>
