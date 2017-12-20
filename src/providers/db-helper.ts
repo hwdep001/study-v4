@@ -287,7 +287,16 @@ export class DBHelper {
       
       for(let i=0; i<res.rows.length; i++) {
         const item = res.rows.item(i);
-        items.push({id: item.id, name: item.name, count: item.count});
+        items.push({
+          id: item.id, 
+          name: item.name, 
+          lev2: item.lev2, 
+          lev1: item.lev1, 
+          lev0: item.lev0, 
+          lev_1: item.lev_1, 
+          lev_2: item.lev_2, 
+          count: item.count
+        });
       }
 
       return items;

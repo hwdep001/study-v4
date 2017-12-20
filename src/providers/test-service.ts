@@ -113,9 +113,10 @@ export class TestService {
 
     selectCountGroupBySubIdForWord(): Array<any> {
         let items = new Array<any>();
-        let i = 1;
+        let i = 1000;
         this.subMap.forEach( (sub: Subject, key: string) => {
-            items.push({id: sub.id, name: sub.name, count: i});
+            items.push({id: sub.id, name: sub.name, lev2: i, lev1: i, 
+                lev0: i, lev_1:i, lev_2:i, count: i});
             i++;
         });
 

@@ -11,11 +11,26 @@
   <ion-card ion-card class="icard" *ngFor="let item of cntMap" >
       <ion-card-content>
         <ion-row>
-          <ion-col col-70 class="icard-name">
+          <ion-col col-20 class="icard-name">
             <ion-label>{{item.name}}</ion-label>
           </ion-col>
-          <ion-col col-30 class="icard-count">
-            <ion-label>{{item.count}}</ion-label>
+          <ion-col col-12 class="icard-lev lev2">
+            <ion-label>{{item.lev2}}</ion-label>
+          </ion-col>
+          <ion-col col-12 class="icard-lev lev1">
+            <ion-label>{{item.lev1}}</ion-label>
+          </ion-col>
+          <ion-col col-12 class="icard-lev lev0">
+            <ion-label>{{item.lev0}}</ion-label>
+          </ion-col>
+          <ion-col col-12 class="icard-lev lev_1">
+            <ion-label>{{item.lev_1}}</ion-label>
+          </ion-col>
+          <ion-col col-12 class="icard-lev lev_2">
+            <ion-label>{{item.lev_2}}</ion-label>
+          </ion-col>
+          <ion-col col-20 class="icard-count">
+            <ion-label>총 {{item.count}} 단어</ion-label>
           </ion-col>
         </ion-row>
       </ion-card-content>

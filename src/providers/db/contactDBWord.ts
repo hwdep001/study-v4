@@ -213,12 +213,19 @@ export class ContactDBWord {
             DELETE:             "DELETE FROM word ",
             DELETE_BY_ID:       "DELETE FROM word WHERE id=?",
             SELECT_COUNT_GROUPBY_SUBJECT: 
-                                "SELECT s.id, s.name, count(w.id) as count "
+                                "SELECT s.id, s.name, "
+                                    + " sum(case when w.levelId = 2 then 1 ELSE 0 end) as 'lev2', "
+                                    + " sum(case when w.levelId = 1 then 1 ELSE 0 end) as 'lev1', "
+                                    + " sum(case when w.levelId = 0 then 1 ELSE 0 end) as 'lev0', "
+                                    + " sum(case when w.levelId = -1 then 1 ELSE 0 end) as 'lev_1', "
+                                    + " sum(case when w.levelId = -2 then 1 ELSE 0 end) as 'lev_2', "
+                                    + " count(w.id) as 'count' "
                                     + " FROM word w "
                                     + " LEFT JOIN lecture l ON w.lectureId = l.id "
                                     + " LEFT JOIN category c ON l.categoryId = c.id "
                                     + " LEFT JOIN subject s ON c.subjectId = s.id "
-                                    + " GROUP BY s.id",
+                                    + " GROUP BY s.id "
+                                    + " ORDER BY s.num ",
             SELECT_BY_LECTURE:  "SELECT id, num, lectureId, levelId, que, me1, me2, me3, me4, me5, me6, me7, "
                                     + " me8, me9, me10, me11, me12, me13, syn, ant "
                                     + " FROM word "

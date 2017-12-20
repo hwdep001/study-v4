@@ -6,14 +6,35 @@ page-home {
             ion-card-content {
                 width: 100%;
             }
-            .icard-name {
-                text-align: left!important;
-                font-size: 16px;
+
+            ion-col {
+                padding: 0px;
             }
 
+            ion-label {
+                margin-right:  0px;
+            }
+
+            .icard-name {
+                text-align: left!important;
+                font-size: 13px;
+            }
+
+            .icard-lev {
+                font-size: 11px;
+                text-align: center!important;
+            }
+            .lev2 {color: map-get($word-levels, lev2)}
+            .lev1 {color: map-get($word-levels, lev1)}
+            .lev0 {color: gray}
+            .lev_1 {color: map-get($word-levels, lev-1)}
+            .lev_2 {color: map-get($word-levels, lev-2)}
+            
             .icard-count {
                 text-align: right!important;
+                font-size: 12px;
             }
+
         }
     }
 }
