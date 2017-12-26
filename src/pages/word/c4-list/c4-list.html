@@ -43,26 +43,25 @@
               <ng-container *ngIf="word.me3 != null">, </ng-container>{{word.me3}}
               <ng-container *ngIf="word.me4 != null">, </ng-container>{{word.me4}}
               <ng-container *ngIf="word.me5 != null">, </ng-container>{{word.me5}}
+              <ng-container *ngIf="word.me6 != null">, </ng-container>{{word.me6}}
+              <ng-container *ngIf="word.me7 != null">, </ng-container>{{word.me7}}
             </ion-label>
           </ion-card-content>
         </ion-row>
 
         <ion-row class="icard-me">
           <ion-card-content align-self-center>
-            <ion-label>{{word.me6}}</ion-label>
+            <ion-label>{{word.me8}}</ion-label>
           </ion-card-content>
         </ion-row>
 
         <ion-row class="icard-ex">
           <ion-card-content align-self-center>
+            <ng-container *ngIf="word.me9 != null">
+              <ion-label><img src="assets/imgs/icon_synonym.png" />{{word.me9}}</ion-label>
+            </ng-container>
             <ng-container *ngIf="word.me10 != null">
-              <ion-label><img src="assets/imgs/icon_exam.png" />{{word.me10}}</ion-label>
-            </ng-container>
-            <ng-container *ngIf="word.syn != null">
-              <ion-label><img src="assets/imgs/icon_synonym.png" />{{word.syn}}</ion-label>
-            </ng-container>
-            <ng-container *ngIf="word.ant != null">
-              <ion-label><img src="assets/imgs/icon_antonym.png" />{{word.ant}}</ion-label>
+              <ion-label><img src="assets/imgs/icon_antonym.png" />{{word.me10}}</ion-label>
             </ng-container>
           </ion-card-content>
         </ion-row>

@@ -10,10 +10,10 @@ import { Word } from './../../../models/Word';
 import { WordSearch } from './../../../models/WordSearch';
 
 @Component({
-  selector: 'page-ccList',
-  templateUrl: 'cc-list.html'
+  selector: 'page-c4List',
+  templateUrl: 'c4-list.html'
 })
-export class CcListPage {
+export class C4ListPage {
 
   words: Array<Word>;
   ws: WordSearch;
@@ -66,37 +66,12 @@ export class CcListPage {
     pro.then(any => {
       for(let i=0; i<words.length; i++) {
         words[i].flag1 = false;
-
-        words[i].me6 = this.createMeString(words[i]);
-        words[i].me10 = this.createExString(words[i]);
       }
       this.words = words;
       loader.dismiss();
     }).catch(err => {
       loader.dismiss();
     });
-  }
-
-  private createMeString(word: Word): string {
-    let result: string = null;
-
-    (word.me6 == null) ? null : (result = word.me6);
-    (word.me7 == null) ? null : (result += "\n" + word.me7);
-    (word.me8 == null) ? null : (result += "\n" + word.me8);
-    (word.me9 == null) ? null : (result += "\n" + word.me9);
-
-    return result;
-  }
-
-  private createExString(word: Word): string {
-    let result: string = null;
-
-    (word.me10  == null) ? null : (result = word.me10);
-    (word.me11 == null) ? null : (result += "\n" + word.me11);
-    (word.me12 == null) ? null : (result += "\n" + word.me12);
-    (word.me13 == null) ? null : (result += "\n" + word.me13);
-
-    return result;
   }
 
   clickThumbs(word: Word, thumbCode: number): void {

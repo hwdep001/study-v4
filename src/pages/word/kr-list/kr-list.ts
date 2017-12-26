@@ -102,7 +102,7 @@ export class KrListPage {
     return result;
   }
 
-  clickThumbs(word: Word, thumbCode: number) {
+  clickThumbs(word: Word, thumbCode: number): void {
     const level: number = thumbCode + (word.levelId == undefined ? 0 : word.levelId);
 
     if(level > 2 || level < -2){

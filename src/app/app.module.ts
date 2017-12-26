@@ -34,8 +34,9 @@ import { TestPage } from './../pages/test/test';
 import { CatListPage } from './../pages/cat-list/cat-list';
 import { LecListPage } from './../pages/lec-list/lec-list';
 import { SpsllwListPage } from './../pages/word/spsllw-list/spsllw-list';
-import { KrListPage } from '../pages/word/kr-list/kr-list';
+import { KrListPage } from './../pages/word/kr-list/kr-list';
 import { CcListPage } from './../pages/word/cc-list/cc-list';
+import { C4ListPage } from './../pages/word/c4-list/c4-list';
 import { EwListPage } from './../pages/word/ew-list/ew-list';
 import { WordTestPage } from './../pages/word/word-test/word-test';
 import { SettingTabPage } from './../pages/setting/setting-tab';
@@ -54,6 +55,7 @@ import { SettingTabPage } from './../pages/setting/setting-tab';
     SpsllwListPage,
     KrListPage,
     CcListPage,
+    C4ListPage,
     EwListPage,
     WordTestPage,
     SettingTabPage,
@@ -80,6 +82,7 @@ import { SettingTabPage } from './../pages/setting/setting-tab';
     SpsllwListPage,
     KrListPage,
     CcListPage,
+    C4ListPage,
     EwListPage,
     WordTestPage,
     SettingTabPage,

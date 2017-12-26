@@ -15,6 +15,7 @@ import { WordSearch } from './../../../models/WordSearch';
 import { SpsllwListPage } from './../spsllw-list/spsllw-list';
 import { KrListPage } from './../kr-list/kr-list';
 import { CcListPage } from './../cc-list/cc-list';
+import { C4ListPage } from './../c4-list/c4-list';
 import { EwListPage } from './../ew-list/ew-list';
 
 @Component({
@@ -184,7 +185,8 @@ export class WordTestPage {
         this.navCtrl.push(CcListPage, params);
         break;
       case "c4":
-        // break;
+        this.navCtrl.push(C4ListPage, params);
+        break;
       case "ew":
         this.navCtrl.push(EwListPage, params);
         break;

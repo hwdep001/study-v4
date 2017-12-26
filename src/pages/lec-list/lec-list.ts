@@ -13,6 +13,7 @@ import { WordSearch } from './../../models/WordSearch';
 import { SpsllwListPage } from './../word/spsllw-list/spsllw-list';
 import { KrListPage } from './../word/kr-list/kr-list';
 import { CcListPage } from './../word/cc-list/cc-list';
+import { C4ListPage } from './../word/c4-list/c4-list';
 import { EwListPage } from './../word/ew-list/ew-list';
 import { WordTestPage } from './../word/word-test/word-test';
 
@@ -75,7 +76,8 @@ export class LecListPage {
         this.navCtrl.push(CcListPage, params);
         break;
       case "c4":
-        // break;
+        this.navCtrl.push(C4ListPage, params);
+        break;
       case "ew":
         this.navCtrl.push(EwListPage, params);
         break;
