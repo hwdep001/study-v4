@@ -34,3 +34,10 @@ $ cordova plugin add cordova-plugin-customurlscheme --variable \
 $ ionic cordova plugin add cordova-plugin-statusbar
 $ npm install --save @ionic-native/status-bar
 ```
+
+## [Splash Screen](https://ionicframework.com/docs/native/splash-screen/)
+
+```
+$ ionic cordova plugin add cordova-plugin-splashscreen
+$ npm install --save @ionic-native/splash-screen
+```

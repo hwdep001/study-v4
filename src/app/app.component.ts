@@ -78,7 +78,6 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.backgroundColorByHexString("#466299");
       this.platform.registerBackButtonAction(() => this.exitApp());
-      this.splashScreen.hide();
       this.savePlatform();
       this.dbHelper.getSQLiteObject();
     });
@@ -130,6 +129,7 @@ export class MyApp {
   initializeMenu() {
     this.setPages();
 
+    this.splashScreen.hide();
     if(this.cmn_.isAuth) {
       this.nav.setRoot(HomePage);
     } else {
