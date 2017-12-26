@@ -14,9 +14,7 @@ meaning4
 meaning5  
 meaning6  
 meaning7  
-
-
-[word]
+word
 example1  
 example2  
 example3  

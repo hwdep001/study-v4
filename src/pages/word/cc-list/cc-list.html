@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="icontent">
+
+  <div class="icontent-middle" *ngFor="let word of words; let i = index" >
+    <ion-card class="icard" text-wrap [ngClass]="'icard-border' + word.levelId">
+      <!-- ///////////////////////////////////////////////////////////////////// -->
+      <div *ngIf="word.flag1 == false" (click)="word.flag1 = true">
+        <ion-row class="icard-que">
+          <ion-col align-self-center text-center>
+            {{word.que}}
+          </ion-col>
+        </ion-row>
+      </div>
+      <!-- ///////////////////////////////////////////////////////////////////// -->
+      <div *ngIf="word.flag1 == true" (click)="word.flag1 = false">
+        <ion-row class="icard-header">
+          <ion-col align-self-center text-center>
+            {{word.que}} ({{word.me1}})
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="icard-ccme">
+          <ion-card-content align-self-center>
+            <ion-label>
+              {{word.me2}}
+              <ng-container *ngIf="word.me3 != null">, </ng-container>{{word.me3}}
+              <ng-container *ngIf="word.me4 != null">, </ng-container>{{word.me4}}
+              <ng-container *ngIf="word.me5 != null">, </ng-container>{{word.me5}}
+            </ion-label>
+          </ion-card-content>
+        </ion-row>
+
+        <ion-row class="icard-me">
+          <ion-card-content align-self-center>
+            <ion-label>{{word.me6}}</ion-label>
+          </ion-card-content>
+        </ion-row>
+
+        <ion-row class="icard-ex">
+          <ion-card-content align-self-center>
+            <ng-container *ngIf="word.me10 != null">
+              <ion-label><img src="assets/imgs/icon_exam.png" />{{word.me10}}</ion-label>
+            </ng-container>
+            <ng-container *ngIf="word.syn != null">
+              <ion-label><img src="assets/imgs/icon_synonym.png" />{{word.syn}}</ion-label>
+            </ng-container>
+            <ng-container *ngIf="word.ant != null">
+              <ion-label><img src="assets/imgs/icon_antonym.png" />{{word.ant}}</ion-label>
+            </ng-container>
+          </ion-card-content>
+        </ion-row>
+      </div>
+      <!-- ///////////////////////////////////////////////////////////////////// -->
+      <ion-row class="icard-footer">
+        <ion-col col-20 class="footer-up" align-self-center text-center>
+          <button ion-button color="gray" clear small icon-start (click)="clickThumbs(word, 1)">
+            <ion-icon name='thumbs-up'></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col col-60 class="footer-desc-col" align-self-center text-center>
+          <ion-note class="footer-desc-note">
+            {{word.lectureName}} - {{word.num}}
+          </ion-note>
+        </ion-col>
+        <ion-col col-20 class="footer-down" align-self-center text-center>
+          <button ion-button color="gray" clear small icon-start (click)="clickThumbs(word, -1)">
+            <ion-icon name='thumbs-down'></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </div>
+
+</ion-content>

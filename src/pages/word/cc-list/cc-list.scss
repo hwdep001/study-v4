@@ -1,0 +1,120 @@
+page-ccList {
+    
+        .icontent {
+    
+            .icontent-middle {
+                height: 480px;
+                justify-content: center;
+                display: flex!important;
+                align-items: center!important;
+
+                margin-top: 20px;
+                margin-bottom: 20px;
+    
+                .icard {
+                    max-width: 450px;
+                    height: 460px;
+    
+                    border-top: 3px solid;
+                    border-radius: 3px;
+
+                    .icard-que {
+                        height: 410px;
+
+                        ion-col {
+                            padding: 0px;
+                            font-size: 30px;
+                        }
+                    }
+    
+                    .icard-header {
+                        height: 50px;
+                        padding: 10px 16px;
+
+                        border-bottom: 1px solid;
+                        border-color: map-get($colors, icard-boader);
+    
+                        ion-col {
+                            padding: 0px;
+                            font-size: 22px;
+                        }
+                    }
+    
+                    ion-card-content {
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+                    }
+
+                    img {
+                        width: 31px !important;
+                        height: 18px;
+                        margin-bottom: 5px;
+                    }
+
+                    .icard-ccme {
+                        height: 40px;
+                        padding-top: 10px !important;
+                        
+                        ion-label {
+                            margin: 0px;
+                            font-size: 15px;
+                        }
+                    }
+
+                    .icard-me {
+                        height: 120px;
+                        
+                        ion-label {
+                            white-space: pre-wrap;
+                            margin: 0px;
+                            font-size: 15px;
+                        }
+                    }
+
+                    .icard-ex {
+                        height: 200px;
+                        
+                        ion-label {
+                            white-space: pre-wrap;
+                            margin: 0px;
+                            font-size: 15px;
+                            color: gray;
+                            margin-top: 10px;
+                            margin-bottom: 10px;
+                        }
+                    }
+
+                    .icard-footer {
+                        height: 50px;
+                        border-top: 1px solid;
+                        border-color: map-get($colors, icard-boader);
+                        
+                        .footer-up {}
+                        .footer-desc-col {
+                            .footer-desc-note {
+                                color: gray;
+                            }
+                        }
+                        .footer-down{}
+                    }
+                }
+            }
+    
+            .icard-border-2 {
+                border-color: map-get($word-levels, lev-2) !important;
+            }
+            .icard-border-1 {
+                border-color: map-get($word-levels, lev-1) !important;
+            }
+            .icard-border0 {
+                border-color: map-get($word-levels, lev0) !important;
+            }
+            .icard-border1 {
+                border-color: map-get($word-levels, lev1) !important;
+            }
+            .icard-border2 {
+                border-color: map-get($word-levels, lev2) !important;
+            }
+        }
+    }
+    

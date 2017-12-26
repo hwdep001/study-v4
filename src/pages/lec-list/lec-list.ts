@@ -10,10 +10,11 @@ import { Category } from './../../models/Category';
 import { Lecture } from './../../models/Lecture';
 import { WordSearch } from './../../models/WordSearch';
 
-import { EwListPage } from './../word/ew-list/ew-list';
 import { SpsllwListPage } from './../word/spsllw-list/spsllw-list';
-import { WordTestPage } from './../word/word-test/word-test';
 import { KrListPage } from './../word/kr-list/kr-list';
+import { CcListPage } from './../word/cc-list/cc-list';
+import { EwListPage } from './../word/ew-list/ew-list';
+import { WordTestPage } from './../word/word-test/word-test';
 
 @Component({
   selector: 'page-lecList',
@@ -71,7 +72,8 @@ export class LecListPage {
         this.navCtrl.push(KrListPage, params);
         break;
       case "cc":
-        // break;
+        this.navCtrl.push(CcListPage, params);
+        break;
       case "c4":
         // break;
       case "ew":

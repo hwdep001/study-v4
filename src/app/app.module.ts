@@ -33,13 +33,14 @@ import { TestPage } from './../pages/test/test';
   import { Tab1Page } from './../pages/test/tab1/tab1';
 import { CatListPage } from './../pages/cat-list/cat-list';
 import { LecListPage } from './../pages/lec-list/lec-list';
-import { EwListPage } from './../pages/word/ew-list/ew-list';
 import { SpsllwListPage } from './../pages/word/spsllw-list/spsllw-list';
+import { KrListPage } from '../pages/word/kr-list/kr-list';
+import { CcListPage } from './../pages/word/cc-list/cc-list';
+import { EwListPage } from './../pages/word/ew-list/ew-list';
 import { WordTestPage } from './../pages/word/word-test/word-test';
 import { SettingTabPage } from './../pages/setting/setting-tab';
   import { InfoPage } from './../pages/setting/info/info';
   import { WordMngPage } from './../pages/setting/word-mng/word-mng';
-import { KrListPage } from '../pages/word/kr-list/kr-list';
   
 @NgModule({
   declarations: [
@@ -50,9 +51,10 @@ import { KrListPage } from '../pages/word/kr-list/kr-list';
       Tab1Page,
     CatListPage,
     LecListPage,
-    EwListPage,
     SpsllwListPage,
     KrListPage,
+    CcListPage,
+    EwListPage,
     WordTestPage,
     SettingTabPage,
       InfoPage,
@@ -75,9 +77,10 @@ import { KrListPage } from '../pages/word/kr-list/kr-list';
       Tab1Page,
     CatListPage,
     LecListPage,
-    EwListPage,
     SpsllwListPage,
     KrListPage,
+    CcListPage,
+    EwListPage,
     WordTestPage,
     SettingTabPage,
       InfoPage,

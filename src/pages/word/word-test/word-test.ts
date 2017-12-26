@@ -12,9 +12,10 @@ import { Category } from './../../../models/Category';
 import { Lecture } from './../../../models/Lecture';
 import { WordSearch } from './../../../models/WordSearch';
 
-import { EwListPage } from './../ew-list/ew-list';
 import { SpsllwListPage } from './../spsllw-list/spsllw-list';
 import { KrListPage } from './../kr-list/kr-list';
+import { CcListPage } from './../cc-list/cc-list';
+import { EwListPage } from './../ew-list/ew-list';
 
 @Component({
   selector: 'page-wordTest',
@@ -180,7 +181,8 @@ export class WordTestPage {
         this.navCtrl.push(KrListPage, params);
         break;
       case "cc":
-        // break;
+        this.navCtrl.push(CcListPage, params);
+        break;
       case "c4":
         // break;
       case "ew":

@@ -9,10 +9,10 @@ import { Word } from './../../../models/Word';
 import { WordSearch } from './../../../models/WordSearch';
 
 @Component({
-  selector: 'page-krList',
-  templateUrl: 'kr-list.html'
+  selector: 'page-ccList',
+  templateUrl: 'cc-list.html'
 })
-export class KrListPage {
+export class CcListPage {
 
   words: Array<Word>;
   ws: WordSearch;
@@ -63,10 +63,9 @@ export class KrListPage {
     pro.then(any => {
       for(let i=0; i<words.length; i++) {
         words[i].flag1 = false;
-        words[i].flag2 = false;
 
-        words[i].syn = this.createMeString(words[i]);
-        words[i].ant = this.createExString(words[i]);
+        words[i].me6 = this.createMeString(words[i]);
+        words[i].me10 = this.createExString(words[i]);
       }
       this.words = words;
       loader.dismiss();
@@ -78,13 +77,10 @@ export class KrListPage {
   private createMeString(word: Word): string {
     let result: string = null;
 
-    (word.que == null) ? null : (result = word.que);
-    (word.me1 == null) ? null : (result += "\n" + word.me1);
-    (word.me2 == null) ? null : (result += "\n" + word.me2);
-    (word.me3 == null) ? null : (result += "\n" + word.me3);
-    (word.me4 == null) ? null : (result += "\n" + word.me4);
-    (word.me5 == null) ? null : (result += "\n" + word.me5);
-    (word.me6 == null) ? null : (result += "\n" + word.me6);
+    (word.me6 == null) ? null : (result = word.me6);
+    (word.me7 == null) ? null : (result += "\n" + word.me7);
+    (word.me8 == null) ? null : (result += "\n" + word.me8);
+    (word.me9 == null) ? null : (result += "\n" + word.me9);
 
     return result;
   }
@@ -92,9 +88,7 @@ export class KrListPage {
   private createExString(word: Word): string {
     let result: string = null;
 
-    (word.me8  == null) ? null : (result = word.me8);
-    (word.me9  == null) ? null : (result += "\n" + word.me9);
-    (word.me10 == null) ? null : (result += "\n" + word.me10);
+    (word.me10  == null) ? null : (result = word.me10);
     (word.me11 == null) ? null : (result += "\n" + word.me11);
     (word.me12 == null) ? null : (result += "\n" + word.me12);
     (word.me13 == null) ? null : (result += "\n" + word.me13);
