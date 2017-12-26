@@ -73,6 +73,10 @@ export class ContactDBCategory {
         .catch(e => console.log(e));
     }
 
+    selectAll(sqlOb: SQLiteObject): Promise<any> {
+        return sqlOb.executeSql(this.query.SELECT_ALL, []);
+    }
+
     selectBySubId(sqlOb: SQLiteObject, subId: string): Promise<any> {
         return sqlOb.executeSql(this.query.SELECT_BY_SUBJECT, [subId]);
     }
@@ -105,6 +109,10 @@ export class ContactDBCategory {
                                     + " WHERE id=? ",
             DELETE:             "DELETE FROM category ",
             DELETE_BY_ID:       "DELETE FROM category WHERE id=?",
+            SELECT_ALL:         "SELECT s.name as subjectName, c.id, c.name, c.version, c.subjectId, c.num "
+                                    + " FROM category c "
+                                    + " LEFT JOIN subject s ON c.subjectId = s.id "
+                                    + " ORDER BY s.num, c.num ",
             SELECT_BY_SUBJECT:  "SELECT id, name, num, version, subjectId "
                                     + " FROM category "
                                     + " WHERE subjectId=? "
@@ -122,5 +130,6 @@ interface query {
     UPDATE_WITHOUT_VERSION: string,
     DELETE: string,
     DELETE_BY_ID: string,
+    SELECT_ALL: string,
     SELECT_BY_SUBJECT: string,
 }

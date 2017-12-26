@@ -5,6 +5,9 @@ export class Category {
     version?: number;
     subjectId?: string;
 
+    //
+    subjectName?: string;
+    
     static equals(a: any, b: any) {
         if(a == null || b == null) return false;
         if(a.id != b.id) return false;

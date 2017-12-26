@@ -212,6 +212,18 @@ export class DBHelper {
   deleteByIdForCat(id: string): Promise<any> {
     return this.catDB.deleteById(this.sqlOb, id);
   }
+
+  selectAllForCat(): Promise<Array<Category>> {
+    return this.catDB.selectAll(this.sqlOb).then(res => {
+      let items = new Array<Category>();
+      
+      for(let i=0; i<res.rows.length; i++) {
+        items.push(res.rows.item(i));
+      }
+
+      return items;
+    });
+  }
   
   selectBySubIdForCat(subId: string): Promise<Array<Category>> {
     return this.catDB.selectBySubId(this.sqlOb, subId).then(res => {

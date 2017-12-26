@@ -44,17 +44,12 @@ export class WordMngPage {
       pros.push(this.checkCount());
       pros.push(this.checkLevel());
       pros.push(this.checkSub().then(any => {
-        for(let i=0; i<this.subs.length; i++) {
-          pros.push(this.dbHelper.selectBySubIdForCat(this.subs[i].id).then(cats => {
-            this.subs[i].cats = cats;
-          }));
-        }
+        pros.push(this.setSubs());
       }));
     } else {
       this.subs = this.test_.selectAllSubs();
       for(let i=0; i<this.subs.length; i++) {
-        this.subs[i].cats = [];
-        // this.subs[i].cats = this.test_.selectAllCatsBySubId(this.subs[i].id);
+        this.subs[i].cats = this.test_.selectAllCatsBySubId(this.subs[i].id);
       }
     }
 
@@ -91,15 +86,92 @@ export class WordMngPage {
       if(items.length != 7) {
         return this.dbHelper.deleteSub().then(any => {
 
-          return this.dbHelper.initDefaultDataSub().then(newSubs => {
-            this.subs = newSubs;
-          });
+          return this.dbHelper.initDefaultDataSub();
         });
-      } else {
-        this.subs = items;
       }
     });
   }
+
+  private setSubs(): Promise<any> {
+    return this.dbHelper.selectAllForCat().then(cats => {
+
+      let subs = new Array<Subject>();
+      let sub: Subject;
+      let preSubId;
+
+      for(let i=0; i<cats.length; i++) {
+        const cat = cats[i];
+        let subId = cat.subjectId;
+
+        if(i != 0 && preSubId != subId) {
+          subs.push(sub);
+        }
+
+        if(preSubId != subId) {
+          sub = new Subject();
+          sub.id = cat.subjectId;
+          sub.name = cat.subjectName;
+          sub.cats = new Array<Category>();
+        }
+        
+        sub.cats.push(cat);
+
+        if(i >= cats.length-1) {
+          subs.push(sub);
+        }
+        
+        preSubId = subId;
+      }
+
+      this.subs = subs;
+    });
+  }
+
+  initWordLevel() {
+    this.cmn_.Alert.confirm("모든 단어의 레벨을 초기화하시겠습니까?").then(any => {
+
+      const loader = this.cmn_.getLoader(null, null);
+      loader.present();
+  
+      this.dbHelper.updateAllLevelWord(0).then(any => {
+        loader.dismiss();
+        this.cmn_.Toast.present("bottom", "초기화되었습니다.", null);
+      }).catch(err => loader.dismiss());
+    }).catch(err => {});
+  }
+
+  deleteWord() {
+    this.cmn_.Alert.confirm("모든 단어 및 데이터를 삭제하시겠습니까?").then(any => {
+      const loader = this.cmn_.getLoader(null, null);
+      loader.present();
+  
+      this.dbHelper.deleteTables().then(any => {
+        return this.initData().then(any => {
+          return firebase.firestore().collection("users").doc(this.cmn_.uid).update({isDel: false});
+        })
+      }).then(any => {
+        loader.dismiss();
+        this.cmn_.setIsDel(false);
+        this.cmn_.Toast.present("bottom", "삭제하였습니다.", null);
+      }).catch(err => loader.dismiss());
+    }).catch(err => {});
+  }
+
+  dropTables() {
+    this.cmn_.Alert.confirm("Do you want to drop the database?").then(any => {
+      const loader = this.cmn_.getLoader(null, null);
+      loader.present();
+
+      this.dbHelper.dropTables().then(any => {
+        return firebase.firestore().collection("users").doc(this.cmn_.uid).update({isDel: false});
+      }).then(any => {
+        loader.dismiss();
+        this.cmn_.Toast.present("bottom", "Successfully deleted database.", null);
+        window.location.reload();
+      })
+    }).catch(err => {});
+  }
+
 
   checkCat(subId: string) {
     const loader = this.cmn_.getLoader(null, null, 90000);
@@ -312,50 +384,5 @@ export class WordMngPage {
 
       return Promise.all(pros3);
     });
-  }
-
-  initWordLevel() {
-    this.cmn_.Alert.confirm("모든 단어의 레벨을 초기화하시겠습니까?").then(any => {
-
-      const loader = this.cmn_.getLoader(null, null);
-      loader.present();
-  
-      this.dbHelper.updateAllLevelWord(0).then(any => {
-        loader.dismiss();
-        this.cmn_.Toast.present("bottom", "초기화되었습니다.", null);
-      }).catch(err => loader.dismiss());
-    }).catch(err => {});
-  }
-
-  deleteWord() {
-    this.cmn_.Alert.confirm("모든 단어 및 데이터를 삭제하시겠습니까?").then(any => {
-      const loader = this.cmn_.getLoader(null, null);
-      loader.present();
-  
-      this.dbHelper.deleteTables().then(any => {
-        return this.initData().then(any => {
-          return firebase.firestore().collection("users").doc(this.cmn_.uid).update({isDel: false});
-        })
-      }).then(any => {
-        loader.dismiss();
-        this.cmn_.setIsDel(false);
-        this.cmn_.Toast.present("bottom", "삭제하였습니다.", null);
-      }).catch(err => loader.dismiss());
-    }).catch(err => {});
-  }
-
-  dropTables() {
-    this.cmn_.Alert.confirm("Do you want to drop the database?").then(any => {
-      const loader = this.cmn_.getLoader(null, null);
-      loader.present();
-
-      this.dbHelper.dropTables().then(any => {
-        return firebase.firestore().collection("users").doc(this.cmn_.uid).update({isDel: false});
-      }).then(any => {
-        loader.dismiss();
-        this.cmn_.Toast.present("bottom", "Successfully deleted database.", null);
-        window.location.reload();
-      })
-    }).catch(err => {});
   }
 }
