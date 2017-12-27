@@ -193,7 +193,7 @@ export class ContactDBWord {
                                     + " FOREIGN KEY (lectureId) "
                                     + " REFERENCES lecture (id) ON DELETE CASCADE, "
                                     + " FOREIGN KEY (levelId) "
-                                    + " REFERENCES level (levelId) ON DELETE SET DEFAULT "
+                                    + " REFERENCES level (id) ON DELETE SET DEFAULT "
                                     + ")",
             DROP_TABLE:         "DROP TABLE IF EXISTS word",
             INSERT:             "INSERT INTO word "

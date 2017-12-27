@@ -45,8 +45,10 @@ export class DBHelper {
       location: 'default'
     })
     .then( (db: SQLiteObject) => {
-      this.sqlOb = db;
-      this.initializeTable();
+      db.executeSql("PRAGMA foreign_keys = ON", {}).then( any => {
+        this.sqlOb = db;
+        this.initializeTable();
+      });
     });
   }
 

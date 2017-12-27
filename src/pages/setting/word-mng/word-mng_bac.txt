@@ -104,7 +104,7 @@ export class WordMngPage {
         if(subsMap.get(sub.id) == null) {
           sub.cats = new Array<Category>();
         } else {
-          sub.cats = subsMap.get(sub.id).cats;
+          sub = subsMap.get(sub.id);
         }
 
         let cat = new Category();
@@ -175,13 +175,14 @@ export class WordMngPage {
     const loader = this.cmn_.getLoader(null, null, 90000);
     loader.present();
 
-    let finshPro = this.subsRef.doc(subId).collection("cats").orderBy("num").get().then(querySnapshot => {
+    let pro = this.subsRef.doc(subId).collection("cats").orderBy("num").get().then(querySnapshot => {
 
+      let pros3 = new Array<Promise<any>>();
       let map = new Map<string, Category>();
 
-      return this.dbHelper.selectBySubIdForCat(subId).then(items => {
+      pros3.push(this.dbHelper.selectBySubIdForCat(subId).then(items => {
 
-        let catsPros = new Array<Promise<any>>();
+        let pros = new Array<Promise<any>>();
 
         for(let i=0; i<items.length; i++) {
           map.set(items[i].id, items[i]);
@@ -222,29 +223,27 @@ export class WordMngPage {
           }
 
           if(lecCheckFlag) {
-            catsPros.push(result.then(any => {
-              return this.checkLec(catDs, cat).then(any => {
-                return this.dbHelper.updateCat(cat);
-              });
+            pros.push(result.then(any => {
+              return this.checkLec(catDs, cat);
             }));
           }
         });
 
-        return Promise.all(catsPros).then(any => {
-          let deletePros = new Array<Promise<any>>();
+        return Promise.all(pros).then(any => {
+          let pros2 = new Array<Promise<any>>();
 
           map.forEach((cat: Category, id: string) => {
-            deletePros.push(this.dbHelper.deleteByIdForCat(id));
+            pros2.push(this.dbHelper.deleteByIdForCat(id));
           });
 
-          return Promise.all(deletePros);
+          return Promise.all(pros2);
         });
-      });
+      }));
 
+      return Promise.all(pros3);
     });
 
-    // data reloading...
-    finshPro.then(any => {
+    pro.then(any => {
       this.initData().then(any => loader.dismiss()).catch(err => loader.dismiss());
     }).catch(err => loader.dismiss());
   }
@@ -253,11 +252,12 @@ export class WordMngPage {
     
     return catDs.ref.collection("lecs").orderBy("num").get().then(querySnapshot => {
 
+      let pros3 = new Array<Promise<any>>();
       let map = new Map<string, Lecture>();
 
-      return this.dbHelper.selectByCatIdForLec(cat.id).then(items => {
+      pros3.push(this.dbHelper.selectByCatIdForLec(cat.id).then(items => {
 
-        let lecsPros = new Array<Promise<any>>();
+        let pros = new Array<Promise<any>>();
 
         for(let i=0; i<items.length; i++) {
           map.set(items[i].id, items[i]);
@@ -298,25 +298,24 @@ export class WordMngPage {
           }
 
           if(wordCheckFlag) {
-            lecsPros.push(result.then(any => {
-              return this.checkWord(lecDs, cat, lec).then(any => {
-                return this.dbHelper.updateLec(lec);
-              });
+            pros.push(result.then(any => {
+              return this.checkWord(lecDs, cat, lec);
             }));
           }
         });
 
-        return Promise.all(lecsPros).then(any => {
-          let deletePros = new Array<Promise<any>>();
+        return Promise.all(pros).then(any => {
+          let pros2 = new Array<Promise<any>>();
 
           map.forEach((lec: Lecture, id: string) => {
-            deletePros.push(this.dbHelper.deleteByIdForLec(id));
+            pros2.push(this.dbHelper.deleteByIdForLec(id));
           });
 
-          return Promise.all(deletePros);
+          return Promise.all(pros2);
         });
-      });
+      }));
 
+      return Promise.all(pros3);
     });
   }
 
@@ -324,11 +323,12 @@ export class WordMngPage {
     
     return lecDs.ref.collection("words").orderBy("num").get().then(querySnapshot => {
 
+      let pros3 = new Array<Promise<any>>();
       let map = new Map<string, Word>();
 
-      return this.dbHelper.selectByLecIdForWord(lec.id).then(items => {
+      pros3.push(this.dbHelper.selectByLecIdForWord(lec.id).then(items => {
 
-        let wordsPros = new Array<Promise<any>>();
+        let pros = new Array<Promise<any>>();
 
         for(let i=0; i<items.length; i++) {
           map.set(items[i].id, items[i]);
@@ -356,21 +356,31 @@ export class WordMngPage {
           if(result == null) {
             console.log("LECTURE ......: " + lec.name);
           } else {
-            wordsPros.push(result);
+            pros.push(result);
           }
         });
 
-        return Promise.all(wordsPros).then(any => {
-          let deletePros = new Array<Promise<any>>();
+        return Promise.all(pros).then(any => {
+          let pros2 = new Array<Promise<any>>();
 
           map.forEach((word: Word, id: string) => {
-            deletePros.push(this.dbHelper.deleteByIdForWord(id));
+            pros2.push(this.dbHelper.deleteByIdForWord(id));
           });
 
-          return Promise.all(deletePros);
-        });
-      });
+          return Promise.all(pros2)
+          .then(any => {
 
+            // lecture, cat version update
+            return this.dbHelper.updateLec(lec).then(any => {
+              return this.dbHelper.updateCat(cat);
+            });
+          }).catch(err => {
+            return new Promise(re => re());
+          });
+        });
+      }));
+
+      return Promise.all(pros3);
     });
   }
 }

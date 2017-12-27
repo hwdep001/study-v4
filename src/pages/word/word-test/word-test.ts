@@ -115,7 +115,7 @@ export class WordTestPage {
 
   initCheckbox(bl: boolean) {
     this.cbA = bl;
-    this.isStartBtn = bl;
+    this.isStartBtn = (this.lecs.length == 0) ? false : bl;
 
     this.cbs = new Array<boolean>();
     for(let i=0; i< this.lecs.length; i++) {
