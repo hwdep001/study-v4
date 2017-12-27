@@ -172,81 +172,86 @@ export class WordMngPage {
 
 
   checkCat(subId: string) {
-    const loader = this.cmn_.getLoader(null, null, 90000);
-    loader.present();
+    this.cmn_.Alert.confirm("Wi-Fi가 아닌 경우 데이터 요금이 부과될 수 있습니다.", "단어 다운로드").then(any => {
 
-    let finshPro = this.subsRef.doc(subId).collection("cats").orderBy("num").get().then(querySnapshot => {
+      const loader = this.cmn_.getLoader(null, "다운로드 중...<br>1~5분 정도 소요될 수 있습니다...", 90000);
+      loader.present();
 
-      let map = new Map<string, Category>();
+      let finshPro = this.subsRef.doc(subId).collection("cats").orderBy("num").get().then(querySnapshot => {
 
-      return this.dbHelper.selectBySubIdForCat(subId).then(items => {
+        let map = new Map<string, Category>();
 
-        let catsPros = new Array<Promise<any>>();
+        return this.dbHelper.selectBySubIdForCat(subId).then(items => {
 
-        for(let i=0; i<items.length; i++) {
-          map.set(items[i].id, items[i]);
-        }
+          let catsPros = new Array<Promise<any>>();
 
-        querySnapshot.forEach(catDs => {
-          let result: Promise<any>;
-          let lecCheckFlag = false;
-          let cat = catDs.data();
-          cat.id = catDs.id;
-          cat.subjectId = subId;
-          let cat_: Category = map.get(cat.id);
-
-          // insert
-          if(cat_ == null) {
-            lecCheckFlag = true;
-            result = this.dbHelper.insertWithOutVersionCat(cat);
-          } else {
-            map.delete(cat.id);
+          for(let i=0; i<items.length; i++) {
+            map.set(items[i].id, items[i]);
           }
 
-          // update
-          if(cat_ != null) {
-            if(cat.version != cat_.version) {
+          querySnapshot.forEach(catDs => {
+            let result: Promise<any>;
+            let lecCheckFlag = false;
+            let cat = catDs.data();
+            cat.id = catDs.id;
+            cat.subjectId = subId;
+            let cat_: Category = map.get(cat.id);
+
+            // insert
+            if(cat_ == null) {
               lecCheckFlag = true;
+              result = this.dbHelper.insertWithOutVersionCat(cat);
+            } else {
+              map.delete(cat.id);
             }
 
-            if(!Category.equals(cat, cat_)) {
-              result = this.dbHelper.updateWithOutVersionCat(cat);
-            }
-          }
+            // update
+            if(cat_ != null) {
+              if(cat.version != cat_.version) {
+                lecCheckFlag = true;
+              }
 
-          if(result == null) {
-            console.log("CATEGORY ......: " + cat.name);
+              if(!Category.equals(cat, cat_)) {
+                result = this.dbHelper.updateWithOutVersionCat(cat);
+              }
+            }
+
+            if(result == null) {
+              console.log("CATEGORY ......: " + cat.name);
+              if(lecCheckFlag) {
+                result = new Promise<any>(re => re());
+              }
+            }
+
             if(lecCheckFlag) {
-              result = new Promise<any>(re => re());
+              catsPros.push(result.then(any => {
+                return this.checkLec(catDs, cat).then(any => {
+                  return this.dbHelper.updateCat(cat);
+                });
+              }));
             }
-          }
-
-          if(lecCheckFlag) {
-            catsPros.push(result.then(any => {
-              return this.checkLec(catDs, cat).then(any => {
-                return this.dbHelper.updateCat(cat);
-              });
-            }));
-          }
-        });
-
-        return Promise.all(catsPros).then(any => {
-          let deletePros = new Array<Promise<any>>();
-
-          map.forEach((cat: Category, id: string) => {
-            deletePros.push(this.dbHelper.deleteByIdForCat(id));
           });
 
-          return Promise.all(deletePros);
+          return Promise.all(catsPros).then(any => {
+            let deletePros = new Array<Promise<any>>();
+
+            map.forEach((cat: Category, id: string) => {
+              deletePros.push(this.dbHelper.deleteByIdForCat(id));
+            });
+
+            return Promise.all(deletePros);
+          });
         });
+
       });
 
-    });
+      // data reloading...
+      finshPro.then(any => {
+        this.initData().then(any => loader.dismiss()).catch(err => loader.dismiss());
+      }).catch(err => loader.dismiss());
 
-    // data reloading...
-    finshPro.then(any => {
-      this.initData().then(any => loader.dismiss()).catch(err => loader.dismiss());
-    }).catch(err => loader.dismiss());
+    })
+    .catch(err => {});
   }
     
   private checkLec(catDs: firebase.firestore.DocumentSnapshot, cat: Category): Promise<any> {
