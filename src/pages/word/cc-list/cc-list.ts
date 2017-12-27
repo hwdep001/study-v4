@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { NavParams } from 'ionic-angular';
-import { AlertController } from 'ionic-angular/components/alert/alert-controller';
+import { NavParams, AlertController, NavController } from 'ionic-angular';
 
 import { DBHelper } from './../../../providers/db-helper';
 import { CommonService } from './../../../providers/common-service';
+import { CommonUtil } from './../../../utils/commonUtil';
 import { TestService } from './../../../providers/test-service';
 
 import { Word } from './../../../models/Word';
 import { WordSearch } from './../../../models/WordSearch';
+import { RequestPage } from './../request/request';
 
 @Component({
   selector: 'page-ccList',
@@ -22,6 +23,7 @@ export class CcListPage {
 
   constructor(
     private param: NavParams,
+    private navCtrl: NavController,
     private alertCtrl: AlertController,
     private dbHelper: DBHelper,
     private cmn_: CommonService,
@@ -109,6 +111,17 @@ export class CcListPage {
         word.levelId = level;
       });
     }
+  }
+
+  requestModification(word: Word): void {
+    const params = {
+      activeName: CommonUtil.getActiveName(this.ws.sub.id), 
+      subId: this.ws.sub.id,
+      catId: this.ws.cat.id,
+      word: word
+    }
+
+    this.navCtrl.push(RequestPage, params);
   }
 
   settingQue(): void {

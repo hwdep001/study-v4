@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { NavParams } from 'ionic-angular';
+import { NavParams, NavController } from 'ionic-angular';
 
 import { DBHelper } from './../../../providers/db-helper';
+import { CommonUtil } from './../../../utils/commonUtil';
 import { CommonService } from './../../../providers/common-service';
 import { TestService } from './../../../providers/test-service';
 
 import { Word } from './../../../models/Word';
 import { WordSearch } from './../../../models/WordSearch';
+import { RequestPage } from './../request/request';
 
 @Component({
   selector: 'page-spsllwList',
@@ -20,6 +22,7 @@ export class SpsllwListPage {
 
   constructor(
     private param: NavParams,
+    private navCtrl: NavController,
     private dbHelper: DBHelper,
     private cmn_: CommonService,
     private test_: TestService
@@ -93,6 +96,17 @@ export class SpsllwListPage {
   clickAnswer(seletedanswer: string, word: Word): void {
     word.me6 = (seletedanswer == word.me5) ? "an-t" : "an-f";
     word.flag1 = true;
+  }
+
+  requestModification(word: Word): void {
+    const params = {
+      activeName: CommonUtil.getActiveName(this.ws.sub.id), 
+      subId: this.ws.sub.id,
+      catId: this.ws.cat.id,
+      word: word
+    }
+
+    this.navCtrl.push(RequestPage, params);
   }
 
 }

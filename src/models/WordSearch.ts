@@ -1,7 +1,9 @@
+import { Subject } from './Subject';
 import { Category } from './Category';
 import { Lecture } from './Lecture';
 
 export class WordSearch {
+    sub: Subject;
     cat: Category;
     lec: Lecture
     lecIds: Array<string>;
@@ -10,6 +12,7 @@ export class WordSearch {
     isRandom: boolean;
 
     constructor(
+        sub: Subject,
         cat: Category, 
         lec: Lecture, 
         lecIds: Array<string>,
@@ -17,6 +20,7 @@ export class WordSearch {
         count: number,
         isRandom: boolean
     ) {
+        this.sub = sub;
         this.cat = cat;
         this.lec = lec;
         this.lecIds = lecIds;

@@ -39,6 +39,7 @@ import { CcListPage } from './../pages/word/cc-list/cc-list';
 import { C4ListPage } from './../pages/word/c4-list/c4-list';
 import { EwListPage } from './../pages/word/ew-list/ew-list';
 import { WordTestPage } from './../pages/word/word-test/word-test';
+import { RequestPage } from './../pages/word/request/request';
 import { SettingTabPage } from './../pages/setting/setting-tab';
   import { InfoPage } from './../pages/setting/info/info';
   import { WordMngPage } from './../pages/setting/word-mng/word-mng';
@@ -58,6 +59,7 @@ import { SettingTabPage } from './../pages/setting/setting-tab';
     C4ListPage,
     EwListPage,
     WordTestPage,
+    RequestPage,
     SettingTabPage,
       InfoPage,
       WordMngPage
@@ -85,6 +87,7 @@ import { SettingTabPage } from './../pages/setting/setting-tab';
     C4ListPage,
     EwListPage,
     WordTestPage,
+    RequestPage,
     SettingTabPage,
       InfoPage,
       WordMngPage

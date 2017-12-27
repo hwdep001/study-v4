@@ -60,7 +60,7 @@ export class LecListPage {
 
     const params = {
       activeName: CommonUtil.getActiveName(this.sub.id), 
-      wordSearch: new WordSearch(this.cat, lec, lecIds, levIds, count, false)
+      wordSearch: new WordSearch(this.sub, this.cat, lec, lecIds, levIds, count, false)
     }
 
     switch(this.sub.id) {

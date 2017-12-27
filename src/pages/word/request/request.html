@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>수정 요청</ion-title>
+
+    <ion-buttons end (click)="request()">
+      <button ion-button icon-only>
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="icontent">
+
+  <ion-item>
+    <ion-textarea elastic  placeholder="자세하게 작성해 주세요." [(ngModel)]="msg"></ion-textarea>
+  </ion-item>
+
+</ion-content>

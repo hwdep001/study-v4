@@ -72,6 +72,10 @@ page-ewList {
                         .footer-desc-col {
                             .footer-desc-note {
                                 color: gray;
+                                ion-icon {
+                                    font-size: 20px;
+                                    color: map-get($colors, warning);
+                                }
                             }
                         }
                         .footer-down{}

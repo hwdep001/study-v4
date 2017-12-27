@@ -167,7 +167,7 @@ export class WordTestPage {
     
     const params = {
       activeName: CommonUtil.getActiveName(this.sub.id), 
-      wordSearch: new WordSearch(
+      wordSearch: new WordSearch( this.sub,
         this.cat, null, this.selectLecs, this.selectLevs, this.selectCnt, true
       )
     }
