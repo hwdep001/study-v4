@@ -60,7 +60,10 @@ export class ContactDBSubject {
     selectById(sqlOb: SQLiteObject, id: string): Promise<any> {
         return sqlOb.executeSql(this.query.SELECT_BY_ID, [id]);
     }
-    
+
+    selectJoinCat(sqlOb: SQLiteObject): Promise<any> {
+        return sqlOb.executeSql(this.query.SELECT_JOIN_CAT, {});
+    }    
 
 
     initDefaultData(sqlOb: SQLiteObject): Promise<Array<Subject>> {
@@ -107,6 +110,10 @@ export class ContactDBSubject {
             SELECT_BY_ID:       "SELECT id, name, num "
                                     + " FROM subject "
                                     + " WHERE id=? ",
+            SELECT_JOIN_CAT:    "SELECT s.id, s.name, s.num, c.id as catId, c.name as catName, c.num as catNum, c.version as catVersion " 
+                                    + " FROM subject s "
+                                    + " LEFT JOIN category c ON s.id = c.subjectId "
+                                    + " ORDER BY s.num, c.num"
         }
         
     }
@@ -120,4 +127,5 @@ interface query {
     DELETE: string,
     SELECT_ALL: string,
     SELECT_BY_ID: string,
+    SELECT_JOIN_CAT: string,
 }

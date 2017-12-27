@@ -93,35 +93,33 @@ export class WordMngPage {
   }
 
   private setSubs(): Promise<any> {
-    return this.dbHelper.selectAllForCat().then(cats => {
+    return this.dbHelper.selectJoinCatForSub().then(items => {
 
       let subs = new Array<Subject>();
-      let sub: Subject;
-      let preSubId;
+      let subsMap = new Map<string, Subject>();
 
-      for(let i=0; i<cats.length; i++) {
-        const cat = cats[i];
-        let subId = cat.subjectId;
-
-        if(i != 0 && preSubId != subId) {
-          subs.push(sub);
-        }
-
-        if(preSubId != subId) {
-          sub = new Subject();
-          sub.id = cat.subjectId;
-          sub.name = cat.subjectName;
+      for(let i=0; i<items.length; i++) {
+        let sub = items[i];
+        
+        if(subsMap.get(sub.id) == null) {
           sub.cats = new Array<Category>();
+        } else {
+          sub = subsMap.get(sub.id);
         }
-        
-        sub.cats.push(cat);
 
-        if(i >= cats.length-1) {
-          subs.push(sub);
-        }
-        
-        preSubId = subId;
+        let cat = new Category();
+        cat.id = sub.catId;
+        cat.name = sub.catName;
+        cat.num = sub.catNum;
+        cat.version = sub.catVersion;
+
+        sub.cats.push(cat);
+        subsMap.set(sub.id, sub);
       }
+
+      subsMap.forEach( (v, k) => {
+        subs.push(v);
+      });
 
       this.subs = subs;
     });

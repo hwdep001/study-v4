@@ -6,4 +6,10 @@ export class Subject {
     num?: number;
 
     cats?: Array<Category>
+
+    //
+    catId?: string;
+    catName?: string;
+    catNum?: number;
+    catVersion?: number;
 }
