@@ -8,4 +8,6 @@ export class User {
   lastDate: string;
   isAuth: boolean;
   isDel: boolean;
+
+  ad: boolean;
 }

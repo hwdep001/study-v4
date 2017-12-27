@@ -57,7 +57,7 @@ export class CommonService {
     }
 
     get ad(): boolean {
-        return true;
+        return this.existUser? this.user_.ad : false;
     }
 
     get existUser(): boolean {
@@ -82,6 +82,7 @@ export class CommonService {
             this.user_.lastDate = user.lastDate;
             this.user_.isAuth = user.isAuth;
             this.user_.isDel = user.isDel;
+            this.user_.ad = user.ad;
         }
     }
 
