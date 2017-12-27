@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { DBHelper } from './../../providers/db-helper';
+import { CommonUtil } from './../../utils/commonUtil';
 import { TestService } from './../../providers/test-service';
+
+import { CatListPage } from './../cat-list/cat-list';
 
 @Component({
   selector: 'page-home',
@@ -28,6 +31,14 @@ export class HomePage {
     } else {
       this.cntMap = this.test_.selectCountGroupBySubIdForWord();
     }
+  }
+
+  clickSub(subId: string): void {
+    const params = {
+      activeName: CommonUtil.getActiveName(subId), 
+      id: subId
+    }
+    this.navCtrl.setRoot(CatListPage, params);
   }
 
 }

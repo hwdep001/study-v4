@@ -10,7 +10,7 @@
 <ion-content class="icontent">
   <ion-card ion-card class="icard" *ngFor="let item of cntMap" >
       <ion-card-content>
-        <ion-row>
+        <ion-row (click)="clickSub(item.id)" class="cursor">
           <ion-col col-20 class="icard-name">
             <ion-label>{{item.name}}</ion-label>
           </ion-col>

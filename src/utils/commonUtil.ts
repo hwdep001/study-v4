@@ -84,11 +84,26 @@ export class CommonUtil {
     public static getActiveName(param: string): string {
         let result: string;
         switch(param) {
-            case "ew":
-                result = "EwPage";
+            case "sp":
+                result = "SpPage";
+                break;
+            case "sl":
+                result = "SlPage";
                 break;
             case "lw":
                 result = "LwPage";
+                break;
+            case "kr":
+                result = "KrPage";
+                break;
+            case "cc":
+                result = "CcPage";
+                break;
+            case "c4":
+                result = "C4Page";
+                break;
+            case "ew":
+                result = "EwPage";
                 break;
             case "setting":
                 result = "SettingPage";

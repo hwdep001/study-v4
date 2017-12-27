@@ -143,7 +143,7 @@ export class MyApp {
 
   setPages() {
     const homePage: PageInterface = { title: 'Home', name: 'HomePage',  component: HomePage, icon: 'home' };
-    const tabsPage: PageInterface = { title: 'Tabs', name: 'TabsPage', component: TestPage, icon: 'home'};
+    const tabsPage: PageInterface = { title: 'Tabs', name: 'TestPage', component: TestPage, icon: 'home'};
     const spPage: PageInterface = { title: '맞춤법',   name: 'SpPage',  component: CatListPage, param: {activeName: "SpPage", id: "sp"}, icon: 'book' };
     const slPage: PageInterface = { title: '표준어',   name: 'SlPage',  component: CatListPage, param: {activeName: "SlPage", id: "sl"}, icon: 'book' };
     const lwPage: PageInterface = { title: '외래어',   name: 'LwPage',  component: CatListPage, param: {activeName: "LwPage", id: "lw"}, icon: 'book' };
