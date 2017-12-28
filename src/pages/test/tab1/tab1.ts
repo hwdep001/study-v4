@@ -23,20 +23,21 @@ export class Tab1Page {
   }
 
   clickCreateBtn() {
-    this.dbHelper.initializeTable();
+    this.cmn_.Alert.confirm().then(any => {
+      this.dbHelper.initializeTable();
+    }).catch(err => {});
   }
 
   clickDropBtn() {
-    this.dbHelper.dropTables();
+    this.cmn_.Alert.confirm().then(any => {
+      this.dbHelper.dropTables();
+    }).catch(err => {});
   }
 
-  setCounts() {
-    let array = new Array<number>();
-    for(let i=10; i<=100; i=i+10) {
-      array.push(i);
-    }
-    firebase.firestore().collection("counts").doc("counts").set({array: array})
+  deleteSub(id: string) {
+    this.cmn_.Alert.confirm().then(any => {
+      this.dbHelper.deleteByIdForSub(id);
+    }).catch(err => {});
   }
-
   
 }

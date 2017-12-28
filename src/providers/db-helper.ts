@@ -171,6 +171,10 @@ export class DBHelper {
     return this.subDB.delete(this.sqlOb);
   }
 
+  deleteByIdForSub(id: string): Promise<any> {
+    return this.subDB.deleteById(this.sqlOb, id);
+  }
+
   selectAllForSub(): Promise<Array<Subject>> {
     return this.subDB.selectAll(this.sqlOb).then(res => {
       let items = new Array<Subject>();

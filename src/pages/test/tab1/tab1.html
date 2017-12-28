@@ -8,7 +8,14 @@
 </ion-header>
   
 <ion-content padding>
-    <button ion-button block (click)="clickCreateBtn()" >Create</button>
-    <button ion-button block (click)="clickDropBtn()" >DROP</button>
-    <button ion-button block (click)="setCounts()" >SET counts</button>
+    <button ion-button block (click)="clickCreateBtn()" >Create Tables</button>
+    <button ion-button block (click)="clickDropBtn()" >DROP Tables</button>
+    <br>
+    <button ion-button block (click)="deleteSub('sp')" >DELETE 맞춤법</button>
+    <button ion-button block (click)="deleteSub('sl')" >DELETE 표준어</button>
+    <button ion-button block (click)="deleteSub('lw')" >DELETE 외래어</button>
+    <button ion-button block (click)="deleteSub('kr')" >DELETE 어휘</button>
+    <button ion-button block (click)="deleteSub('cc')" >DELETE 한자</button>
+    <button ion-button block (click)="deleteSub('c4')" >DELETE 한자성어</button>
+    <button ion-button block (click)="deleteSub('ew')" >DELETE 영단어</button>
 </ion-content>

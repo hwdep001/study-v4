@@ -53,6 +53,14 @@ export class ContactDBSubject {
         .catch(e => console.log(e));
     }
 
+    deleteById(sqlOb: SQLiteObject, id: string) {
+        return sqlOb.executeSql(this.query.DELETE_BY_ID, [id])
+        .then(res => {
+            console.log(this.TAG + " DELETED BY ID: " + id);
+        })
+        .catch(e => console.log(e));
+    }
+
     selectAll(sqlOb: SQLiteObject): Promise<any> {
         return sqlOb.executeSql(this.query.SELECT_ALL, {});
     }
@@ -104,6 +112,7 @@ export class ContactDBSubject {
                                     + " SET name=?, num=? "
                                     + " WHERE id=? ",
             DELETE:             "DELETE FROM subject ",
+            DELETE_BY_ID:       "DELETE FROM subject WHERE id=? ",
             SELECT_ALL:         "SELECT id, name, num "
                                     + " FROM subject "
                                     + " ORDER BY num",
@@ -125,6 +134,7 @@ interface query {
     INSERT: string,
     UPDATE: string,
     DELETE: string,
+    DELETE_BY_ID: string,
     SELECT_ALL: string,
     SELECT_BY_ID: string,
     SELECT_JOIN_CAT: string,

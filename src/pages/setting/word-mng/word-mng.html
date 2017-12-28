@@ -20,8 +20,8 @@
     </ion-list-header>
     <ion-item class="iitem" *ngFor="let cat of sub.cats">
       {{cat.name}}
-      <ion-note class="inote" item-end>
-        {{cat.version}}
+      <ion-note class="inote" item-end *ngIf="cat.version != null">
+        ver.{{cat.version}}
       </ion-note>
     </ion-item>
     <ng-container *ngIf="sub.cats?.length == 0">
@@ -37,7 +37,7 @@
   <ion-item class="drop-btn" *ngIf="cmn_.isDel" >
     <button ion-button block (click)="deleteWord()" >데이터 초기화</button>
   </ion-item>
-  <ion-item class="drop-btn" *ngIf="cmn_.isDel" >
+  <ion-item class="drop-btn" *ngIf="cmn_.ad" >
     <button ion-button block (click)="dropTables()" >DROP TABLES</button>
   </ion-item>
 

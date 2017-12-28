@@ -335,6 +335,8 @@ export class WordMngPage {
 
         let wordsPros = new Array<Promise<any>>();
 
+        console.log(lec.name + " / " + querySnapshot.size);
+
         for(let i=0; i<items.length; i++) {
           map.set(items[i].id, items[i]);
         }
@@ -359,7 +361,7 @@ export class WordMngPage {
           }
 
           if(result == null) {
-            console.log("LECTURE ......: " + lec.name);
+            console.log("WORD ......: " + word.que);
           } else {
             wordsPros.push(result);
           }
