@@ -104,12 +104,12 @@ export class WordTestPage {
       this.dbHelper.selectAllForCount().then(items => {
         this.cnts = items;
         
-        this.selectCnt = this.cnts[1].id;
+        this.selectCnt = this.cnts[4].id;
       });
     } else {
       this.cnts = this.test_.selectAllCounts();
 
-      this.selectCnt = this.cnts[1].id;
+      this.selectCnt = this.cnts[4].id;
     }
   }
 
